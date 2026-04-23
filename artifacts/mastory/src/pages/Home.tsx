@@ -116,10 +116,10 @@ type Language = "ko" | "en" | "ja";
 const I18N = {
   ko: {
     title: "마스토리",
-    subtitle: "디디씨와 함께 나만의 이야기를 만들어보아요!",
+    subtitle: "With. 디디씨",
     myStory: "나의 이야기",
     basicMode: "기본",
-    sceneMode: "장면별",
+    sceneMode: "장면",
     data: "데이터 관리",
     save: "저장하기",
     load: "불러오기",
@@ -634,7 +634,7 @@ export default function Home() {
             {t.title}
           </h1>
         </div>
-        <p className="text-sm md:text-xl font-bold text-muted-foreground/80 text-left md:text-center px-0 md:px-4 w-full md:w-auto">
+        <p className="text-sm md:text-xl font-bold text-muted-foreground/80 text-left md:text-center pl-[3.75rem] md:pl-0 md:px-4 w-full md:w-auto">
           {t.subtitle}
         </p>
         <input
@@ -720,8 +720,8 @@ export default function Home() {
       {/* Storyboard Section */}
       <section className="flex-1 px-3 md:px-8 pb-4 max-w-7xl mx-auto w-full flex flex-col gap-3 md:gap-4">
 
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-4 ml-1">
-          <div className="flex items-center gap-2 md:gap-3">
+        <div className="flex items-center justify-between gap-2 md:gap-4 ml-1">
+          <div className="flex items-center gap-2 md:gap-3 min-w-0">
             <div className="bg-accent text-accent-foreground p-1.5 md:p-2 rounded-full shadow-sm shrink-0">
             <span className="material-icons-round text-xl md:text-2xl block">auto_stories</span>
             </div>
@@ -729,7 +729,7 @@ export default function Home() {
               {t.myStory}
             </h2>
           </div>
-          <div className="w-full md:w-auto flex items-center justify-end gap-1.5 md:gap-2">
+          <div className="shrink-0 flex items-center justify-end gap-1.5 md:gap-2">
             <div className="flex gap-1 bg-secondary rounded-xl md:rounded-2xl p-1 w-auto md:min-w-[280px]">
               {([
                 ["free-write", t.basicMode] as const,

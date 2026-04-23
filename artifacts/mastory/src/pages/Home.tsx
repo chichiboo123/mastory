@@ -116,7 +116,7 @@ type Language = "ko" | "en" | "ja";
 const I18N = {
   ko: {
     title: "마스토리",
-    subtitle: "디디씨와 함께 나만의 동화책을 만들어보아요!",
+    subtitle: "디디씨와 함께 나만의 이야기를 만들어보아요!",
     myStory: "나의 이야기",
     basicMode: "기본",
     sceneMode: "장면별",
@@ -135,6 +135,42 @@ const I18N = {
     downloadJpg: "JPG 파일 다운로드",
     downloadTxt: "TXT 파일 다운로드",
     howToUseTitle: "마스토리 사용법",
+    emptyStory: "아직 이야기가 없어요!",
+    emptyStoryGuide: "위에서 마음에 드는 디디씨를 눌러서 첫 번째 장면을 만들어보세요.",
+    toastSaved: "저장 파일을 다운로드했어요!",
+    toastLoaded: "불러오기에 성공했어요!",
+    toastLoadFailed: "불러오기에 실패했어요.",
+    toastTextCopied: "텍스트가 클립보드에 복사됐어요!",
+    toastClipboardFailed: "클립보드 복사에 실패했어요.",
+    toastImageCopied: "이미지가 클립보드에 복사됐어요!",
+    toastPngDownloaded: "클립보드 대신 PNG로 다운로드됐어요!",
+    toastExportFailed: "내보내기에 실패했어요.",
+    toastJpgDownloaded: "JPG 파일이 다운로드됐어요!",
+    toastDownloadFailed: "다운로드에 실패했어요.",
+    toastTxtDownloaded: "TXT 파일이 다운로드됐어요!",
+    deleteScene: "장면 삭제하기",
+    loadingImage: "이미지 생성 중...",
+    helpBasic: "기본: 마스코트 카드를 만들고 하나의 텍스트로 이야기를 작성합니다.",
+    helpScene: "장면별: 마스코트가 세로로 생성되고, 각 마스코트 오른쪽에 1:1 텍스트 박스가 만들어집니다.",
+    helpReorder: "순서 변경: 카드 드래그 앤 드롭 또는 ↑↓ 버튼으로 위치를 바꿀 수 있습니다.",
+    helpLang: "언어 선택: 한국어/영어/일본어를 즉시 전환할 수 있습니다.",
+    helpData: "데이터 관리: JSON 파일로 저장/불러오기가 가능합니다.",
+    reset: "초기화",
+    resetConfirm: "현재 작성한 장면과 텍스트를 모두 지울까요?",
+    toastResetDone: "이야기를 초기화했어요.",
+    noStory: "(이야기가 없습니다)",
+    noSceneText: "(내용 없음)",
+    scenePrefix: "장면",
+    exportSceneTitle: "[ 나의 디디씨 이야기 장면 ]",
+    exportContentTitle: "[ 이야기 내용 ]",
+    footerCreatedBy: "Created by. 교육뮤지컬 꿈꾸는 치수쌤",
+    footerSourceLabel: "캐릭터 이미지 출처:",
+    categoryLabels: {
+      기본형: "기본형",
+      감정응용형: "감정응용형",
+      동작응용형: "동작응용형",
+      이모티콘: "이모티콘",
+    },
   },
   en: {
     title: "Mastory",
@@ -157,6 +193,42 @@ const I18N = {
     downloadJpg: "Download JPG",
     downloadTxt: "Download TXT",
     howToUseTitle: "How to use Mastory",
+    emptyStory: "No story yet!",
+    emptyStoryGuide: "Tap a DDC mascot above to create your first scene.",
+    toastSaved: "Saved JSON file has been downloaded.",
+    toastLoaded: "Data loaded successfully!",
+    toastLoadFailed: "Failed to load data.",
+    toastTextCopied: "Text copied to clipboard.",
+    toastClipboardFailed: "Failed to copy to clipboard.",
+    toastImageCopied: "Image copied to clipboard.",
+    toastPngDownloaded: "Clipboard unavailable. Downloaded PNG instead.",
+    toastExportFailed: "Export failed.",
+    toastJpgDownloaded: "JPG file downloaded.",
+    toastDownloadFailed: "Download failed.",
+    toastTxtDownloaded: "TXT file downloaded.",
+    deleteScene: "Delete scene",
+    loadingImage: "Generating image...",
+    helpBasic: "Basic: create mascot cards and write one story text.",
+    helpScene: "Scene: mascots are listed vertically with one text box per scene.",
+    helpReorder: "Reorder: drag and drop cards or use ↑↓ controls.",
+    helpLang: "Language: switch between Korean, English, and Japanese instantly.",
+    helpData: "Data: save/load using a JSON file.",
+    reset: "Reset",
+    resetConfirm: "Clear all current scenes and text?",
+    toastResetDone: "Story has been reset.",
+    noStory: "(No story yet)",
+    noSceneText: "(No text)",
+    scenePrefix: "Scene",
+    exportSceneTitle: "[ DDC Story Scenes ]",
+    exportContentTitle: "[ Story Content ]",
+    footerCreatedBy: "Created by Dreaming Chisu Teacher",
+    footerSourceLabel: "Character image source:",
+    categoryLabels: {
+      기본형: "Basic",
+      감정응용형: "Emotion",
+      동작응용형: "Action",
+      이모티콘: "Emoticon",
+    },
   },
   ja: {
     title: "マストーリー",
@@ -179,8 +251,89 @@ const I18N = {
     downloadJpg: "JPGをダウンロード",
     downloadTxt: "TXTをダウンロード",
     howToUseTitle: "マストーリーの使い方",
+    emptyStory: "まだ物語がありません！",
+    emptyStoryGuide: "上のDDCマスコットを押して最初のシーンを作りましょう。",
+    toastSaved: "保存ファイルをダウンロードしました。",
+    toastLoaded: "読み込みに成功しました！",
+    toastLoadFailed: "読み込みに失敗しました。",
+    toastTextCopied: "テキストをクリップボードにコピーしました。",
+    toastClipboardFailed: "クリップボードへのコピーに失敗しました。",
+    toastImageCopied: "画像をクリップボードにコピーしました。",
+    toastPngDownloaded: "クリップボードの代わりにPNGをダウンロードしました。",
+    toastExportFailed: "エクスポートに失敗しました。",
+    toastJpgDownloaded: "JPGをダウンロードしました。",
+    toastDownloadFailed: "ダウンロードに失敗しました。",
+    toastTxtDownloaded: "TXTをダウンロードしました。",
+    deleteScene: "シーン削除",
+    loadingImage: "画像を生成中...",
+    helpBasic: "基本: マスコットカードを作って1つのテキストで物語を書きます。",
+    helpScene: "シーン別: マスコットが縦に並び、各マスコットごとにテキスト欄が作られます。",
+    helpReorder: "並び替え: ドラッグ&ドロップまたは↑↓ボタンで順番を変更できます。",
+    helpLang: "言語: 韓国語/英語/日本語をすぐ切り替えできます。",
+    helpData: "データ管理: JSONファイルで保存/読み込みできます。",
+    reset: "リセット",
+    resetConfirm: "現在のシーンとテキストをすべて削除しますか？",
+    toastResetDone: "物語をリセットしました。",
+    noStory: "(物語がありません)",
+    noSceneText: "(内容なし)",
+    scenePrefix: "シーン",
+    exportSceneTitle: "[ DDCストーリーのシーン ]",
+    exportContentTitle: "[ 物語の内容 ]",
+    footerCreatedBy: "Created by. 教育ミュージカル 夢見るチス先生",
+    footerSourceLabel: "キャラクター画像の出典:",
+    categoryLabels: {
+      기본형: "基本型",
+      감정응용형: "感情応用型",
+      동작응용형: "動作応用型",
+      이모티콘: "絵文字",
+    },
   },
 } as const;
+
+const CHARACTER_NAME_I18N: Record<string, Record<Language, string>> = {
+  "basic-1": { ko: "디디씨", en: "DDC", ja: "DDC" },
+  "emotion-1": { ko: "행복", en: "Happy", ja: "幸せ" },
+  "emotion-2": { ko: "삐짐", en: "Pouting", ja: "すねる" },
+  "emotion-3": { ko: "슬픔", en: "Sad", ja: "悲しい" },
+  "emotion-4": { ko: "죄송", en: "Sorry", ja: "ごめんなさい" },
+  "emotion-5": { ko: "부끄러움", en: "Shy", ja: "恥ずかしい" },
+  "emotion-6": { ko: "사랑", en: "Love", ja: "愛" },
+  "emotion-7": { ko: "축하", en: "Congrats", ja: "お祝い" },
+  "emotion-8": { ko: "감사", en: "Thanks", ja: "感謝" },
+  "emotion-9": { ko: "놀람", en: "Surprised", ja: "びっくり" },
+  "emotion-10": { ko: "응원(화이팅)", en: "Cheering", ja: "応援(ファイト)" },
+  "action-1": { ko: "안녕", en: "Hello", ja: "こんにちは" },
+  "action-2": { ko: "안내(공지)", en: "Notice", ja: "お知らせ" },
+  "action-3": { ko: "축제", en: "Festival", ja: "お祭り" },
+  "action-4": { ko: "관광(여행)", en: "Travel", ja: "観光(旅行)" },
+  "action-5": { ko: "환영(어서오세요)", en: "Welcome", ja: "歓迎(ようこそ)" },
+  "action-6": { ko: "안전제일", en: "Safety First", ja: "安全第一" },
+  "action-7": { ko: "금지", en: "No", ja: "禁止" },
+  "action-8": { ko: "교육", en: "Education", ja: "教育" },
+  "action-9": { ko: "새해", en: "New Year", ja: "新年" },
+  "action-10": { ko: "추석", en: "Chuseok", ja: "秋夕" },
+  "action-11": { ko: "분리수거", en: "Recycling", ja: "分別収集" },
+  "action-12": { ko: "힐링", en: "Healing", ja: "癒し" },
+  "action-13": { ko: "진료(의사)", en: "Medical Care", ja: "診療(医師)" },
+  "action-14": { ko: "손씻기", en: "Wash Hands", ja: "手洗い" },
+  "action-15": { ko: "운동", en: "Exercise", ja: "運動" },
+  "emoji-1": { ko: "굿모닝", en: "Good Morning", ja: "おはよう" },
+  "emoji-2": { ko: "배고파", en: "Hungry", ja: "お腹すいた" },
+  "emoji-3": { ko: "좋아(OK!)", en: "Okay!", ja: "いいね(OK!)" },
+  "emoji-4": { ko: "싫어(단호)", en: "Nope", ja: "イヤ(きっぱり)" },
+  "emoji-5": { ko: "부끄부끄", en: "Blushing", ja: "テレテレ" },
+  "emoji-6": { ko: "당황", en: "Flustered", ja: "あわてる" },
+  "emoji-7": { ko: "휴식(힐링)", en: "Rest", ja: "休憩(癒し)" },
+  "emoji-8": { ko: "가는중", en: "On My Way", ja: "向かってる" },
+  "emoji-9": { ko: "ㅋㅋㅋ", en: "LOL", ja: "www" },
+  "emoji-10": { ko: "뭐해", en: "What are you doing?", ja: "何してる？" },
+  "emoji-11": { ko: "바쁨", en: "Busy", ja: "忙しい" },
+  "emoji-12": { ko: "심쿵", en: "Heart Flutter", ja: "ドキドキ" },
+  "emoji-13": { ko: "잘자", en: "Good Night", ja: "おやすみ" },
+  "emoji-14": { ko: "슬퍼(폭풍눈물)", en: "Crying", ja: "悲しい(号泣)" },
+  "emoji-15": { ko: "연락해", en: "Call Me", ja: "連絡して" },
+  "emoji-16": { ko: "감동", en: "Touched", ja: "感動" },
+};
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<Category>("기본형");
@@ -200,7 +353,11 @@ export default function Home() {
 
   const exportAreaRef = useRef<HTMLDivElement>(null);
   const importInputRef = useRef<HTMLInputElement>(null);
+  const dataMenuRef = useRef<HTMLDivElement>(null);
+  const langMenuRef = useRef<HTMLDivElement>(null);
   const t = I18N[language];
+  const getCharacterName = (character: CharacterData) =>
+    CHARACTER_NAME_I18N[character.id]?.[language] ?? character.name;
 
   const filteredImages = CHARACTER_DATA.filter((c) => c.category === activeCategory);
 
@@ -224,6 +381,15 @@ export default function Home() {
       delete next[id];
       return next;
     });
+  };
+
+  const handleResetStory = () => {
+    const shouldReset = window.confirm(t.resetConfirm);
+    if (!shouldReset) return;
+    setStoryCards([]);
+    setStoryText("");
+    setSceneTexts({});
+    showToast(t.toastResetDone);
   };
 
   const moveCard = (fromIndex: number, toIndex: number) => {
@@ -261,7 +427,7 @@ export default function Home() {
     link.click();
     URL.revokeObjectURL(link.href);
     setDataMenuOpen(false);
-    showToast("저장 파일을 다운로드했어요!");
+    showToast(t.toastSaved);
   };
 
   const handleLoadData = (file: File) => {
@@ -281,27 +447,14 @@ export default function Home() {
         setStoryText(parsed.storyText ?? "");
         setStoryCards(loadedCards);
         setSceneTexts(parsed.sceneTexts ?? {});
-        showToast("불러오기에 성공했어요!");
+        showToast(t.toastLoaded);
       } catch {
-        showToast("불러오기에 실패했어요.", "error");
+        showToast(t.toastLoadFailed, "error");
       }
       setDataMenuOpen(false);
     };
     reader.readAsText(file);
   };
-
-  const selectedScene = storyCards.find((card) => card.id === selectedSceneId) ?? null;
-
-  useEffect(() => {
-    if (storyMode !== "scene-sequence") return;
-    if (storyCards.length === 0) {
-      setSelectedSceneId(null);
-      return;
-    }
-    if (!selectedSceneId || !storyCards.some((card) => card.id === selectedSceneId)) {
-      setSelectedSceneId(storyCards[0].id);
-    }
-  }, [storyMode, storyCards, selectedSceneId]);
 
   const htmlToImageOptions = {
     backgroundColor: "#fffdf0",
@@ -315,19 +468,19 @@ export default function Home() {
       const textOnlyContent =
         storyMode === "scene-sequence"
           ? storyCards.length === 0
-            ? "(이야기가 없습니다)"
+            ? t.noStory
             : storyCards
                 .map(
                   (card, i) =>
-                    `장면 ${i + 1} (${card.imageInfo.name}): ${sceneTexts[card.id] || "(내용 없음)"}`,
+                    `${t.scenePrefix} ${i + 1} (${getCharacterName(card.imageInfo)}): ${sceneTexts[card.id] || t.noSceneText}`,
                 )
                 .join("\n")
-          : storyText || "(이야기가 없습니다)";
+          : storyText || t.noStory;
       try {
         await navigator.clipboard.writeText(textOnlyContent);
-        showToast("텍스트가 클립보드에 복사됐어요!");
+        showToast(t.toastTextCopied);
       } catch {
-        showToast("클립보드 복사에 실패했어요.", "error");
+        showToast(t.toastClipboardFailed, "error");
       }
       return;
     }
@@ -338,7 +491,7 @@ export default function Home() {
       if (!blob) throw new Error("blob null");
       try {
         await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
-        showToast("이미지가 클립보드에 복사됐어요!");
+        showToast(t.toastImageCopied);
       } catch {
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
@@ -346,11 +499,11 @@ export default function Home() {
         link.href = url;
         link.click();
         URL.revokeObjectURL(url);
-        showToast("클립보드 대신 PNG로 다운로드됐어요!");
+        showToast(t.toastPngDownloaded);
       }
     } catch (e) {
       console.error("export clipboard error", e);
-      showToast("내보내기에 실패했어요.", "error");
+      showToast(t.toastExportFailed, "error");
     }
     setExporting(false);
   };
@@ -364,10 +517,10 @@ export default function Home() {
       link.download = "마스토리_이야기.jpg";
       link.href = dataUrl;
       link.click();
-      showToast("JPG 파일이 다운로드됐어요!");
+      showToast(t.toastJpgDownloaded);
     } catch (e) {
       console.error("export jpg error", e);
-      showToast("다운로드에 실패했어요.", "error");
+      showToast(t.toastDownloadFailed, "error");
     }
     setExporting(false);
   };
@@ -377,29 +530,29 @@ export default function Home() {
       exportMode === "text-only"
         ? storyMode === "scene-sequence"
           ? storyCards.length === 0
-            ? "(이야기가 없습니다)"
+            ? t.noStory
             : storyCards
                 .map(
                   (card, i) =>
-                    `장면 ${i + 1} (${card.imageInfo.name}): ${sceneTexts[card.id] || "(내용 없음)"}`,
+                    `${t.scenePrefix} ${i + 1} (${getCharacterName(card.imageInfo)}): ${sceneTexts[card.id] || t.noSceneText}`,
                 )
                 .join("\n")
-          : storyText || "(이야기가 없습니다)"
+          : storyText || t.noStory
         : [
-            "[ 나의 디디씨 이야기 장면 ]",
-            storyCards.map((c, i) => `장면 ${i + 1}: ${c.imageInfo.name}`).join("\n"),
+            t.exportSceneTitle,
+            storyCards.map((c, i) => `${t.scenePrefix} ${i + 1}: ${getCharacterName(c.imageInfo)}`).join("\n"),
             "",
-            "[ 이야기 내용 ]",
+            t.exportContentTitle,
             storyMode === "scene-sequence"
               ? storyCards.length === 0
-                ? "(이야기가 없습니다)"
+                ? t.noStory
                 : storyCards
                     .map(
                       (card, i) =>
-                        `장면 ${i + 1} (${card.imageInfo.name}): ${sceneTexts[card.id] || "(내용 없음)"}`,
+                        `${t.scenePrefix} ${i + 1} (${getCharacterName(card.imageInfo)}): ${sceneTexts[card.id] || t.noSceneText}`,
                     )
                     .join("\n")
-              : storyText || "(이야기가 없습니다)",
+              : storyText || t.noStory,
           ].join("\n");
 
     const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
@@ -408,17 +561,44 @@ export default function Home() {
     link.href = URL.createObjectURL(blob);
     link.click();
     URL.revokeObjectURL(link.href);
-    showToast("TXT 파일이 다운로드됐어요!");
+    showToast(t.toastTxtDownloaded);
   };
+
+  useEffect(() => {
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target as Node;
+      if (dataMenuOpen && dataMenuRef.current && !dataMenuRef.current.contains(target)) {
+        setDataMenuOpen(false);
+      }
+      if (langMenuOpen && langMenuRef.current && !langMenuRef.current.contains(target)) {
+        setLangMenuOpen(false);
+      }
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setDataMenuOpen(false);
+      setLangMenuOpen(false);
+      setExportOpen(false);
+      setHelpOpen(false);
+    };
+
+    window.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("keydown", handleEscape);
+    return () => {
+      window.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [dataMenuOpen, langMenuOpen]);
 
   return (
     <div className="min-h-[100dvh] bg-background text-foreground flex flex-col font-sans selection:bg-primary/30">
 
       {/* Header */}
-      <header className="pt-6 pb-4 md:pt-8 md:pb-6 px-3 md:px-8 flex flex-col items-center justify-center shrink-0 relative">
+      <header className="pt-6 pb-4 md:pt-8 md:pb-6 px-3 md:px-8 flex flex-col items-start md:items-center justify-center shrink-0 relative">
         <div className="absolute top-4 right-3 md:top-6 md:right-8 flex items-center gap-1.5 z-20">
-          <div className="relative">
-            <button onClick={() => setDataMenuOpen((v) => !v)} data-export-hidden className="p-2 rounded-full bg-white shadow">
+          <div ref={dataMenuRef} className="relative">
+            <button onClick={() => setDataMenuOpen((v) => !v)} data-export-hidden aria-label={t.data} className="h-10 w-10 rounded-xl border border-border bg-white text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 flex items-center justify-center">
               <span className="material-icons-round text-lg">save</span>
             </button>
             {dataMenuOpen && (
@@ -428,8 +608,8 @@ export default function Home() {
               </div>
             )}
           </div>
-          <div className="relative">
-            <button onClick={() => setLangMenuOpen((v) => !v)} data-export-hidden className="p-2 rounded-full bg-white shadow">
+          <div ref={langMenuRef} className="relative">
+            <button onClick={() => setLangMenuOpen((v) => !v)} data-export-hidden aria-label={t.language} className="h-10 w-10 rounded-xl border border-border bg-white text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 flex items-center justify-center">
               <span className="material-icons-round text-lg">language</span>
             </button>
             {langMenuOpen && (
@@ -440,12 +620,12 @@ export default function Home() {
               </div>
             )}
           </div>
-          <button onClick={() => setHelpOpen(true)} data-export-hidden className="p-2 rounded-full bg-white shadow">
+          <button onClick={() => setHelpOpen(true)} data-export-hidden aria-label={t.help} className="h-10 w-10 rounded-xl border border-border bg-white text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 flex items-center justify-center">
             <span className="material-icons-round text-lg">help</span>
           </button>
         </div>
 
-        <div className="flex items-center gap-3 md:gap-4 mb-1 md:mb-2">
+        <div className="flex items-center gap-3 md:gap-4 mb-1 md:mb-2 w-full md:w-auto justify-start md:justify-center">
           <img src={ddcImage} alt="디디씨" className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-sm" />
           <h1
             style={{ fontFamily: "'Black Han Sans', sans-serif" }}
@@ -454,7 +634,7 @@ export default function Home() {
             {t.title}
           </h1>
         </div>
-        <p className="text-sm md:text-xl font-bold text-muted-foreground/80 text-center px-4">
+        <p className="text-sm md:text-xl font-bold text-muted-foreground/80 text-left md:text-center px-0 md:px-4 w-full md:w-auto">
           {t.subtitle}
         </p>
         <input
@@ -498,7 +678,7 @@ export default function Home() {
                 `}
               >
                 <span className="material-icons-round text-base md:text-xl leading-none">{icon}</span>
-                {cat}
+                {t.categoryLabels[cat]}
               </button>
             );
           })}
@@ -508,7 +688,11 @@ export default function Home() {
         <div className="bg-white/60 p-3 md:p-6 rounded-2xl md:rounded-3xl border-4 border-white shadow-sm">
           <div
             data-testid="gallery-grid"
-            className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 md:gap-4 overflow-y-auto max-h-[240px] md:max-h-[300px] p-1 md:p-2 custom-scrollbar"
+            className={`grid gap-2 md:gap-4 p-1 md:p-2 custom-scrollbar ${
+              activeCategory === "기본형"
+                ? "grid-cols-1 place-items-center max-w-[220px] mx-auto"
+                : "grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6"
+            }`}
           >
             {filteredImages.map((char) => (
               <button
@@ -520,12 +704,12 @@ export default function Home() {
                 <div className="w-full aspect-square flex items-center justify-center bg-secondary/50 rounded-lg md:rounded-xl overflow-hidden group-hover:bg-primary/10 transition-colors">
                   <img
                     src={char.image}
-                    alt={char.name}
+                    alt={getCharacterName(char)}
                     className="w-full h-full object-contain object-center drop-shadow-sm"
                   />
                 </div>
                 <span className="text-[11px] md:text-sm font-bold text-foreground text-center truncate w-full leading-tight">
-                  {char.name}
+                  {getCharacterName(char)}
                 </span>
               </button>
             ))}
@@ -536,15 +720,17 @@ export default function Home() {
       {/* Storyboard Section */}
       <section className="flex-1 px-3 md:px-8 pb-4 max-w-7xl mx-auto w-full flex flex-col gap-3 md:gap-4">
 
-        <div className="flex items-center gap-2 md:gap-3 ml-1">
-          <div className="bg-accent text-accent-foreground p-1.5 md:p-2 rounded-full shadow-sm">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-4 ml-1">
+          <div className="flex items-center gap-2 md:gap-3">
+            <div className="bg-accent text-accent-foreground p-1.5 md:p-2 rounded-full shadow-sm shrink-0">
             <span className="material-icons-round text-xl md:text-2xl block">auto_stories</span>
-          </div>
-          <div className="flex-1 flex flex-col gap-2 md:gap-3">
-            <h2 className="text-2xl md:text-3xl font-black text-foreground drop-shadow-sm">
+            </div>
+            <h2 className="text-xl md:text-3xl font-black text-foreground drop-shadow-sm">
               {t.myStory}
             </h2>
-            <div className="flex gap-1.5 bg-secondary rounded-xl md:rounded-2xl p-1 w-full max-w-md">
+          </div>
+          <div className="w-full md:w-auto flex items-center justify-end gap-1.5 md:gap-2">
+            <div className="flex gap-1 bg-secondary rounded-xl md:rounded-2xl p-1 w-auto md:min-w-[280px]">
               {([
                 ["free-write", t.basicMode] as const,
                 ["scene-sequence", t.sceneMode] as const,
@@ -552,7 +738,7 @@ export default function Home() {
                 <button
                   key={mode}
                   onClick={() => setStoryMode(mode)}
-                  className={`flex-1 px-3 py-2 rounded-lg md:rounded-xl text-xs md:text-sm font-bold transition-all ${
+                  className={`h-8 md:h-auto flex-1 px-2 md:px-3 rounded-lg md:rounded-xl text-[11px] md:text-sm font-bold transition-all ${
                     storyMode === mode
                       ? "bg-white text-foreground shadow-sm"
                       : "text-muted-foreground"
@@ -562,6 +748,17 @@ export default function Home() {
                 </button>
               ))}
             </div>
+            <button
+              type="button"
+              onClick={handleResetStory}
+              aria-label={t.reset}
+              title={t.reset}
+              data-export-hidden
+              className="h-8 w-8 md:h-10 md:w-10 rounded-xl border border-border bg-white text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 flex items-center justify-center"
+            >
+              <span className="material-icons-round text-base md:text-lg">restart_alt</span>
+              <span className="sr-only">{t.reset}</span>
+            </button>
           </div>
         </div>
 
@@ -577,10 +774,9 @@ export default function Home() {
                   <img src={ddcImage} alt="비어있음" className="w-20 h-20 md:w-28 md:h-28 object-contain opacity-80 relative z-10 animate-pulse" />
                 </div>
                 <div className="space-y-1 md:space-y-2">
-                  <h3 className="text-lg md:text-2xl font-bold text-muted-foreground">아직 이야기가 없어요!</h3>
+                  <h3 className="text-lg md:text-2xl font-bold text-muted-foreground">{t.emptyStory}</h3>
                   <p className="text-sm md:text-lg text-muted-foreground/80 font-medium">
-                    위에서 마음에 드는 디디씨를 눌러서<br />
-                    첫 번째 장면을 만들어보세요.
+                    {t.emptyStoryGuide}
                   </p>
                 </div>
               </div>
@@ -610,14 +806,14 @@ export default function Home() {
                             <span className="material-icons-round text-sm">keyboard_arrow_down</span>
                           </button>
                         </div>
-                        <button data-export-hidden data-testid={`delete-card-${card.id}`} onClick={() => handleRemoveCard(card.id)} className="absolute top-1.5 right-1.5 bg-destructive text-destructive-foreground w-7 h-7 md:w-8 md:h-8 rounded-full shadow-md flex items-center justify-center active:scale-95 transition-all z-10" title="장면 삭제하기">
+                        <button data-export-hidden data-testid={`delete-card-${card.id}`} onClick={() => handleRemoveCard(card.id)} className="absolute top-1.5 right-1.5 bg-destructive text-destructive-foreground w-7 h-7 md:w-8 md:h-8 rounded-full shadow-md flex items-center justify-center active:scale-95 transition-all z-10" title={t.deleteScene}>
                           <span className="material-icons-round text-sm md:text-base">close</span>
                         </button>
                         <div className="h-[110px] md:h-[150px] flex items-center justify-center bg-gradient-to-b from-transparent to-secondary/30 rounded-lg md:rounded-xl p-1.5 md:p-2">
-                          <img src={card.imageInfo.image} alt={card.imageInfo.name} className="w-full h-full object-contain drop-shadow-md" />
+                          <img src={card.imageInfo.image} alt={getCharacterName(card.imageInfo)} className="w-full h-full object-contain drop-shadow-md" />
                         </div>
                         <div className="bg-secondary/70 text-secondary-foreground/80 px-2 py-0.5 md:py-1 rounded-full text-[10px] md:text-xs font-bold text-center truncate">
-                          {card.imageInfo.name}
+                          {getCharacterName(card.imageInfo)}
                         </div>
                       </div>
                     </motion.div>
@@ -642,14 +838,14 @@ export default function Home() {
                       </div>
                       <button data-export-hidden onClick={() => handleRemoveCard(card.id)} className="absolute top-1 right-1 bg-destructive text-destructive-foreground w-6 h-6 rounded-full shadow flex items-center justify-center"><span className="material-icons-round text-sm">close</span></button>
                       <div className="h-[90px] md:h-[120px] flex items-center justify-center bg-secondary/30 rounded-lg p-1 mt-4">
-                        <img src={card.imageInfo.image} alt={card.imageInfo.name} className="w-full h-full object-contain" />
+                        <img src={card.imageInfo.image} alt={getCharacterName(card.imageInfo)} className="w-full h-full object-contain" />
                       </div>
-                      <div className="text-center text-xs md:text-sm font-bold">{card.imageInfo.name}</div>
+                      <div className="text-center text-xs md:text-sm font-bold">{getCharacterName(card.imageInfo)}</div>
                     </div>
                     <textarea
                       value={sceneTexts[card.id] || ""}
                       onChange={(e) => setSceneTexts((prev) => ({ ...prev, [card.id]: e.target.value }))}
-                      placeholder={`${card.imageInfo.name} ${t.writeStory}`}
+                      placeholder={`${getCharacterName(card.imageInfo)} ${t.writeStory}`}
                       className="w-full min-h-[140px] md:min-h-[170px] resize-none bg-background/50 border-2 border-secondary rounded-xl md:rounded-2xl p-3 md:p-4 text-base md:text-lg font-medium text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all custom-scrollbar leading-relaxed"
                     />
                   </div>
@@ -690,10 +886,10 @@ export default function Home() {
           className="inline-flex items-center gap-1.5 text-xs md:text-sm font-semibold text-muted-foreground/60 hover:text-primary transition-colors duration-200 underline-offset-4 hover:underline"
         >
           <span className="material-icons-round text-sm md:text-base">favorite</span>
-          Created by. 교육뮤지컬 꿈꾸는 치수쌤
+          {t.footerCreatedBy}
         </a>
         <p className="text-[11px] md:text-xs text-muted-foreground/40 leading-relaxed">
-          캐릭터 이미지 출처:{" "}
+          {t.footerSourceLabel}{" "}
           <a
             href="https://www.ddc.go.kr/ddc/contents.do?key=76"
             target="_blank"
@@ -714,7 +910,7 @@ export default function Home() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 10 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="bg-white rounded-2xl md:rounded-3xl shadow-2xl border-2 border-border/40 p-4 md:p-5 w-[calc(100vw-2rem)] max-w-[17rem] flex flex-col gap-3 md:gap-4"
+              className="bg-white rounded-2xl md:rounded-3xl shadow-2xl border-2 border-border/40 p-4 md:p-5 w-[calc(100vw-2rem)] max-w-[20rem] flex flex-col gap-3 md:gap-4"
             >
               <div className="flex items-center justify-between">
                 <span className="font-black text-base md:text-lg text-foreground">{t.export}</span>
@@ -724,12 +920,12 @@ export default function Home() {
               </div>
 
               {/* Mode Toggle */}
-              <div className="flex gap-1.5 bg-secondary rounded-xl md:rounded-2xl p-1">
+              <div className="grid grid-cols-2 gap-1.5 bg-secondary rounded-xl md:rounded-2xl p-1">
                 {(["image-text", "text-only"] as ExportMode[]).map((mode) => (
                   <button
                     key={mode}
                     onClick={() => setExportMode(mode)}
-                    className={`flex-1 py-2 px-2 rounded-lg md:rounded-xl text-[11px] md:text-sm font-bold whitespace-nowrap leading-tight transition-all duration-200 ${
+                    className={`min-w-0 py-2 px-2 rounded-lg md:rounded-xl text-[11px] md:text-sm font-bold leading-tight text-center break-words transition-all duration-200 ${
                       exportMode === mode
                         ? "bg-white text-foreground shadow-sm"
                         : "text-muted-foreground"
@@ -773,7 +969,7 @@ export default function Home() {
               {exporting && (
                 <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground py-1">
                   <span className="material-icons-round text-base animate-spin">refresh</span>
-                  이미지 생성 중...
+                  {t.loadingImage}
                 </div>
               )}
             </motion.div>
@@ -829,11 +1025,11 @@ export default function Home() {
                 <button onClick={() => setHelpOpen(false)}><span className="material-icons-round">close</span></button>
               </div>
               <ul className="list-disc pl-5 space-y-2 text-sm md:text-base text-foreground/90">
-                <li>{t.basicMode}: 마스코트 카드를 만들고 하나의 텍스트로 이야기를 작성합니다.</li>
-                <li>{t.sceneMode}: 마스코트가 세로로 생성되고, 각 마스코트 오른쪽에 1:1 텍스트 박스가 만들어집니다.</li>
-                <li>순서 변경: 카드 드래그 앤 드롭 또는 ↑↓ 버튼으로 위치를 바꿀 수 있습니다.</li>
-                <li>{t.language}: 한국어/영어/일본어를 즉시 전환할 수 있습니다.</li>
-                <li>{t.data}: JSON 파일로 저장/불러오기가 가능합니다.</li>
+                <li>{t.helpBasic}</li>
+                <li>{t.helpScene}</li>
+                <li>{t.helpReorder}</li>
+                <li>{t.helpLang}</li>
+                <li>{t.helpData}</li>
               </ul>
             </div>
           </motion.div>

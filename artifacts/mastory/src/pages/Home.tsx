@@ -625,7 +625,7 @@ export default function Home() {
           </button>
         </div>
 
-        <div className="flex items-center gap-3 md:gap-4 mb-1 md:mb-2 w-full md:w-auto justify-start md:justify-center">
+        <div className="flex items-center gap-2 md:gap-4 mb-1 md:mb-2 w-full md:w-auto justify-start md:justify-center">
           <img src={ddcImage} alt="디디씨" className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-sm" />
           <h1
             style={{ fontFamily: "'Black Han Sans', sans-serif" }}
@@ -633,10 +633,10 @@ export default function Home() {
           >
             {t.title}
           </h1>
+          <span className="text-sm md:text-xl font-bold text-muted-foreground/80 whitespace-nowrap">
+            {t.subtitle}
+          </span>
         </div>
-        <p className="text-sm md:text-xl font-bold text-muted-foreground/80 text-left md:text-center pl-[3.75rem] md:pl-0 md:px-4 w-full md:w-auto">
-          {t.subtitle}
-        </p>
         <input
           ref={importInputRef}
           type="file"
@@ -730,7 +730,7 @@ export default function Home() {
             </h2>
           </div>
           <div className="shrink-0 flex items-center justify-end gap-1.5 md:gap-2">
-            <div className="flex gap-1 bg-secondary rounded-xl md:rounded-2xl p-1 w-auto md:min-w-[280px]">
+            <div className="flex gap-1 bg-secondary rounded-2xl p-1">
               {([
                 ["free-write", t.basicMode] as const,
                 ["scene-sequence", t.sceneMode] as const,
@@ -738,12 +738,15 @@ export default function Home() {
                 <button
                   key={mode}
                   onClick={() => setStoryMode(mode)}
-                  className={`h-8 md:h-auto flex-1 px-2 md:px-3 rounded-lg md:rounded-xl text-[11px] md:text-sm font-bold transition-all ${
+                  className={`h-11 min-w-11 px-3 rounded-xl text-xs md:text-sm font-bold inline-flex items-center justify-center gap-1 transition-all ${
                     storyMode === mode
-                      ? "bg-white text-foreground shadow-sm"
-                      : "text-muted-foreground"
+                      ? "bg-white text-foreground border border-border shadow-sm"
+                      : "text-muted-foreground border border-transparent"
                   }`}
                 >
+                  <span className="material-icons-round text-base leading-none">
+                    {mode === "free-write" ? "edit_note" : "view_carousel"}
+                  </span>
                   {label}
                 </button>
               ))}
@@ -754,7 +757,7 @@ export default function Home() {
               aria-label={t.reset}
               title={t.reset}
               data-export-hidden
-              className="h-8 w-8 md:h-10 md:w-10 rounded-xl border border-border bg-white text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 flex items-center justify-center"
+              className="h-11 w-11 rounded-xl border border-border bg-white text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 flex items-center justify-center"
             >
               <span className="material-icons-round text-base md:text-lg">restart_alt</span>
               <span className="sr-only">{t.reset}</span>
@@ -781,7 +784,7 @@ export default function Home() {
                 </div>
               </div>
             ) : storyMode === "free-write" ? (
-              <div id="storyboard-container" data-testid="storyboard-area" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-5 pb-1 pt-1 px-1">
+              <div id="storyboard-container" data-testid="storyboard-area" className="flex flex-wrap justify-center gap-3 md:gap-5 pb-1 pt-1 px-1">
                 <AnimatePresence mode="popLayout">
                   {storyCards.map((card, i) => (
                     <motion.div
@@ -795,7 +798,7 @@ export default function Home() {
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.8, y: -20 }}
                       transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                      className="w-full"
+                      className="w-[46%] sm:w-[30%] md:w-[23%] lg:w-[18%] min-w-[150px] max-w-[220px]"
                     >
                       <div data-testid={`story-card-${card.id}`} className="bg-white rounded-xl md:rounded-2xl p-2.5 md:p-3 shadow-md border border-border/50 flex flex-col gap-1.5 md:gap-2 relative group">
                         <div data-export-hidden className="absolute top-1.5 left-1.5 flex gap-1">

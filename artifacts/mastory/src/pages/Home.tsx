@@ -720,17 +720,17 @@ export default function Home() {
       {/* Storyboard Section */}
       <section className="flex-1 px-3 md:px-8 pb-4 max-w-7xl mx-auto w-full flex flex-col gap-3 md:gap-4">
 
-        <div className="flex items-start md:items-center justify-between gap-3 md:gap-4 ml-1">
-          <div className="flex items-center gap-2 md:gap-3 min-w-0">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-4 ml-1">
+          <div className="flex items-center gap-2 md:gap-3">
             <div className="bg-accent text-accent-foreground p-1.5 md:p-2 rounded-full shadow-sm shrink-0">
             <span className="material-icons-round text-xl md:text-2xl block">auto_stories</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-black text-foreground drop-shadow-sm truncate">
+            <h2 className="text-xl md:text-3xl font-black text-foreground drop-shadow-sm">
               {t.myStory}
             </h2>
           </div>
-          <div className="w-full md:w-auto flex flex-col md:flex-row md:items-center gap-2">
-            <div className="flex gap-1.5 bg-secondary rounded-xl md:rounded-2xl p-1 w-full md:w-auto md:min-w-[280px]">
+          <div className="w-full md:w-auto flex items-center justify-end gap-1.5 md:gap-2">
+            <div className="flex gap-1 bg-secondary rounded-xl md:rounded-2xl p-1 w-auto md:min-w-[280px]">
               {([
                 ["free-write", t.basicMode] as const,
                 ["scene-sequence", t.sceneMode] as const,
@@ -738,7 +738,7 @@ export default function Home() {
                 <button
                   key={mode}
                   onClick={() => setStoryMode(mode)}
-                  className={`flex-1 px-3 py-2 rounded-lg md:rounded-xl text-xs md:text-sm font-bold transition-all ${
+                  className={`h-8 md:h-auto flex-1 px-2 md:px-3 rounded-lg md:rounded-xl text-[11px] md:text-sm font-bold transition-all ${
                     storyMode === mode
                       ? "bg-white text-foreground shadow-sm"
                       : "text-muted-foreground"
@@ -751,10 +751,13 @@ export default function Home() {
             <button
               type="button"
               onClick={handleResetStory}
+              aria-label={t.reset}
+              title={t.reset}
               data-export-hidden
-              className="h-8 md:h-10 px-3 md:px-4 rounded-xl border border-border bg-white text-xs md:text-sm font-bold text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+              className="h-8 w-8 md:h-10 md:w-10 rounded-xl border border-border bg-white text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 flex items-center justify-center"
             >
-              {t.reset}
+              <span className="material-icons-round text-base md:text-lg">restart_alt</span>
+              <span className="sr-only">{t.reset}</span>
             </button>
           </div>
         </div>

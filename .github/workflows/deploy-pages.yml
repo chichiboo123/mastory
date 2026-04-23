@@ -48,7 +48,7 @@ jobs:
       - name: Compute BASE_PATH
         id: base-path
         run: |
-          if [ -n "${{ vars.PAGES_CUSTOM_DOMAIN }}" ]; then
+          if [ -n "${{ vars.PAGES_CUSTOM_DOMAIN }}" ] || [ -f "artifacts/mastory/public/CNAME" ]; then
             echo "value=/" >> "$GITHUB_OUTPUT"
           else
             echo "value=/${{ github.event.repository.name }}/" >> "$GITHUB_OUTPUT"

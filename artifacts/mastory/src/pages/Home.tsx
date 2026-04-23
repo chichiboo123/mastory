@@ -135,10 +135,6 @@ export default function Home() {
       imageInfo: char,
     };
     setStoryCards((prev) => [...prev, newCard]);
-    setTimeout(() => {
-      const el = document.getElementById("storyboard-container");
-      if (el) el.scrollTo({ left: el.scrollWidth, behavior: "smooth" });
-    }, 100);
   };
 
   const handleRemoveCard = (id: string) => {
@@ -149,6 +145,7 @@ export default function Home() {
     backgroundColor: "#fffdf0",
     pixelRatio: 2,
     cacheBust: true,
+    filter: (node: HTMLElement) => !node.hasAttribute("data-export-hidden"),
   };
 
   const handleCopyClipboard = async () => {
@@ -321,7 +318,7 @@ export default function Home() {
         <div ref={exportAreaRef} className="flex flex-col gap-3 md:gap-4 bg-background p-1.5 md:p-2 rounded-2xl">
 
           {/* Story Cards Row */}
-          <div className="bg-white/80 rounded-2xl md:rounded-3xl border-4 border-white shadow-md p-4 md:p-6 relative overflow-hidden">
+          <div className="bg-white/80 rounded-2xl md:rounded-3xl border-4 border-white shadow-md p-4 md:p-6 relative overflow-visible">
             {storyCards.length === 0 ? (
               <div className="flex flex-col items-center justify-center text-center gap-4 md:gap-6 py-6 md:py-10 animate-in fade-in zoom-in duration-500">
                 <div className="relative">
@@ -340,7 +337,7 @@ export default function Home() {
               <div
                 id="storyboard-container"
                 data-testid="storyboard-area"
-                className="flex flex-row gap-3 md:gap-5 overflow-x-auto pb-3 pt-1 px-1 custom-scrollbar snap-x"
+                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-5 pb-1 pt-1 px-1"
               >
                 <AnimatePresence mode="popLayout">
                   {storyCards.map((card) => (
@@ -351,16 +348,17 @@ export default function Home() {
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.8, y: -20 }}
                       transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                      className="shrink-0 w-[130px] md:w-[180px] snap-center"
+                      className="w-full"
                     >
                       <div
                         data-testid={`story-card-${card.id}`}
                         className="bg-white rounded-xl md:rounded-2xl p-2.5 md:p-3 shadow-md border border-border/50 flex flex-col gap-1.5 md:gap-2 relative group"
                       >
                         <button
+                          data-export-hidden
                           data-testid={`delete-card-${card.id}`}
                           onClick={() => handleRemoveCard(card.id)}
-                          className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground w-7 h-7 md:w-8 md:h-8 rounded-full shadow-md flex items-center justify-center active:scale-95 transition-all z-10"
+                          className="absolute top-1.5 right-1.5 bg-destructive text-destructive-foreground w-7 h-7 md:w-8 md:h-8 rounded-full shadow-md flex items-center justify-center active:scale-95 transition-all z-10"
                           title="장면 삭제하기"
                         >
                           <span className="material-icons-round text-sm md:text-base">close</span>
@@ -448,7 +446,7 @@ export default function Home() {
                   <button
                     key={mode}
                     onClick={() => setExportMode(mode)}
-                    className={`flex-1 py-2 px-2 rounded-lg md:rounded-xl text-xs md:text-sm font-bold transition-all duration-200 ${
+                    className={`flex-1 py-2 px-2 rounded-lg md:rounded-xl text-[11px] md:text-sm font-bold whitespace-nowrap leading-tight transition-all duration-200 ${
                       exportMode === mode
                         ? "bg-white text-foreground shadow-sm"
                         : "text-muted-foreground"

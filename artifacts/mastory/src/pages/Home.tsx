@@ -1,6 +1,16 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ddcImage from "@assets/cnt_76_DDC_1776911486802.png";
+import emotion01 from "@assets/감정응용형_01_행복_1776912123380.png";
+import emotion02 from "@assets/감정응용형_02_삐짐_1776912123381.png";
+import emotion03 from "@assets/감정응용형_03_슬픔_1776912123381.png";
+import emotion04 from "@assets/감정응용형_04_죄송_1776912123381.png";
+import emotion05 from "@assets/감정응용형_05_부끄러움_1776912123382.png";
+import emotion06 from "@assets/감정응용형_06_사랑_1776912123382.png";
+import emotion07 from "@assets/감정응용형_07_축하_1776912123383.png";
+import emotion08 from "@assets/감정응용형_08_감사_1776912123383.png";
+import emotion09 from "@assets/감정응용형_09_놀람_1776912123383.png";
+import emotion10 from "@assets/감정응용형_10_응원(화이팅)_1776912123384.png";
 
 type Category = "기본형" | "감정응용형" | "동작응용형" | "이모티콘";
 
@@ -8,60 +18,59 @@ interface CharacterData {
   id: string;
   name: string;
   category: Category;
+  image: string;
 }
 
 const CATEGORIES: Category[] = ["기본형", "감정응용형", "동작응용형", "이모티콘"];
 
 const CHARACTER_DATA: CharacterData[] = [
   // 기본형 (10)
-  { id: "basic-1", name: "기본 서있기 1", category: "기본형" },
-  { id: "basic-2", name: "기본 서있기 2", category: "기본형" },
-  { id: "basic-3", name: "앉아있기 1", category: "기본형" },
-  { id: "basic-4", name: "앉아있기 2", category: "기본형" },
-  { id: "basic-5", name: "걷기 1", category: "기본형" },
-  { id: "basic-6", name: "걷기 2", category: "기본형" },
-  { id: "basic-7", name: "인사하기 1", category: "기본형" },
-  { id: "basic-8", name: "인사하기 2", category: "기본형" },
-  { id: "basic-9", name: "차렷 자세", category: "기본형" },
-  { id: "basic-10", name: "편한 자세", category: "기본형" },
-  
-  // 감정응용형 (12)
-  { id: "emotion-1", name: "행복한 디디씨", category: "감정응용형" },
-  { id: "emotion-2", name: "슬픈 디디씨", category: "감정응용형" },
-  { id: "emotion-3", name: "화난 디디씨", category: "감정응용형" },
-  { id: "emotion-4", name: "놀란 디디씨", category: "감정응용형" },
-  { id: "emotion-5", name: "신난 디디씨", category: "감정응용형" },
-  { id: "emotion-6", name: "부끄러운 디디씨", category: "감정응용형" },
-  { id: "emotion-7", name: "궁금한 디디씨", category: "감정응용형" },
-  { id: "emotion-8", name: "자랑스러운 디디씨", category: "감정응용형" },
-  { id: "emotion-9", name: "감동한 디디씨", category: "감정응용형" },
-  { id: "emotion-10", name: "우울한 디디씨", category: "감정응용형" },
-  { id: "emotion-11", name: "피곤한 디디씨", category: "감정응용형" },
-  { id: "emotion-12", name: "기대하는 디디씨", category: "감정응용형" },
+  { id: "basic-1", name: "기본 서있기 1", category: "기본형", image: ddcImage },
+  { id: "basic-2", name: "기본 서있기 2", category: "기본형", image: ddcImage },
+  { id: "basic-3", name: "앉아있기 1", category: "기본형", image: ddcImage },
+  { id: "basic-4", name: "앉아있기 2", category: "기본형", image: ddcImage },
+  { id: "basic-5", name: "걷기 1", category: "기본형", image: ddcImage },
+  { id: "basic-6", name: "걷기 2", category: "기본형", image: ddcImage },
+  { id: "basic-7", name: "인사하기 1", category: "기본형", image: ddcImage },
+  { id: "basic-8", name: "인사하기 2", category: "기본형", image: ddcImage },
+  { id: "basic-9", name: "차렷 자세", category: "기본형", image: ddcImage },
+  { id: "basic-10", name: "편한 자세", category: "기본형", image: ddcImage },
+
+  // 감정응용형 (10) — 실제 이미지 사용
+  { id: "emotion-1",  name: "행복",        category: "감정응용형", image: emotion01 },
+  { id: "emotion-2",  name: "삐짐",        category: "감정응용형", image: emotion02 },
+  { id: "emotion-3",  name: "슬픔",        category: "감정응용형", image: emotion03 },
+  { id: "emotion-4",  name: "죄송",        category: "감정응용형", image: emotion04 },
+  { id: "emotion-5",  name: "부끄러움",    category: "감정응용형", image: emotion05 },
+  { id: "emotion-6",  name: "사랑",        category: "감정응용형", image: emotion06 },
+  { id: "emotion-7",  name: "축하",        category: "감정응용형", image: emotion07 },
+  { id: "emotion-8",  name: "감사",        category: "감정응용형", image: emotion08 },
+  { id: "emotion-9",  name: "놀람",        category: "감정응용형", image: emotion09 },
+  { id: "emotion-10", name: "응원(화이팅)", category: "감정응용형", image: emotion10 },
 
   // 동작응용형 (12)
-  { id: "action-1", name: "뛰는 디디씨", category: "동작응용형" },
-  { id: "action-2", name: "점프하는 디디씨", category: "동작응용형" },
-  { id: "action-3", name: "손 흔드는 디디씨", category: "동작응용형" },
-  { id: "action-4", name: "가리키는 디디씨", category: "동작응용형" },
-  { id: "action-5", name: "춤추는 디디씨", category: "동작응용형" },
-  { id: "action-6", name: "응원하는 디디씨", category: "동작응용형" },
-  { id: "action-7", name: "생각하는 디디씨", category: "동작응용형" },
-  { id: "action-8", name: "노래하는 디디씨", category: "동작응용형" },
-  { id: "action-9", name: "운동하는 디디씨", category: "동작응용형" },
-  { id: "action-10", name: "요리하는 디디씨", category: "동작응용형" },
-  { id: "action-11", name: "독서하는 디디씨", category: "동작응용형" },
-  { id: "action-12", name: "그림그리는 디디씨", category: "동작응용형" },
+  { id: "action-1",  name: "뛰는 디디씨",     category: "동작응용형", image: ddcImage },
+  { id: "action-2",  name: "점프하는 디디씨",  category: "동작응용형", image: ddcImage },
+  { id: "action-3",  name: "손 흔드는 디디씨", category: "동작응용형", image: ddcImage },
+  { id: "action-4",  name: "가리키는 디디씨",  category: "동작응용형", image: ddcImage },
+  { id: "action-5",  name: "춤추는 디디씨",    category: "동작응용형", image: ddcImage },
+  { id: "action-6",  name: "응원하는 디디씨",  category: "동작응용형", image: ddcImage },
+  { id: "action-7",  name: "생각하는 디디씨",  category: "동작응용형", image: ddcImage },
+  { id: "action-8",  name: "노래하는 디디씨",  category: "동작응용형", image: ddcImage },
+  { id: "action-9",  name: "운동하는 디디씨",  category: "동작응용형", image: ddcImage },
+  { id: "action-10", name: "요리하는 디디씨",  category: "동작응용형", image: ddcImage },
+  { id: "action-11", name: "독서하는 디디씨",  category: "동작응용형", image: ddcImage },
+  { id: "action-12", name: "그림그리는 디디씨", category: "동작응용형", image: ddcImage },
 
   // 이모티콘 (8)
-  { id: "emo-1", name: "하트 뿅뿅", category: "이모티콘" },
-  { id: "emo-2", name: "별 반짝반짝", category: "이모티콘" },
-  { id: "emo-3", name: "최고! 엄지척", category: "이모티콘" },
-  { id: "emo-4", name: "쿨쿨 자는중", category: "이모티콘" },
-  { id: "emo-5", name: "엉엉 우는중", category: "이모티콘" },
-  { id: "emo-6", name: "하하하 웃음", category: "이모티콘" },
-  { id: "emo-7", name: "오케이!", category: "이모티콘" },
-  { id: "emo-8", name: "메롱~", category: "이모티콘" }
+  { id: "emo-1", name: "하트 뿅뿅",    category: "이모티콘", image: ddcImage },
+  { id: "emo-2", name: "별 반짝반짝",  category: "이모티콘", image: ddcImage },
+  { id: "emo-3", name: "최고! 엄지척", category: "이모티콘", image: ddcImage },
+  { id: "emo-4", name: "쿨쿨 자는중",  category: "이모티콘", image: ddcImage },
+  { id: "emo-5", name: "엉엉 우는중",  category: "이모티콘", image: ddcImage },
+  { id: "emo-6", name: "하하하 웃음",  category: "이모티콘", image: ddcImage },
+  { id: "emo-7", name: "오케이!",      category: "이모티콘", image: ddcImage },
+  { id: "emo-8", name: "메롱~",        category: "이모티콘", image: ddcImage },
 ];
 
 interface StoryCard {
@@ -83,8 +92,7 @@ export default function Home() {
       text: "",
     };
     setStoryCards([...storyCards, newCard]);
-    
-    // Scroll to right most after a short delay
+
     setTimeout(() => {
       const storyboard = document.getElementById("storyboard-container");
       if (storyboard) {
@@ -103,7 +111,7 @@ export default function Home() {
 
   return (
     <div className="min-h-[100dvh] bg-background text-foreground flex flex-col font-sans selection:bg-primary/30">
-      
+
       {/* Header */}
       <header className="pt-8 pb-6 px-4 md:px-8 flex flex-col items-center justify-center shrink-0">
         <div className="flex items-center gap-4 mb-2">
@@ -119,7 +127,7 @@ export default function Home() {
 
       {/* Top Section: Gallery */}
       <section className="px-4 md:px-8 max-w-7xl mx-auto w-full shrink-0 flex flex-col gap-4 mb-8">
-        
+
         {/* Category Tabs */}
         <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">
           {CATEGORIES.map((cat) => {
@@ -129,7 +137,7 @@ export default function Home() {
             if (cat === "이모티콘") icon = "add_reaction";
 
             const isActive = activeCategory === cat;
-            
+
             return (
               <button
                 key={cat}
@@ -137,8 +145,8 @@ export default function Home() {
                 onClick={() => setActiveCategory(cat)}
                 className={`
                   flex items-center gap-2 px-5 py-3 rounded-full text-base font-bold transition-all duration-200
-                  ${isActive 
-                    ? "bg-primary text-primary-foreground shadow-md shadow-primary/20 scale-105" 
+                  ${isActive
+                    ? "bg-primary text-primary-foreground shadow-md shadow-primary/20 scale-105"
                     : "bg-white text-muted-foreground hover:bg-secondary border-2 border-transparent hover:border-primary/20 hover:scale-105"
                   }
                 `}
@@ -146,13 +154,13 @@ export default function Home() {
                 <span className="material-icons-round text-xl">{icon}</span>
                 {cat}
               </button>
-            )
+            );
           })}
         </div>
 
         {/* Gallery Grid */}
         <div className="bg-white/60 p-4 md:p-6 rounded-3xl border-4 border-white shadow-sm">
-          <div 
+          <div
             data-testid="gallery-grid"
             className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 md:gap-4 overflow-y-auto max-h-[300px] p-2 custom-scrollbar"
           >
@@ -164,9 +172,9 @@ export default function Home() {
                 className="group flex flex-col items-center gap-2 bg-white p-3 rounded-2xl border-2 border-transparent hover:border-primary/50 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 hover:-translate-y-1"
               >
                 <div className="w-20 h-20 md:w-24 md:h-24 flex items-center justify-center bg-secondary/50 rounded-xl overflow-hidden group-hover:bg-primary/10 transition-colors">
-                  <img 
-                    src={ddcImage} 
-                    alt={char.name} 
+                  <img
+                    src={char.image}
+                    alt={char.name}
                     className="w-full h-full object-contain object-center drop-shadow-sm group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>
@@ -181,7 +189,7 @@ export default function Home() {
 
       {/* Bottom Section: Storyboard */}
       <section className="flex-1 px-4 md:px-8 pb-8 max-w-7xl mx-auto w-full flex flex-col gap-4">
-        
+
         <div className="flex items-center gap-3 ml-2">
           <div className="bg-accent text-accent-foreground p-2 rounded-full shadow-sm">
             <span className="material-icons-round text-2xl block">auto_stories</span>
@@ -192,7 +200,7 @@ export default function Home() {
         </div>
 
         <div className="flex-1 bg-white/80 rounded-3xl border-4 border-white shadow-md p-6 relative overflow-hidden flex flex-col">
-          
+
           {storyCards.length === 0 ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center gap-6 py-12 animate-in fade-in zoom-in duration-500">
               <div className="relative">
@@ -208,7 +216,7 @@ export default function Home() {
               </div>
             </div>
           ) : (
-            <div 
+            <div
               id="storyboard-container"
               data-testid="storyboard-area"
               className="flex-1 flex flex-row gap-6 overflow-x-auto pb-4 pt-2 px-2 custom-scrollbar snap-x"
@@ -224,11 +232,11 @@ export default function Home() {
                     transition={{ type: "spring", stiffness: 300, damping: 25 }}
                     className="shrink-0 w-[280px] md:w-[320px] snap-center"
                   >
-                    <div 
+                    <div
                       data-testid={`story-card-${card.id}`}
                       className="bg-white rounded-[2rem] p-5 shadow-lg border border-border/50 flex flex-col gap-4 h-full relative group"
                     >
-                      
+
                       {/* Delete Button */}
                       <button
                         data-testid={`delete-card-${card.id}`}
@@ -246,9 +254,9 @@ export default function Home() {
 
                       {/* Character Image */}
                       <div className="h-[160px] flex items-center justify-center bg-gradient-to-b from-transparent to-secondary/30 rounded-2xl p-4">
-                        <img 
-                          src={ddcImage} 
-                          alt={card.imageInfo.name} 
+                        <img
+                          src={card.imageInfo.image}
+                          alt={card.imageInfo.name}
                           className="w-full h-full object-contain drop-shadow-md"
                         />
                       </div>
@@ -275,7 +283,6 @@ export default function Home() {
       </section>
 
       <style>{`
-        /* Custom Scrollbar for better children UI */
         .custom-scrollbar::-webkit-scrollbar {
           height: 12px;
           width: 12px;

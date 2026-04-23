@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import html2canvas from "html2canvas";
+import { toJpeg, toBlob } from "html-to-image";
 import ddcImage from "@assets/cnt_76_DDC_1776911486802.png";
 import emotion01 from "@assets/감정응용형_01_행복_1776912123380.png";
 import emotion02 from "@assets/감정응용형_02_삐짐_1776912123381.png";
@@ -56,16 +56,7 @@ interface CharacterData {
 const CATEGORIES: Category[] = ["기본형", "감정응용형", "동작응용형", "이모티콘"];
 
 const CHARACTER_DATA: CharacterData[] = [
-  { id: "basic-1",  name: "기본 서있기 1", category: "기본형", image: ddcImage },
-  { id: "basic-2",  name: "기본 서있기 2", category: "기본형", image: ddcImage },
-  { id: "basic-3",  name: "앉아있기 1",    category: "기본형", image: ddcImage },
-  { id: "basic-4",  name: "앉아있기 2",    category: "기본형", image: ddcImage },
-  { id: "basic-5",  name: "걷기 1",        category: "기본형", image: ddcImage },
-  { id: "basic-6",  name: "걷기 2",        category: "기본형", image: ddcImage },
-  { id: "basic-7",  name: "인사하기 1",    category: "기본형", image: ddcImage },
-  { id: "basic-8",  name: "인사하기 2",    category: "기본형", image: ddcImage },
-  { id: "basic-9",  name: "차렷 자세",     category: "기본형", image: ddcImage },
-  { id: "basic-10", name: "편한 자세",     category: "기본형", image: ddcImage },
+  { id: "basic-1", name: "디디씨", category: "기본형", image: ddcImage },
 
   { id: "emotion-1",  name: "행복",         category: "감정응용형", image: emotion01 },
   { id: "emotion-2",  name: "삐짐",         category: "감정응용형", image: emotion02 },
@@ -154,53 +145,58 @@ export default function Home() {
     setStoryCards((prev) => prev.filter((c) => c.id !== id));
   };
 
+  const htmlToImageOptions = {
+    backgroundColor: "#fffdf0",
+    pixelRatio: 2,
+    cacheBust: true,
+  };
+
   const handleCopyClipboard = async () => {
-    try {
-      if (exportMode === "text-only") {
+    if (exportMode === "text-only") {
+      try {
         await navigator.clipboard.writeText(storyText || "(이야기가 없습니다)");
         showToast("텍스트가 클립보드에 복사됐어요!");
-      } else {
-        if (!exportAreaRef.current) return;
-        setExporting(true);
-        const canvas = await html2canvas(exportAreaRef.current, {
-          backgroundColor: "#fffdf0",
-          scale: 2,
-          useCORS: true,
-        });
-        canvas.toBlob(async (blob) => {
-          if (!blob) return;
-          try {
-            await navigator.clipboard.write([
-              new ClipboardItem({ "image/png": blob }),
-            ]);
-            showToast("이미지가 클립보드에 복사됐어요!");
-          } catch {
-            showToast("클립보드 복사에 실패했어요.", "error");
-          }
-          setExporting(false);
-        }, "image/png");
+      } catch {
+        showToast("클립보드 복사에 실패했어요.", "error");
       }
-    } catch {
-      showToast("복사에 실패했어요.", "error");
-      setExporting(false);
+      return;
     }
+    if (!exportAreaRef.current) return;
+    setExporting(true);
+    try {
+      const blob = await toBlob(exportAreaRef.current, htmlToImageOptions);
+      if (!blob) throw new Error("blob null");
+      try {
+        await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+        showToast("이미지가 클립보드에 복사됐어요!");
+      } catch {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.download = "마스토리_이야기.png";
+        link.href = url;
+        link.click();
+        URL.revokeObjectURL(url);
+        showToast("클립보드 대신 PNG로 다운로드됐어요!");
+      }
+    } catch (e) {
+      console.error("export clipboard error", e);
+      showToast("내보내기에 실패했어요.", "error");
+    }
+    setExporting(false);
   };
 
   const handleDownloadJpg = async () => {
     if (!exportAreaRef.current) return;
     setExporting(true);
     try {
-      const canvas = await html2canvas(exportAreaRef.current, {
-        backgroundColor: "#fffdf0",
-        scale: 2,
-        useCORS: true,
-      });
+      const dataUrl = await toJpeg(exportAreaRef.current, { ...htmlToImageOptions, quality: 0.95 });
       const link = document.createElement("a");
       link.download = "마스토리_이야기.jpg";
-      link.href = canvas.toDataURL("image/jpeg", 0.95);
+      link.href = dataUrl;
       link.click();
       showToast("JPG 파일이 다운로드됐어요!");
-    } catch {
+    } catch (e) {
+      console.error("export jpg error", e);
       showToast("다운로드에 실패했어요.", "error");
     }
     setExporting(false);
@@ -397,7 +393,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-6 text-center shrink-0">
+      <footer className="py-6 px-4 text-center shrink-0 flex flex-col items-center gap-2">
         <a
           href="https://litt.ly/chichiboo"
           target="_blank"
@@ -407,6 +403,17 @@ export default function Home() {
           <span className="material-icons-round text-base">favorite</span>
           Created by. 교육뮤지컬 꿈꾸는 치수쌤
         </a>
+        <p className="text-xs text-muted-foreground/40 leading-relaxed">
+          캐릭터 이미지 출처:{" "}
+          <a
+            href="https://www.ddc.go.kr/ddc/contents.do?key=76"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline underline-offset-2 hover:text-muted-foreground/70 transition-colors"
+          >
+            동두천시 누리집
+          </a>
+        </p>
       </footer>
 
       {/* Floating Export Button */}

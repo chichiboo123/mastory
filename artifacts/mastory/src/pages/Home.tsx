@@ -670,15 +670,17 @@ export default function Home() {
           </button>
         </div>
 
-        <div className="flex items-center gap-2 md:gap-4 mb-1 md:mb-2 w-full md:w-auto justify-start md:justify-center">
-          <img src={ddcImage} alt="디디씨" className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-sm" />
-          <h1
-            style={{ fontFamily: "'Black Han Sans', sans-serif" }}
-            className="text-3xl md:text-5xl tall-mobile-title text-primary drop-shadow-sm tracking-tight"
-          >
-            {t.title}
-          </h1>
-          <span className="text-sm md:text-xl font-bold text-muted-foreground/80 whitespace-nowrap">
+        <div className="flex flex-col md:flex-row md:items-end gap-1 md:gap-3 mb-1 md:mb-2 w-full md:w-auto justify-start md:justify-center">
+          <div className="flex items-center gap-2 md:gap-4 min-w-0">
+            <img src={ddcImage} alt="디디씨" className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-sm shrink-0" />
+            <h1
+              style={{ fontFamily: "'Black Han Sans', sans-serif" }}
+              className="text-3xl md:text-5xl tall-mobile-title text-primary drop-shadow-sm tracking-tight whitespace-nowrap leading-none"
+            >
+              {t.title}
+            </h1>
+          </div>
+          <span className="pl-14 md:pl-0 text-sm md:text-xl font-bold text-muted-foreground/80 leading-snug break-keep md:whitespace-nowrap">
             {t.subtitle}
           </span>
         </div>

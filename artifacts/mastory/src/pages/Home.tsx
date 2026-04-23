@@ -155,6 +155,22 @@ const I18N = {
     helpReorder: "순서 변경: 카드 드래그 앤 드롭 또는 ↑↓ 버튼으로 위치를 바꿀 수 있습니다.",
     helpLang: "언어 선택: 한국어/영어/일본어를 즉시 전환할 수 있습니다.",
     helpData: "데이터 관리: JSON 파일로 저장/불러오기가 가능합니다.",
+    reset: "초기화",
+    resetConfirm: "현재 작성한 장면과 텍스트를 모두 지울까요?",
+    toastResetDone: "이야기를 초기화했어요.",
+    noStory: "(이야기가 없습니다)",
+    noSceneText: "(내용 없음)",
+    scenePrefix: "장면",
+    exportSceneTitle: "[ 나의 디디씨 이야기 장면 ]",
+    exportContentTitle: "[ 이야기 내용 ]",
+    footerCreatedBy: "Created by. 교육뮤지컬 꿈꾸는 치수쌤",
+    footerSourceLabel: "캐릭터 이미지 출처:",
+    categoryLabels: {
+      기본형: "기본형",
+      감정응용형: "감정응용형",
+      동작응용형: "동작응용형",
+      이모티콘: "이모티콘",
+    },
   },
   en: {
     title: "Mastory",
@@ -197,6 +213,22 @@ const I18N = {
     helpReorder: "Reorder: drag and drop cards or use ↑↓ controls.",
     helpLang: "Language: switch between Korean, English, and Japanese instantly.",
     helpData: "Data: save/load using a JSON file.",
+    reset: "Reset",
+    resetConfirm: "Clear all current scenes and text?",
+    toastResetDone: "Story has been reset.",
+    noStory: "(No story yet)",
+    noSceneText: "(No text)",
+    scenePrefix: "Scene",
+    exportSceneTitle: "[ DDC Story Scenes ]",
+    exportContentTitle: "[ Story Content ]",
+    footerCreatedBy: "Created by Dreaming Chisu Teacher",
+    footerSourceLabel: "Character image source:",
+    categoryLabels: {
+      기본형: "Basic",
+      감정응용형: "Emotion",
+      동작응용형: "Action",
+      이모티콘: "Emoticon",
+    },
   },
   ja: {
     title: "マストーリー",
@@ -239,6 +271,22 @@ const I18N = {
     helpReorder: "並び替え: ドラッグ&ドロップまたは↑↓ボタンで順番を変更できます。",
     helpLang: "言語: 韓国語/英語/日本語をすぐ切り替えできます。",
     helpData: "データ管理: JSONファイルで保存/読み込みできます。",
+    reset: "リセット",
+    resetConfirm: "現在のシーンとテキストをすべて削除しますか？",
+    toastResetDone: "物語をリセットしました。",
+    noStory: "(物語がありません)",
+    noSceneText: "(内容なし)",
+    scenePrefix: "シーン",
+    exportSceneTitle: "[ DDCストーリーのシーン ]",
+    exportContentTitle: "[ 物語の内容 ]",
+    footerCreatedBy: "Created by. 教育ミュージカル 夢見るチス先生",
+    footerSourceLabel: "キャラクター画像の出典:",
+    categoryLabels: {
+      기본형: "基本型",
+      감정응용형: "感情応用型",
+      동작응용형: "動作応用型",
+      이모티콘: "絵文字",
+    },
   },
 } as const;
 
@@ -286,6 +334,15 @@ export default function Home() {
       delete next[id];
       return next;
     });
+  };
+
+  const handleResetStory = () => {
+    const shouldReset = window.confirm(t.resetConfirm);
+    if (!shouldReset) return;
+    setStoryCards([]);
+    setStoryText("");
+    setSceneTexts({});
+    showToast(t.toastResetDone);
   };
 
   const moveCard = (fromIndex: number, toIndex: number) => {
@@ -364,14 +421,14 @@ export default function Home() {
       const textOnlyContent =
         storyMode === "scene-sequence"
           ? storyCards.length === 0
-            ? "(이야기가 없습니다)"
+            ? t.noStory
             : storyCards
                 .map(
                   (card, i) =>
-                    `장면 ${i + 1} (${card.imageInfo.name}): ${sceneTexts[card.id] || "(내용 없음)"}`,
+                    `${t.scenePrefix} ${i + 1} (${card.imageInfo.name}): ${sceneTexts[card.id] || t.noSceneText}`,
                 )
                 .join("\n")
-          : storyText || "(이야기가 없습니다)";
+          : storyText || t.noStory;
       try {
         await navigator.clipboard.writeText(textOnlyContent);
         showToast(t.toastTextCopied);
@@ -426,29 +483,29 @@ export default function Home() {
       exportMode === "text-only"
         ? storyMode === "scene-sequence"
           ? storyCards.length === 0
-            ? "(이야기가 없습니다)"
+            ? t.noStory
             : storyCards
                 .map(
                   (card, i) =>
-                    `장면 ${i + 1} (${card.imageInfo.name}): ${sceneTexts[card.id] || "(내용 없음)"}`,
+                    `${t.scenePrefix} ${i + 1} (${card.imageInfo.name}): ${sceneTexts[card.id] || t.noSceneText}`,
                 )
                 .join("\n")
-          : storyText || "(이야기가 없습니다)"
+          : storyText || t.noStory
         : [
-            "[ 나의 디디씨 이야기 장면 ]",
-            storyCards.map((c, i) => `장면 ${i + 1}: ${c.imageInfo.name}`).join("\n"),
+            t.exportSceneTitle,
+            storyCards.map((c, i) => `${t.scenePrefix} ${i + 1}: ${c.imageInfo.name}`).join("\n"),
             "",
-            "[ 이야기 내용 ]",
+            t.exportContentTitle,
             storyMode === "scene-sequence"
               ? storyCards.length === 0
-                ? "(이야기가 없습니다)"
+                ? t.noStory
                 : storyCards
                     .map(
                       (card, i) =>
-                        `장면 ${i + 1} (${card.imageInfo.name}): ${sceneTexts[card.id] || "(내용 없음)"}`,
+                        `${t.scenePrefix} ${i + 1} (${card.imageInfo.name}): ${sceneTexts[card.id] || t.noSceneText}`,
                     )
                     .join("\n")
-              : storyText || "(이야기가 없습니다)",
+              : storyText || t.noStory,
           ].join("\n");
 
     const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
@@ -494,7 +551,7 @@ export default function Home() {
       <header className="pt-6 pb-4 md:pt-8 md:pb-6 px-3 md:px-8 flex flex-col items-center justify-center shrink-0 relative">
         <div className="absolute top-4 right-3 md:top-6 md:right-8 flex items-center gap-1.5 z-20">
           <div ref={dataMenuRef} className="relative">
-            <button onClick={() => setDataMenuOpen((v) => !v)} data-export-hidden aria-label={t.data} className="p-2 rounded-full bg-white shadow">
+            <button onClick={() => setDataMenuOpen((v) => !v)} data-export-hidden aria-label={t.data} className="h-10 w-10 rounded-xl border border-border bg-white text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 flex items-center justify-center">
               <span className="material-icons-round text-lg">save</span>
             </button>
             {dataMenuOpen && (
@@ -505,7 +562,7 @@ export default function Home() {
             )}
           </div>
           <div ref={langMenuRef} className="relative">
-            <button onClick={() => setLangMenuOpen((v) => !v)} data-export-hidden aria-label={t.language} className="p-2 rounded-full bg-white shadow">
+            <button onClick={() => setLangMenuOpen((v) => !v)} data-export-hidden aria-label={t.language} className="h-10 w-10 rounded-xl border border-border bg-white text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 flex items-center justify-center">
               <span className="material-icons-round text-lg">language</span>
             </button>
             {langMenuOpen && (
@@ -516,7 +573,7 @@ export default function Home() {
               </div>
             )}
           </div>
-          <button onClick={() => setHelpOpen(true)} data-export-hidden aria-label={t.help} className="p-2 rounded-full bg-white shadow">
+          <button onClick={() => setHelpOpen(true)} data-export-hidden aria-label={t.help} className="h-10 w-10 rounded-xl border border-border bg-white text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 flex items-center justify-center">
             <span className="material-icons-round text-lg">help</span>
           </button>
         </div>
@@ -574,7 +631,7 @@ export default function Home() {
                 `}
               >
                 <span className="material-icons-round text-base md:text-xl leading-none">{icon}</span>
-                {cat}
+                {t.categoryLabels[cat]}
               </button>
             );
           })}
@@ -612,15 +669,17 @@ export default function Home() {
       {/* Storyboard Section */}
       <section className="flex-1 px-3 md:px-8 pb-4 max-w-7xl mx-auto w-full flex flex-col gap-3 md:gap-4">
 
-        <div className="flex items-center gap-2 md:gap-3 ml-1">
-          <div className="bg-accent text-accent-foreground p-1.5 md:p-2 rounded-full shadow-sm">
+        <div className="flex items-start md:items-center justify-between gap-3 md:gap-4 ml-1">
+          <div className="flex items-center gap-2 md:gap-3 min-w-0">
+            <div className="bg-accent text-accent-foreground p-1.5 md:p-2 rounded-full shadow-sm shrink-0">
             <span className="material-icons-round text-xl md:text-2xl block">auto_stories</span>
-          </div>
-          <div className="flex-1 flex flex-col gap-2 md:gap-3">
-            <h2 className="text-2xl md:text-3xl font-black text-foreground drop-shadow-sm">
+            </div>
+            <h2 className="text-2xl md:text-3xl font-black text-foreground drop-shadow-sm truncate">
               {t.myStory}
             </h2>
-            <div className="flex gap-1.5 bg-secondary rounded-xl md:rounded-2xl p-1 w-full max-w-md">
+          </div>
+          <div className="w-full md:w-auto flex flex-col md:flex-row md:items-center gap-2">
+            <div className="flex gap-1.5 bg-secondary rounded-xl md:rounded-2xl p-1 w-full md:w-auto md:min-w-[280px]">
               {([
                 ["free-write", t.basicMode] as const,
                 ["scene-sequence", t.sceneMode] as const,
@@ -638,6 +697,14 @@ export default function Home() {
                 </button>
               ))}
             </div>
+            <button
+              type="button"
+              onClick={handleResetStory}
+              data-export-hidden
+              className="h-10 px-4 rounded-xl border border-border bg-white text-sm font-bold text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+            >
+              {t.reset}
+            </button>
           </div>
         </div>
 
@@ -765,10 +832,10 @@ export default function Home() {
           className="inline-flex items-center gap-1.5 text-xs md:text-sm font-semibold text-muted-foreground/60 hover:text-primary transition-colors duration-200 underline-offset-4 hover:underline"
         >
           <span className="material-icons-round text-sm md:text-base">favorite</span>
-          Created by. 교육뮤지컬 꿈꾸는 치수쌤
+          {t.footerCreatedBy}
         </a>
         <p className="text-[11px] md:text-xs text-muted-foreground/40 leading-relaxed">
-          캐릭터 이미지 출처:{" "}
+          {t.footerSourceLabel}{" "}
           <a
             href="https://www.ddc.go.kr/ddc/contents.do?key=76"
             target="_blank"
@@ -789,7 +856,7 @@ export default function Home() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 10 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="bg-white rounded-2xl md:rounded-3xl shadow-2xl border-2 border-border/40 p-4 md:p-5 w-[calc(100vw-2rem)] max-w-[17rem] flex flex-col gap-3 md:gap-4"
+              className="bg-white rounded-2xl md:rounded-3xl shadow-2xl border-2 border-border/40 p-4 md:p-5 w-[calc(100vw-2rem)] max-w-[20rem] flex flex-col gap-3 md:gap-4"
             >
               <div className="flex items-center justify-between">
                 <span className="font-black text-base md:text-lg text-foreground">{t.export}</span>
@@ -799,12 +866,12 @@ export default function Home() {
               </div>
 
               {/* Mode Toggle */}
-              <div className="flex gap-1.5 bg-secondary rounded-xl md:rounded-2xl p-1">
+              <div className="grid grid-cols-2 gap-1.5 bg-secondary rounded-xl md:rounded-2xl p-1">
                 {(["image-text", "text-only"] as ExportMode[]).map((mode) => (
                   <button
                     key={mode}
                     onClick={() => setExportMode(mode)}
-                    className={`flex-1 py-2 px-2 rounded-lg md:rounded-xl text-[11px] md:text-sm font-bold whitespace-nowrap leading-tight transition-all duration-200 ${
+                    className={`min-w-0 py-2 px-2 rounded-lg md:rounded-xl text-[11px] md:text-sm font-bold leading-tight text-center break-words transition-all duration-200 ${
                       exportMode === mode
                         ? "bg-white text-foreground shadow-sm"
                         : "text-muted-foreground"

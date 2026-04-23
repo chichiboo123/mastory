@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toJpeg, toBlob } from "html-to-image";
 import ddcImage from "@assets/cnt_76_DDC_1776911486802.png";
@@ -289,6 +289,19 @@ export default function Home() {
     };
     reader.readAsText(file);
   };
+
+  const selectedScene = storyCards.find((card) => card.id === selectedSceneId) ?? null;
+
+  useEffect(() => {
+    if (storyMode !== "scene-sequence") return;
+    if (storyCards.length === 0) {
+      setSelectedSceneId(null);
+      return;
+    }
+    if (!selectedSceneId || !storyCards.some((card) => card.id === selectedSceneId)) {
+      setSelectedSceneId(storyCards[0].id);
+    }
+  }, [storyMode, storyCards, selectedSceneId]);
 
   const htmlToImageOptions = {
     backgroundColor: "#fffdf0",

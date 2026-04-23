@@ -116,7 +116,7 @@ type Language = "ko" | "en" | "ja";
 const I18N = {
   ko: {
     title: "마스토리",
-    subtitle: "디디씨와 함께 나만의 동화책을 만들어보아요!",
+    subtitle: "디디씨와 함께 나만의 이야기를 만들어보아요!",
     myStory: "나의 이야기",
     basicMode: "기본",
     sceneMode: "장면별",
@@ -290,6 +290,51 @@ const I18N = {
   },
 } as const;
 
+const CHARACTER_NAME_I18N: Record<string, Record<Language, string>> = {
+  "basic-1": { ko: "디디씨", en: "DDC", ja: "DDC" },
+  "emotion-1": { ko: "행복", en: "Happy", ja: "幸せ" },
+  "emotion-2": { ko: "삐짐", en: "Pouting", ja: "すねる" },
+  "emotion-3": { ko: "슬픔", en: "Sad", ja: "悲しい" },
+  "emotion-4": { ko: "죄송", en: "Sorry", ja: "ごめんなさい" },
+  "emotion-5": { ko: "부끄러움", en: "Shy", ja: "恥ずかしい" },
+  "emotion-6": { ko: "사랑", en: "Love", ja: "愛" },
+  "emotion-7": { ko: "축하", en: "Congrats", ja: "お祝い" },
+  "emotion-8": { ko: "감사", en: "Thanks", ja: "感謝" },
+  "emotion-9": { ko: "놀람", en: "Surprised", ja: "びっくり" },
+  "emotion-10": { ko: "응원(화이팅)", en: "Cheering", ja: "応援(ファイト)" },
+  "action-1": { ko: "안녕", en: "Hello", ja: "こんにちは" },
+  "action-2": { ko: "안내(공지)", en: "Notice", ja: "お知らせ" },
+  "action-3": { ko: "축제", en: "Festival", ja: "お祭り" },
+  "action-4": { ko: "관광(여행)", en: "Travel", ja: "観光(旅行)" },
+  "action-5": { ko: "환영(어서오세요)", en: "Welcome", ja: "歓迎(ようこそ)" },
+  "action-6": { ko: "안전제일", en: "Safety First", ja: "安全第一" },
+  "action-7": { ko: "금지", en: "No", ja: "禁止" },
+  "action-8": { ko: "교육", en: "Education", ja: "教育" },
+  "action-9": { ko: "새해", en: "New Year", ja: "新年" },
+  "action-10": { ko: "추석", en: "Chuseok", ja: "秋夕" },
+  "action-11": { ko: "분리수거", en: "Recycling", ja: "分別収集" },
+  "action-12": { ko: "힐링", en: "Healing", ja: "癒し" },
+  "action-13": { ko: "진료(의사)", en: "Medical Care", ja: "診療(医師)" },
+  "action-14": { ko: "손씻기", en: "Wash Hands", ja: "手洗い" },
+  "action-15": { ko: "운동", en: "Exercise", ja: "運動" },
+  "emoji-1": { ko: "굿모닝", en: "Good Morning", ja: "おはよう" },
+  "emoji-2": { ko: "배고파", en: "Hungry", ja: "お腹すいた" },
+  "emoji-3": { ko: "좋아(OK!)", en: "Okay!", ja: "いいね(OK!)" },
+  "emoji-4": { ko: "싫어(단호)", en: "Nope", ja: "イヤ(きっぱり)" },
+  "emoji-5": { ko: "부끄부끄", en: "Blushing", ja: "テレテレ" },
+  "emoji-6": { ko: "당황", en: "Flustered", ja: "あわてる" },
+  "emoji-7": { ko: "휴식(힐링)", en: "Rest", ja: "休憩(癒し)" },
+  "emoji-8": { ko: "가는중", en: "On My Way", ja: "向かってる" },
+  "emoji-9": { ko: "ㅋㅋㅋ", en: "LOL", ja: "www" },
+  "emoji-10": { ko: "뭐해", en: "What are you doing?", ja: "何してる？" },
+  "emoji-11": { ko: "바쁨", en: "Busy", ja: "忙しい" },
+  "emoji-12": { ko: "심쿵", en: "Heart Flutter", ja: "ドキドキ" },
+  "emoji-13": { ko: "잘자", en: "Good Night", ja: "おやすみ" },
+  "emoji-14": { ko: "슬퍼(폭풍눈물)", en: "Crying", ja: "悲しい(号泣)" },
+  "emoji-15": { ko: "연락해", en: "Call Me", ja: "連絡して" },
+  "emoji-16": { ko: "감동", en: "Touched", ja: "感動" },
+};
+
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<Category>("기본형");
   const [storyCards, setStoryCards] = useState<StoryCard[]>([]);
@@ -311,6 +356,8 @@ export default function Home() {
   const dataMenuRef = useRef<HTMLDivElement>(null);
   const langMenuRef = useRef<HTMLDivElement>(null);
   const t = I18N[language];
+  const getCharacterName = (character: CharacterData) =>
+    CHARACTER_NAME_I18N[character.id]?.[language] ?? character.name;
 
   const filteredImages = CHARACTER_DATA.filter((c) => c.category === activeCategory);
 
@@ -425,7 +472,7 @@ export default function Home() {
             : storyCards
                 .map(
                   (card, i) =>
-                    `${t.scenePrefix} ${i + 1} (${card.imageInfo.name}): ${sceneTexts[card.id] || t.noSceneText}`,
+                    `${t.scenePrefix} ${i + 1} (${getCharacterName(card.imageInfo)}): ${sceneTexts[card.id] || t.noSceneText}`,
                 )
                 .join("\n")
           : storyText || t.noStory;
@@ -487,13 +534,13 @@ export default function Home() {
             : storyCards
                 .map(
                   (card, i) =>
-                    `${t.scenePrefix} ${i + 1} (${card.imageInfo.name}): ${sceneTexts[card.id] || t.noSceneText}`,
+                    `${t.scenePrefix} ${i + 1} (${getCharacterName(card.imageInfo)}): ${sceneTexts[card.id] || t.noSceneText}`,
                 )
                 .join("\n")
           : storyText || t.noStory
         : [
             t.exportSceneTitle,
-            storyCards.map((c, i) => `${t.scenePrefix} ${i + 1}: ${c.imageInfo.name}`).join("\n"),
+            storyCards.map((c, i) => `${t.scenePrefix} ${i + 1}: ${getCharacterName(c.imageInfo)}`).join("\n"),
             "",
             t.exportContentTitle,
             storyMode === "scene-sequence"
@@ -502,7 +549,7 @@ export default function Home() {
                 : storyCards
                     .map(
                       (card, i) =>
-                        `${t.scenePrefix} ${i + 1} (${card.imageInfo.name}): ${sceneTexts[card.id] || t.noSceneText}`,
+                        `${t.scenePrefix} ${i + 1} (${getCharacterName(card.imageInfo)}): ${sceneTexts[card.id] || t.noSceneText}`,
                     )
                     .join("\n")
               : storyText || t.noStory,
@@ -641,7 +688,11 @@ export default function Home() {
         <div className="bg-white/60 p-3 md:p-6 rounded-2xl md:rounded-3xl border-4 border-white shadow-sm">
           <div
             data-testid="gallery-grid"
-            className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 md:gap-4 overflow-y-auto max-h-[240px] md:max-h-[300px] p-1 md:p-2 custom-scrollbar"
+            className={`grid gap-2 md:gap-4 p-1 md:p-2 custom-scrollbar ${
+              activeCategory === "기본형"
+                ? "grid-cols-1 place-items-center max-w-[220px] mx-auto"
+                : "grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6"
+            }`}
           >
             {filteredImages.map((char) => (
               <button
@@ -653,12 +704,12 @@ export default function Home() {
                 <div className="w-full aspect-square flex items-center justify-center bg-secondary/50 rounded-lg md:rounded-xl overflow-hidden group-hover:bg-primary/10 transition-colors">
                   <img
                     src={char.image}
-                    alt={char.name}
+                    alt={getCharacterName(char)}
                     className="w-full h-full object-contain object-center drop-shadow-sm"
                   />
                 </div>
                 <span className="text-[11px] md:text-sm font-bold text-foreground text-center truncate w-full leading-tight">
-                  {char.name}
+                  {getCharacterName(char)}
                 </span>
               </button>
             ))}
@@ -756,10 +807,10 @@ export default function Home() {
                           <span className="material-icons-round text-sm md:text-base">close</span>
                         </button>
                         <div className="h-[110px] md:h-[150px] flex items-center justify-center bg-gradient-to-b from-transparent to-secondary/30 rounded-lg md:rounded-xl p-1.5 md:p-2">
-                          <img src={card.imageInfo.image} alt={card.imageInfo.name} className="w-full h-full object-contain drop-shadow-md" />
+                          <img src={card.imageInfo.image} alt={getCharacterName(card.imageInfo)} className="w-full h-full object-contain drop-shadow-md" />
                         </div>
                         <div className="bg-secondary/70 text-secondary-foreground/80 px-2 py-0.5 md:py-1 rounded-full text-[10px] md:text-xs font-bold text-center truncate">
-                          {card.imageInfo.name}
+                          {getCharacterName(card.imageInfo)}
                         </div>
                       </div>
                     </motion.div>
@@ -784,14 +835,14 @@ export default function Home() {
                       </div>
                       <button data-export-hidden onClick={() => handleRemoveCard(card.id)} className="absolute top-1 right-1 bg-destructive text-destructive-foreground w-6 h-6 rounded-full shadow flex items-center justify-center"><span className="material-icons-round text-sm">close</span></button>
                       <div className="h-[90px] md:h-[120px] flex items-center justify-center bg-secondary/30 rounded-lg p-1 mt-4">
-                        <img src={card.imageInfo.image} alt={card.imageInfo.name} className="w-full h-full object-contain" />
+                        <img src={card.imageInfo.image} alt={getCharacterName(card.imageInfo)} className="w-full h-full object-contain" />
                       </div>
-                      <div className="text-center text-xs md:text-sm font-bold">{card.imageInfo.name}</div>
+                      <div className="text-center text-xs md:text-sm font-bold">{getCharacterName(card.imageInfo)}</div>
                     </div>
                     <textarea
                       value={sceneTexts[card.id] || ""}
                       onChange={(e) => setSceneTexts((prev) => ({ ...prev, [card.id]: e.target.value }))}
-                      placeholder={`${card.imageInfo.name} ${t.writeStory}`}
+                      placeholder={`${getCharacterName(card.imageInfo)} ${t.writeStory}`}
                       className="w-full min-h-[140px] md:min-h-[170px] resize-none bg-background/50 border-2 border-secondary rounded-xl md:rounded-2xl p-3 md:p-4 text-base md:text-lg font-medium text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all custom-scrollbar leading-relaxed"
                     />
                   </div>

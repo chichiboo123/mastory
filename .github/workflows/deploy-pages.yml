@@ -43,17 +43,7 @@ jobs:
 
       - name: Compute BASE_PATH
         id: base-path
-        run: |
-          REPO_NAME="${GITHUB_REPOSITORY#*/}"
-          if [ -f "artifacts/mastory/public/CNAME" ]; then
-            echo "value=/" >> "$GITHUB_OUTPUT"
-          elif [ -n "${{ vars.PAGES_CUSTOM_DOMAIN }}" ]; then
-            echo "value=/" >> "$GITHUB_OUTPUT"
-          elif [ "$REPO_NAME" = "${GITHUB_ACTOR}.github.io" ]; then
-            echo "value=/" >> "$GITHUB_OUTPUT"
-          else
-            echo "value=/${REPO_NAME}/" >> "$GITHUB_OUTPUT"
-          fi
+        run: echo "value=./" >> "$GITHUB_OUTPUT"
 
       - name: Build static files
         env:

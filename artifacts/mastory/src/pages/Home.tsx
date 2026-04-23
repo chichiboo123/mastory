@@ -227,23 +227,26 @@ export default function Home() {
     <div className="min-h-[100dvh] bg-background text-foreground flex flex-col font-sans selection:bg-primary/30">
 
       {/* Header */}
-      <header className="pt-8 pb-6 px-4 md:px-8 flex flex-col items-center justify-center shrink-0">
-        <div className="flex items-center gap-4 mb-2">
-          <img src={ddcImage} alt="디디씨" className="w-16 h-16 object-contain drop-shadow-sm" />
-          <h1 style={{ fontFamily: "'Black Han Sans', sans-serif" }}
-            className="text-4xl md:text-5xl text-primary drop-shadow-sm tracking-tight">
+      <header className="pt-6 pb-4 md:pt-8 md:pb-6 px-3 md:px-8 flex flex-col items-center justify-center shrink-0">
+        <div className="flex items-center gap-3 md:gap-4 mb-1 md:mb-2">
+          <img src={ddcImage} alt="디디씨" className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-sm" />
+          <h1
+            style={{ fontFamily: "'Black Han Sans', sans-serif" }}
+            className="text-3xl md:text-5xl text-primary drop-shadow-sm tracking-tight"
+          >
             마스토리
           </h1>
         </div>
-        <p className="text-lg md:text-xl font-bold text-muted-foreground/80">
+        <p className="text-sm md:text-xl font-bold text-muted-foreground/80 text-center px-4">
           디디씨와 함께 나만의 동화책을 만들어보아요!
         </p>
       </header>
 
       {/* Gallery Section */}
-      <section className="px-4 md:px-8 max-w-7xl mx-auto w-full shrink-0 flex flex-col gap-4 mb-8">
+      <section className="px-3 md:px-8 max-w-7xl mx-auto w-full shrink-0 flex flex-col gap-3 md:gap-4 mb-5 md:mb-8">
+
         {/* Category Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">
+        <div className="flex items-center justify-center gap-1.5 md:gap-3 flex-wrap">
           {CATEGORIES.map((cat) => {
             let icon = "sentiment_satisfied_alt";
             if (cat === "기본형") icon = "emoji_people";
@@ -256,14 +259,17 @@ export default function Home() {
                 data-testid={`tab-${cat}`}
                 onClick={() => setActiveCategory(cat)}
                 className={`
-                  flex items-center gap-2 px-5 py-3 rounded-full text-base font-bold transition-all duration-200
+                  flex items-center gap-1.5 md:gap-2
+                  px-3 py-2 md:px-5 md:py-3
+                  rounded-full text-xs md:text-base font-bold
+                  transition-all duration-200 touch-manipulation
                   ${isActive
                     ? "bg-primary text-primary-foreground shadow-md shadow-primary/20 scale-105"
-                    : "bg-white text-muted-foreground hover:bg-secondary border-2 border-transparent hover:border-primary/20 hover:scale-105"
+                    : "bg-white text-muted-foreground border-2 border-transparent active:bg-secondary"
                   }
                 `}
               >
-                <span className="material-icons-round text-xl">{icon}</span>
+                <span className="material-icons-round text-base md:text-xl leading-none">{icon}</span>
                 {cat}
               </button>
             );
@@ -271,26 +277,26 @@ export default function Home() {
         </div>
 
         {/* Gallery Grid */}
-        <div className="bg-white/60 p-4 md:p-6 rounded-3xl border-4 border-white shadow-sm">
+        <div className="bg-white/60 p-3 md:p-6 rounded-2xl md:rounded-3xl border-4 border-white shadow-sm">
           <div
             data-testid="gallery-grid"
-            className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 md:gap-4 overflow-y-auto max-h-[300px] p-2 custom-scrollbar"
+            className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2 md:gap-4 overflow-y-auto max-h-[240px] md:max-h-[300px] p-1 md:p-2 custom-scrollbar"
           >
             {filteredImages.map((char) => (
               <button
                 key={char.id}
                 data-testid={`image-card-${char.id}`}
                 onClick={() => handleAddCard(char)}
-                className="group flex flex-col items-center gap-2 bg-white p-3 rounded-2xl border-2 border-transparent hover:border-primary/50 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105 hover:-translate-y-1"
+                className="group flex flex-col items-center gap-1.5 md:gap-2 bg-white p-2 md:p-3 rounded-xl md:rounded-2xl border-2 border-transparent active:border-primary/50 shadow-sm active:shadow-md transition-all duration-150 touch-manipulation active:scale-95"
               >
-                <div className="w-20 h-20 md:w-24 md:h-24 flex items-center justify-center bg-secondary/50 rounded-xl overflow-hidden group-hover:bg-primary/10 transition-colors">
+                <div className="w-full aspect-square flex items-center justify-center bg-secondary/50 rounded-lg md:rounded-xl overflow-hidden group-hover:bg-primary/10 transition-colors">
                   <img
                     src={char.image}
                     alt={char.name}
-                    className="w-full h-full object-contain object-center drop-shadow-sm group-hover:scale-110 transition-transform duration-300"
+                    className="w-full h-full object-contain object-center drop-shadow-sm"
                   />
                 </div>
-                <span className="text-sm font-bold text-foreground text-center truncate w-full px-1">
+                <span className="text-[11px] md:text-sm font-bold text-foreground text-center truncate w-full leading-tight">
                   {char.name}
                 </span>
               </button>
@@ -300,29 +306,31 @@ export default function Home() {
       </section>
 
       {/* Storyboard Section */}
-      <section className="flex-1 px-4 md:px-8 pb-4 max-w-7xl mx-auto w-full flex flex-col gap-4">
-        <div className="flex items-center gap-3 ml-2">
-          <div className="bg-accent text-accent-foreground p-2 rounded-full shadow-sm">
-            <span className="material-icons-round text-2xl block">auto_stories</span>
+      <section className="flex-1 px-3 md:px-8 pb-4 max-w-7xl mx-auto w-full flex flex-col gap-3 md:gap-4">
+
+        <div className="flex items-center gap-2 md:gap-3 ml-1">
+          <div className="bg-accent text-accent-foreground p-1.5 md:p-2 rounded-full shadow-sm">
+            <span className="material-icons-round text-xl md:text-2xl block">auto_stories</span>
           </div>
-          <h2 className="text-3xl font-black text-foreground drop-shadow-sm">
+          <h2 className="text-2xl md:text-3xl font-black text-foreground drop-shadow-sm">
             나의 이야기
           </h2>
         </div>
 
-        {/* Export area wrapper — only this gets captured */}
-        <div ref={exportAreaRef} className="flex flex-col gap-4 bg-background p-2 rounded-2xl">
+        {/* Export area wrapper — captured for image export */}
+        <div ref={exportAreaRef} className="flex flex-col gap-3 md:gap-4 bg-background p-1.5 md:p-2 rounded-2xl">
+
           {/* Story Cards Row */}
-          <div className="bg-white/80 rounded-3xl border-4 border-white shadow-md p-6 relative overflow-hidden">
+          <div className="bg-white/80 rounded-2xl md:rounded-3xl border-4 border-white shadow-md p-4 md:p-6 relative overflow-hidden">
             {storyCards.length === 0 ? (
-              <div className="flex flex-col items-center justify-center text-center gap-6 py-10 animate-in fade-in zoom-in duration-500">
+              <div className="flex flex-col items-center justify-center text-center gap-4 md:gap-6 py-6 md:py-10 animate-in fade-in zoom-in duration-500">
                 <div className="relative">
                   <div className="absolute -inset-4 bg-accent/20 rounded-full blur-2xl"></div>
-                  <img src={ddcImage} alt="비어있음" className="w-28 h-28 object-contain opacity-80 relative z-10 animate-pulse" />
+                  <img src={ddcImage} alt="비어있음" className="w-20 h-20 md:w-28 md:h-28 object-contain opacity-80 relative z-10 animate-pulse" />
                 </div>
-                <div className="space-y-2">
-                  <h3 className="text-2xl font-bold text-muted-foreground">아직 이야기가 없어요!</h3>
-                  <p className="text-lg text-muted-foreground/80 font-medium">
+                <div className="space-y-1 md:space-y-2">
+                  <h3 className="text-lg md:text-2xl font-bold text-muted-foreground">아직 이야기가 없어요!</h3>
+                  <p className="text-sm md:text-lg text-muted-foreground/80 font-medium">
                     위에서 마음에 드는 디디씨를 눌러서<br />
                     첫 번째 장면을 만들어보세요.
                   </p>
@@ -332,7 +340,7 @@ export default function Home() {
               <div
                 id="storyboard-container"
                 data-testid="storyboard-area"
-                className="flex flex-row gap-5 overflow-x-auto pb-3 pt-1 px-1 custom-scrollbar snap-x"
+                className="flex flex-row gap-3 md:gap-5 overflow-x-auto pb-3 pt-1 px-1 custom-scrollbar snap-x"
               >
                 <AnimatePresence mode="popLayout">
                   {storyCards.map((card) => (
@@ -343,28 +351,28 @@ export default function Home() {
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.8, y: -20 }}
                       transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                      className="shrink-0 w-[160px] md:w-[180px] snap-center"
+                      className="shrink-0 w-[130px] md:w-[180px] snap-center"
                     >
                       <div
                         data-testid={`story-card-${card.id}`}
-                        className="bg-white rounded-2xl p-3 shadow-md border border-border/50 flex flex-col gap-2 relative group"
+                        className="bg-white rounded-xl md:rounded-2xl p-2.5 md:p-3 shadow-md border border-border/50 flex flex-col gap-1.5 md:gap-2 relative group"
                       >
                         <button
                           data-testid={`delete-card-${card.id}`}
                           onClick={() => handleRemoveCard(card.id)}
-                          className="absolute -top-2.5 -right-2.5 bg-destructive text-destructive-foreground w-8 h-8 rounded-full shadow-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all md:opacity-0 md:group-hover:opacity-100 z-10"
+                          className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground w-7 h-7 md:w-8 md:h-8 rounded-full shadow-md flex items-center justify-center active:scale-95 transition-all z-10"
                           title="장면 삭제하기"
                         >
-                          <span className="material-icons-round text-base">delete_forever</span>
+                          <span className="material-icons-round text-sm md:text-base">close</span>
                         </button>
-                        <div className="h-[130px] md:h-[150px] flex items-center justify-center bg-gradient-to-b from-transparent to-secondary/30 rounded-xl p-2">
+                        <div className="h-[110px] md:h-[150px] flex items-center justify-center bg-gradient-to-b from-transparent to-secondary/30 rounded-lg md:rounded-xl p-1.5 md:p-2">
                           <img
                             src={card.imageInfo.image}
                             alt={card.imageInfo.name}
                             className="w-full h-full object-contain drop-shadow-md"
                           />
                         </div>
-                        <div className="bg-secondary/70 text-secondary-foreground/80 px-2 py-1 rounded-full text-xs font-bold text-center truncate">
+                        <div className="bg-secondary/70 text-secondary-foreground/80 px-2 py-0.5 md:py-1 rounded-full text-[10px] md:text-xs font-bold text-center truncate">
                           {card.imageInfo.name}
                         </div>
                       </div>
@@ -376,34 +384,34 @@ export default function Home() {
           </div>
 
           {/* Shared Story Textarea */}
-          <div className="bg-white/80 rounded-3xl border-4 border-white shadow-md p-5 flex flex-col gap-3">
+          <div className="bg-white/80 rounded-2xl md:rounded-3xl border-4 border-white shadow-md p-4 md:p-5 flex flex-col gap-2 md:gap-3">
             <div className="flex items-center gap-2">
-              <span className="material-icons-round text-primary text-xl">edit_note</span>
-              <span className="font-bold text-base text-foreground/80">이야기를 써봐요!</span>
+              <span className="material-icons-round text-primary text-lg md:text-xl">edit_note</span>
+              <span className="font-bold text-sm md:text-base text-foreground/80">이야기를 써봐요!</span>
             </div>
             <textarea
               data-testid="story-textarea"
               value={storyText}
               onChange={(e) => setStoryText(e.target.value)}
               placeholder="디디씨와 함께하는 나만의 이야기를 여기에 써봐요!"
-              className="w-full min-h-[140px] resize-none bg-background/50 border-2 border-secondary rounded-2xl p-4 text-lg font-medium text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all custom-scrollbar leading-relaxed"
+              className="w-full min-h-[120px] md:min-h-[140px] resize-none bg-background/50 border-2 border-secondary rounded-xl md:rounded-2xl p-3 md:p-4 text-base md:text-lg font-medium text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all custom-scrollbar leading-relaxed"
             />
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-6 px-4 text-center shrink-0 flex flex-col items-center gap-2">
+      <footer className="py-5 px-4 text-center shrink-0 flex flex-col items-center gap-1.5 md:gap-2 pb-24 md:pb-6">
         <a
           href="https://litt.ly/chichiboo"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground/60 hover:text-primary transition-colors duration-200 underline-offset-4 hover:underline"
+          className="inline-flex items-center gap-1.5 text-xs md:text-sm font-semibold text-muted-foreground/60 hover:text-primary transition-colors duration-200 underline-offset-4 hover:underline"
         >
-          <span className="material-icons-round text-base">favorite</span>
+          <span className="material-icons-round text-sm md:text-base">favorite</span>
           Created by. 교육뮤지컬 꿈꾸는 치수쌤
         </a>
-        <p className="text-xs text-muted-foreground/40 leading-relaxed">
+        <p className="text-[11px] md:text-xs text-muted-foreground/40 leading-relaxed">
           캐릭터 이미지 출처:{" "}
           <a
             href="https://www.ddc.go.kr/ddc/contents.do?key=76"
@@ -417,8 +425,7 @@ export default function Home() {
       </footer>
 
       {/* Floating Export Button */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
-        {/* Export Panel */}
+      <div className="fixed bottom-5 right-4 md:bottom-6 md:right-6 z-50 flex flex-col items-end gap-3">
         <AnimatePresence>
           {exportOpen && (
             <motion.div
@@ -426,25 +433,25 @@ export default function Home() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 10 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="bg-white rounded-3xl shadow-2xl border-2 border-border/40 p-5 w-72 flex flex-col gap-4"
+              className="bg-white rounded-2xl md:rounded-3xl shadow-2xl border-2 border-border/40 p-4 md:p-5 w-[calc(100vw-2rem)] max-w-[17rem] flex flex-col gap-3 md:gap-4"
             >
               <div className="flex items-center justify-between">
-                <span className="font-black text-lg text-foreground">내보내기</span>
-                <button onClick={() => setExportOpen(false)} className="text-muted-foreground hover:text-foreground transition-colors">
+                <span className="font-black text-base md:text-lg text-foreground">내보내기</span>
+                <button onClick={() => setExportOpen(false)} className="text-muted-foreground hover:text-foreground transition-colors p-1">
                   <span className="material-icons-round text-xl">close</span>
                 </button>
               </div>
 
               {/* Mode Toggle */}
-              <div className="flex gap-2 bg-secondary rounded-2xl p-1">
+              <div className="flex gap-1.5 bg-secondary rounded-xl md:rounded-2xl p-1">
                 {(["image-text", "text-only"] as ExportMode[]).map((mode) => (
                   <button
                     key={mode}
                     onClick={() => setExportMode(mode)}
-                    className={`flex-1 py-2 px-3 rounded-xl text-sm font-bold transition-all duration-200 ${
+                    className={`flex-1 py-2 px-2 rounded-lg md:rounded-xl text-xs md:text-sm font-bold transition-all duration-200 ${
                       exportMode === mode
                         ? "bg-white text-foreground shadow-sm"
-                        : "text-muted-foreground hover:text-foreground"
+                        : "text-muted-foreground"
                     }`}
                   >
                     {mode === "image-text" ? "🖼️ 이미지+텍스트" : "📝 텍스트만"}
@@ -453,34 +460,31 @@ export default function Home() {
               </div>
 
               <div className="flex flex-col gap-2">
-                {/* Clipboard */}
                 <button
                   onClick={handleCopyClipboard}
                   disabled={exporting}
-                  className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-secondary hover:bg-primary/10 text-foreground font-bold text-sm transition-all duration-200 disabled:opacity-50 text-left"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl md:rounded-2xl bg-secondary active:bg-primary/10 text-foreground font-bold text-sm transition-all duration-150 disabled:opacity-50 text-left touch-manipulation"
                 >
-                  <span className="material-icons-round text-primary">content_copy</span>
+                  <span className="material-icons-round text-primary text-xl">content_copy</span>
                   클립보드에 복사
                 </button>
 
-                {/* JPG — only for image+text */}
                 {exportMode === "image-text" && (
                   <button
                     onClick={handleDownloadJpg}
                     disabled={exporting}
-                    className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-secondary hover:bg-primary/10 text-foreground font-bold text-sm transition-all duration-200 disabled:opacity-50 text-left"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl md:rounded-2xl bg-secondary active:bg-primary/10 text-foreground font-bold text-sm transition-all duration-150 disabled:opacity-50 text-left touch-manipulation"
                   >
-                    <span className="material-icons-round text-primary">image</span>
+                    <span className="material-icons-round text-primary text-xl">image</span>
                     JPG 파일 다운로드
                   </button>
                 )}
 
-                {/* TXT */}
                 <button
                   onClick={handleDownloadTxt}
-                  className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-secondary hover:bg-primary/10 text-foreground font-bold text-sm transition-all duration-200 text-left"
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl md:rounded-2xl bg-secondary active:bg-primary/10 text-foreground font-bold text-sm transition-all duration-150 text-left touch-manipulation"
                 >
-                  <span className="material-icons-round text-primary">description</span>
+                  <span className="material-icons-round text-primary text-xl">description</span>
                   TXT 파일 다운로드
                 </button>
               </div>
@@ -498,12 +502,11 @@ export default function Home() {
         {/* FAB */}
         <motion.button
           onClick={() => setExportOpen((o) => !o)}
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.95 }}
-          className="w-16 h-16 rounded-full bg-primary text-primary-foreground shadow-xl shadow-primary/30 flex items-center justify-center hover:shadow-2xl transition-shadow"
+          whileTap={{ scale: 0.92 }}
+          className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-primary text-primary-foreground shadow-xl shadow-primary/30 flex items-center justify-center touch-manipulation"
           title="내보내기"
         >
-          <span className="material-icons-round text-3xl">
+          <span className="material-icons-round text-2xl md:text-3xl">
             {exportOpen ? "close" : "ios_share"}
           </span>
         </motion.button>
@@ -516,7 +519,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className={`fixed bottom-28 right-6 z-50 px-5 py-3 rounded-2xl shadow-lg font-bold text-sm flex items-center gap-2 ${
+            className={`fixed bottom-24 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-6 z-50 px-4 py-3 rounded-2xl shadow-lg font-bold text-sm flex items-center gap-2 whitespace-nowrap ${
               toast.type === "error"
                 ? "bg-destructive text-destructive-foreground"
                 : "bg-foreground text-background"
@@ -531,10 +534,13 @@ export default function Home() {
       </AnimatePresence>
 
       <style>{`
-        .custom-scrollbar::-webkit-scrollbar { height: 12px; width: 12px; }
+        .custom-scrollbar::-webkit-scrollbar { height: 8px; width: 8px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: hsl(var(--secondary)); border-radius: 100px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: hsl(var(--primary) / 0.5); border-radius: 100px; border: 3px solid hsl(var(--secondary)); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: hsl(var(--primary) / 0.5); border-radius: 100px; border: 2px solid hsl(var(--secondary)); }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: hsl(var(--primary)); }
+        @media (max-width: 768px) {
+          .custom-scrollbar::-webkit-scrollbar { height: 4px; width: 4px; }
+        }
       `}</style>
     </div>
   );

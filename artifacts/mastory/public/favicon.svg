@@ -1,3 +1,13 @@
 <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="180" height="180" rx="36" fill="#FF3C00"/>
+  <rect width="180" height="180" rx="40" fill="#FFF7DA"/>
+  <rect x="20" y="104" width="140" height="52" rx="12" fill="#F2EAD0"/>
+  <path d="M90 112C104.912 112 117 99.9117 117 85C117 70.0883 104.912 58 90 58C75.0883 58 63 70.0883 63 85C63 99.9117 75.0883 112 90 112Z" fill="#84CC16"/>
+  <path d="M90 104C99.9411 104 108 95.9411 108 86C108 76.0589 99.9411 68 90 68C80.0589 68 72 76.0589 72 86C72 95.9411 80.0589 104 90 104Z" fill="#F9F7EC"/>
+  <circle cx="84" cy="86" r="3" fill="#3F3F46"/>
+  <circle cx="96" cy="86" r="3" fill="#3F3F46"/>
+  <path d="M83 94C86 98 94 98 97 94" stroke="#65A30D" stroke-width="4" stroke-linecap="round"/>
+  <path d="M45 118C56 113 67 113 78 118V148C67 143 56 143 45 148V118Z" fill="#FFFFFF" stroke="#A3A3A3" stroke-width="3"/>
+  <path d="M102 118C113 113 124 113 135 118V148C124 143 113 143 102 148V118Z" fill="#FFFFFF" stroke="#A3A3A3" stroke-width="3"/>
+  <path d="M90 121V149" stroke="#9CA3AF" stroke-width="3"/>
+  <path d="M77 28C80 20 89 18 95 23C102 29 101 39 95 44" stroke="#65A30D" stroke-width="8" stroke-linecap="round"/>
 </svg>

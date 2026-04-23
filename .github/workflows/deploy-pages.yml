@@ -31,25 +31,23 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+          run_install: false
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Compute BASE_PATH
         id: base-path
-        run: |
-          REPO_NAME="${GITHUB_REPOSITORY#*/}"
-          if [ "$REPO_NAME" = "${GITHUB_ACTOR}.github.io" ]; then
-            echo "value=/" >> "$GITHUB_OUTPUT"
-          else
-            echo "value=/${REPO_NAME}/" >> "$GITHUB_OUTPUT"
-          fi
+        run: echo "value=./" >> "$GITHUB_OUTPUT"
 
       - name: Build static files
         env:
@@ -58,6 +56,10 @@ jobs:
 
       - name: SPA fallback
         run: cp artifacts/mastory/dist/index.html artifacts/mastory/dist/404.html
+
+      - name: Configure custom domain
+        if: ${{ vars.PAGES_CUSTOM_DOMAIN != '' }}
+        run: echo "${{ vars.PAGES_CUSTOM_DOMAIN }}" > artifacts/mastory/dist/CNAME
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

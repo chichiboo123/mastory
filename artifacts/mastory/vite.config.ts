@@ -4,27 +4,23 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
-const rawPort = process.env.PORT;
-
-if (!rawPort) {
-  throw new Error(
-    "PORT environment variable is required but was not provided.",
-  );
-}
-
+const rawPort = process.env.PORT ?? "5173";
 const port = Number(rawPort);
 
 if (Number.isNaN(port) || port <= 0) {
   throw new Error(`Invalid PORT value: "${rawPort}"`);
 }
 
-const basePath = process.env.BASE_PATH;
+const repoName = process.env.GITHUB_REPOSITORY?.split("/")[1];
+const computedBasePath =
+  process.env.BASE_PATH ??
+  (repoName && repoName !== `${process.env.GITHUB_ACTOR}.github.io`
+    ? `/${repoName}/`
+    : "/");
 
-if (!basePath) {
-  throw new Error(
-    "BASE_PATH environment variable is required but was not provided.",
-  );
-}
+const basePath = computedBasePath.endsWith("/")
+  ? computedBasePath
+  : `${computedBasePath}/`;
 
 export default defineConfig({
   base: basePath,
@@ -55,7 +51,7 @@ export default defineConfig({
   },
   root: path.resolve(import.meta.dirname),
   build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    outDir: path.resolve(import.meta.dirname, "dist"),
     emptyOutDir: true,
   },
   server: {

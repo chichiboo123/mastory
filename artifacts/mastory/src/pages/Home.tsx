@@ -595,7 +595,7 @@ export default function Home() {
     <div className="min-h-[100dvh] bg-background text-foreground flex flex-col font-sans selection:bg-primary/30">
 
       {/* Header */}
-      <header className="pt-6 pb-4 md:pt-8 md:pb-6 px-3 md:px-8 flex flex-col items-center justify-center shrink-0 relative">
+      <header className="pt-6 pb-4 md:pt-8 md:pb-6 px-3 md:px-8 flex flex-col items-start md:items-center justify-center shrink-0 relative">
         <div className="absolute top-4 right-3 md:top-6 md:right-8 flex items-center gap-1.5 z-20">
           <div ref={dataMenuRef} className="relative">
             <button onClick={() => setDataMenuOpen((v) => !v)} data-export-hidden aria-label={t.data} className="h-10 w-10 rounded-xl border border-border bg-white text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 flex items-center justify-center">
@@ -625,7 +625,7 @@ export default function Home() {
           </button>
         </div>
 
-        <div className="flex items-center gap-3 md:gap-4 mb-1 md:mb-2">
+        <div className="flex items-center gap-3 md:gap-4 mb-1 md:mb-2 w-full md:w-auto justify-start md:justify-center">
           <img src={ddcImage} alt="디디씨" className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-sm" />
           <h1
             style={{ fontFamily: "'Black Han Sans', sans-serif" }}
@@ -634,7 +634,7 @@ export default function Home() {
             {t.title}
           </h1>
         </div>
-        <p className="text-sm md:text-xl font-bold text-muted-foreground/80 text-center px-4">
+        <p className="text-sm md:text-xl font-bold text-muted-foreground/80 text-left md:text-center px-0 md:px-4 w-full md:w-auto">
           {t.subtitle}
         </p>
         <input
@@ -752,7 +752,7 @@ export default function Home() {
               type="button"
               onClick={handleResetStory}
               data-export-hidden
-              className="h-10 px-4 rounded-xl border border-border bg-white text-sm font-bold text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+              className="h-8 md:h-10 px-3 md:px-4 rounded-xl border border-border bg-white text-xs md:text-sm font-bold text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
             >
               {t.reset}
             </button>

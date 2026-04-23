@@ -7,6 +7,10 @@ on:
       - master
     paths:
       - "artifacts/mastory/**"
+      - "attached_assets/**"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - "package.json"
       - ".github/workflows/deploy-pages.yml"
   workflow_dispatch:
 

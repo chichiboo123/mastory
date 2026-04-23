@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toJpeg, toBlob } from "html-to-image";
 import ddcImage from "@assets/cnt_76_DDC_1776911486802.png";
@@ -110,11 +110,15 @@ interface StoryCard {
 
 type ExportMode = "image-text" | "text-only";
 type ToastType = "success" | "error";
+type StoryMode = "free-write" | "scene-sequence";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<Category>("기본형");
   const [storyCards, setStoryCards] = useState<StoryCard[]>([]);
   const [storyText, setStoryText] = useState("");
+  const [storyMode, setStoryMode] = useState<StoryMode>("free-write");
+  const [sceneTexts, setSceneTexts] = useState<Record<string, string>>({});
+  const [selectedSceneId, setSelectedSceneId] = useState<string | null>(null);
   const [exportOpen, setExportOpen] = useState(false);
   const [exportMode, setExportMode] = useState<ExportMode>("image-text");
   const [exporting, setExporting] = useState(false);
@@ -135,26 +139,54 @@ export default function Home() {
       imageInfo: char,
     };
     setStoryCards((prev) => [...prev, newCard]);
-    setTimeout(() => {
-      const el = document.getElementById("storyboard-container");
-      if (el) el.scrollTo({ left: el.scrollWidth, behavior: "smooth" });
-    }, 100);
+    setSelectedSceneId(newCard.id);
   };
 
   const handleRemoveCard = (id: string) => {
     setStoryCards((prev) => prev.filter((c) => c.id !== id));
+    setSceneTexts((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+    setSelectedSceneId((prev) => (prev === id ? null : prev));
   };
+
+  const selectedScene = storyCards.find((card) => card.id === selectedSceneId) ?? null;
+
+  useEffect(() => {
+    if (storyMode !== "scene-sequence") return;
+    if (storyCards.length === 0) {
+      setSelectedSceneId(null);
+      return;
+    }
+    if (!selectedSceneId || !storyCards.some((card) => card.id === selectedSceneId)) {
+      setSelectedSceneId(storyCards[0].id);
+    }
+  }, [storyMode, storyCards, selectedSceneId]);
 
   const htmlToImageOptions = {
     backgroundColor: "#fffdf0",
     pixelRatio: 2,
     cacheBust: true,
+    filter: (node: Node) => !(node instanceof Element && node.hasAttribute("data-export-hidden")),
   };
 
   const handleCopyClipboard = async () => {
     if (exportMode === "text-only") {
+      const textOnlyContent =
+        storyMode === "scene-sequence"
+          ? storyCards.length === 0
+            ? "(이야기가 없습니다)"
+            : storyCards
+                .map(
+                  (card, i) =>
+                    `장면 ${i + 1} (${card.imageInfo.name}): ${sceneTexts[card.id] || "(내용 없음)"}`,
+                )
+                .join("\n")
+          : storyText || "(이야기가 없습니다)";
       try {
-        await navigator.clipboard.writeText(storyText || "(이야기가 없습니다)");
+        await navigator.clipboard.writeText(textOnlyContent);
         showToast("텍스트가 클립보드에 복사됐어요!");
       } catch {
         showToast("클립보드 복사에 실패했어요.", "error");
@@ -205,13 +237,31 @@ export default function Home() {
   const handleDownloadTxt = () => {
     const content =
       exportMode === "text-only"
-        ? storyText || "(이야기가 없습니다)"
+        ? storyMode === "scene-sequence"
+          ? storyCards.length === 0
+            ? "(이야기가 없습니다)"
+            : storyCards
+                .map(
+                  (card, i) =>
+                    `장면 ${i + 1} (${card.imageInfo.name}): ${sceneTexts[card.id] || "(내용 없음)"}`,
+                )
+                .join("\n")
+          : storyText || "(이야기가 없습니다)"
         : [
             "[ 나의 디디씨 이야기 장면 ]",
             storyCards.map((c, i) => `장면 ${i + 1}: ${c.imageInfo.name}`).join("\n"),
             "",
             "[ 이야기 내용 ]",
-            storyText || "(이야기가 없습니다)",
+            storyMode === "scene-sequence"
+              ? storyCards.length === 0
+                ? "(이야기가 없습니다)"
+                : storyCards
+                    .map(
+                      (card, i) =>
+                        `장면 ${i + 1} (${card.imageInfo.name}): ${sceneTexts[card.id] || "(내용 없음)"}`,
+                    )
+                    .join("\n")
+              : storyText || "(이야기가 없습니다)",
           ].join("\n");
 
     const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
@@ -312,16 +362,36 @@ export default function Home() {
           <div className="bg-accent text-accent-foreground p-1.5 md:p-2 rounded-full shadow-sm">
             <span className="material-icons-round text-xl md:text-2xl block">auto_stories</span>
           </div>
-          <h2 className="text-2xl md:text-3xl font-black text-foreground drop-shadow-sm">
-            나의 이야기
-          </h2>
+          <div className="flex-1 flex flex-col gap-2 md:gap-3">
+            <h2 className="text-2xl md:text-3xl font-black text-foreground drop-shadow-sm">
+              나의 이야기
+            </h2>
+            <div className="flex gap-1.5 bg-secondary rounded-xl md:rounded-2xl p-1 w-full max-w-md">
+              {([
+                ["free-write", "현재 방식"] as const,
+                ["scene-sequence", "장면별 순서 방식"] as const,
+              ]).map(([mode, label]) => (
+                <button
+                  key={mode}
+                  onClick={() => setStoryMode(mode)}
+                  className={`flex-1 px-3 py-2 rounded-lg md:rounded-xl text-xs md:text-sm font-bold transition-all ${
+                    storyMode === mode
+                      ? "bg-white text-foreground shadow-sm"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Export area wrapper — captured for image export */}
         <div ref={exportAreaRef} className="flex flex-col gap-3 md:gap-4 bg-background p-1.5 md:p-2 rounded-2xl">
 
           {/* Story Cards Row */}
-          <div className="bg-white/80 rounded-2xl md:rounded-3xl border-4 border-white shadow-md p-4 md:p-6 relative overflow-hidden">
+          <div className="bg-white/80 rounded-2xl md:rounded-3xl border-4 border-white shadow-md p-4 md:p-6 relative overflow-visible">
             {storyCards.length === 0 ? (
               <div className="flex flex-col items-center justify-center text-center gap-4 md:gap-6 py-6 md:py-10 animate-in fade-in zoom-in duration-500">
                 <div className="relative">
@@ -340,7 +410,7 @@ export default function Home() {
               <div
                 id="storyboard-container"
                 data-testid="storyboard-area"
-                className="flex flex-row gap-3 md:gap-5 overflow-x-auto pb-3 pt-1 px-1 custom-scrollbar snap-x"
+                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-5 pb-1 pt-1 px-1"
               >
                 <AnimatePresence mode="popLayout">
                   {storyCards.map((card) => (
@@ -351,16 +421,17 @@ export default function Home() {
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.8, y: -20 }}
                       transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                      className="shrink-0 w-[130px] md:w-[180px] snap-center"
+                      className="w-full"
                     >
                       <div
                         data-testid={`story-card-${card.id}`}
                         className="bg-white rounded-xl md:rounded-2xl p-2.5 md:p-3 shadow-md border border-border/50 flex flex-col gap-1.5 md:gap-2 relative group"
                       >
                         <button
+                          data-export-hidden
                           data-testid={`delete-card-${card.id}`}
                           onClick={() => handleRemoveCard(card.id)}
-                          className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground w-7 h-7 md:w-8 md:h-8 rounded-full shadow-md flex items-center justify-center active:scale-95 transition-all z-10"
+                          className="absolute top-1.5 right-1.5 bg-destructive text-destructive-foreground w-7 h-7 md:w-8 md:h-8 rounded-full shadow-md flex items-center justify-center active:scale-95 transition-all z-10"
                           title="장면 삭제하기"
                         >
                           <span className="material-icons-round text-sm md:text-base">close</span>
@@ -383,20 +454,72 @@ export default function Home() {
             )}
           </div>
 
-          {/* Shared Story Textarea */}
-          <div className="bg-white/80 rounded-2xl md:rounded-3xl border-4 border-white shadow-md p-4 md:p-5 flex flex-col gap-2 md:gap-3">
-            <div className="flex items-center gap-2">
-              <span className="material-icons-round text-primary text-lg md:text-xl">edit_note</span>
-              <span className="font-bold text-sm md:text-base text-foreground/80">이야기를 써봐요!</span>
+          {/* Story Textarea */}
+          {storyMode === "free-write" ? (
+            <div className="bg-white/80 rounded-2xl md:rounded-3xl border-4 border-white shadow-md p-4 md:p-5 flex flex-col gap-2 md:gap-3">
+              <div className="flex items-center gap-2">
+                <span className="material-icons-round text-primary text-lg md:text-xl">edit_note</span>
+                <span className="font-bold text-sm md:text-base text-foreground/80">이야기를 써봐요!</span>
+              </div>
+              <textarea
+                data-testid="story-textarea"
+                value={storyText}
+                onChange={(e) => setStoryText(e.target.value)}
+                placeholder="디디씨와 함께하는 나만의 이야기를 여기에 써봐요!"
+                className="w-full min-h-[120px] md:min-h-[140px] resize-none bg-background/50 border-2 border-secondary rounded-xl md:rounded-2xl p-3 md:p-4 text-base md:text-lg font-medium text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all custom-scrollbar leading-relaxed"
+              />
             </div>
-            <textarea
-              data-testid="story-textarea"
-              value={storyText}
-              onChange={(e) => setStoryText(e.target.value)}
-              placeholder="디디씨와 함께하는 나만의 이야기를 여기에 써봐요!"
-              className="w-full min-h-[120px] md:min-h-[140px] resize-none bg-background/50 border-2 border-secondary rounded-xl md:rounded-2xl p-3 md:p-4 text-base md:text-lg font-medium text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all custom-scrollbar leading-relaxed"
-            />
-          </div>
+          ) : (
+            <div className="bg-white/80 rounded-2xl md:rounded-3xl border-4 border-white shadow-md p-4 md:p-5 grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="material-icons-round text-primary text-lg md:text-xl">view_carousel</span>
+                  <span className="font-bold text-sm md:text-base text-foreground/80">장면 선택</span>
+                </div>
+                <div className="max-h-[280px] overflow-y-auto custom-scrollbar pr-1 flex flex-col gap-2">
+                  {storyCards.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">왼쪽에서 마스코트를 추가하면 장면별 이야기를 쓸 수 있어요.</p>
+                  ) : (
+                    storyCards.map((card, i) => (
+                      <button
+                        key={card.id}
+                        onClick={() => setSelectedSceneId(card.id)}
+                        className={`text-left rounded-xl border-2 px-3 py-2 transition-all ${
+                          selectedSceneId === card.id
+                            ? "border-primary bg-primary/10"
+                            : "border-secondary bg-background/70"
+                        }`}
+                      >
+                        <p className="text-xs font-black text-muted-foreground">장면 {i + 1}</p>
+                        <p className="text-sm font-bold">{card.imageInfo.name}</p>
+                      </button>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="material-icons-round text-primary text-lg md:text-xl">edit_note</span>
+                  <span className="font-bold text-sm md:text-base text-foreground/80">
+                    {selectedScene ? `${selectedScene.imageInfo.name} 장면 이야기` : "장면 이야기"}
+                  </span>
+                </div>
+                <textarea
+                  data-testid="scene-story-textarea"
+                  value={selectedScene ? sceneTexts[selectedScene.id] || "" : ""}
+                  onChange={(e) => {
+                    if (!selectedScene) return;
+                    const value = e.target.value;
+                    setSceneTexts((prev) => ({ ...prev, [selectedScene.id]: value }));
+                  }}
+                  disabled={!selectedScene}
+                  placeholder={selectedScene ? "선택한 마스코트 장면 이야기를 써봐요!" : "장면을 먼저 선택해주세요."}
+                  className="w-full min-h-[220px] resize-none bg-background/50 border-2 border-secondary rounded-xl md:rounded-2xl p-3 md:p-4 text-base md:text-lg font-medium text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all custom-scrollbar leading-relaxed disabled:opacity-60"
+                />
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -448,7 +571,7 @@ export default function Home() {
                   <button
                     key={mode}
                     onClick={() => setExportMode(mode)}
-                    className={`flex-1 py-2 px-2 rounded-lg md:rounded-xl text-xs md:text-sm font-bold transition-all duration-200 ${
+                    className={`flex-1 py-2 px-2 rounded-lg md:rounded-xl text-[11px] md:text-sm font-bold whitespace-nowrap leading-tight transition-all duration-200 ${
                       exportMode === mode
                         ? "bg-white text-foreground shadow-sm"
                         : "text-muted-foreground"

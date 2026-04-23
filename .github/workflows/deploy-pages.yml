@@ -45,8 +45,9 @@ jobs:
         id: base-path
         run: |
           REPO_NAME="${GITHUB_REPOSITORY#*/}"
-          CUSTOM_DOMAIN="${{ vars.PAGES_CUSTOM_DOMAIN }}"
-          if [ -n "$CUSTOM_DOMAIN" ]; then
+          if [ -f "artifacts/mastory/public/CNAME" ]; then
+            echo "value=/" >> "$GITHUB_OUTPUT"
+          elif [ -n "${{ vars.PAGES_CUSTOM_DOMAIN }}" ]; then
             echo "value=/" >> "$GITHUB_OUTPUT"
           elif [ "$REPO_NAME" = "${GITHUB_ACTOR}.github.io" ]; then
             echo "value=/" >> "$GITHUB_OUTPUT"

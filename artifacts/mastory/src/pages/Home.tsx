@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import html2canvas from "html2canvas";
 import ddcImage from "@assets/cnt_76_DDC_1776911486802.png";
 import emotion01 from "@assets/감정응용형_01_행복_1776912123380.png";
 import emotion02 from "@assets/감정응용형_02_삐짐_1776912123381.png";
@@ -26,6 +27,22 @@ import action12 from "@assets/동작응용형_12_힐링_1776912166272.png";
 import action13 from "@assets/동작응용형_13_진료(의사)_1776912166272.png";
 import action14 from "@assets/동작응용형_14_손씻기_1776912166272.png";
 import action15 from "@assets/동작응용형_15_운동_1776912166273.png";
+import emoji01 from "@assets/이모티콘형_01_굿모닝_1776912491607.png";
+import emoji02 from "@assets/이모티콘형_02_배고파_1776912491607.png";
+import emoji03 from "@assets/이모티콘형_03_좋아(OK!)_1776912491607.png";
+import emoji04 from "@assets/이모티콘형_04_싫어(단호)_1776912491607.png";
+import emoji05 from "@assets/이모티콘형_05_부끄부끄_1776912491608.png";
+import emoji06 from "@assets/이모티콘형_06_당황_1776912491608.png";
+import emoji07 from "@assets/이모티콘형_07_휴식(힐링)_1776912491608.png";
+import emoji08 from "@assets/이모티콘형_08_가는중_1776912491608.png";
+import emoji09 from "@assets/이모티콘형_09_ㅋㅋㅋ_1776912491609.png";
+import emoji10 from "@assets/이모티콘형_10_뭐해_1776912491609.png";
+import emoji11 from "@assets/이모티콘형_11_바쁨_1776912491609.png";
+import emoji12 from "@assets/이모티콘형_12_심쿵_1776912491609.png";
+import emoji13 from "@assets/이모티콘형_13_잘자_1776912491609.png";
+import emoji14 from "@assets/이모티콘형_14_슬퍼(폭풍눈물)_1776912491610.png";
+import emoji15 from "@assets/이모티콘형_15_연락해_1776912491610.png";
+import emoji16 from "@assets/이모티콘형_16_감동_1776912491610.png";
 
 type Category = "기본형" | "감정응용형" | "동작응용형" | "이모티콘";
 
@@ -39,7 +56,6 @@ interface CharacterData {
 const CATEGORIES: Category[] = ["기본형", "감정응용형", "동작응용형", "이모티콘"];
 
 const CHARACTER_DATA: CharacterData[] = [
-  // 기본형 (10)
   { id: "basic-1",  name: "기본 서있기 1", category: "기본형", image: ddcImage },
   { id: "basic-2",  name: "기본 서있기 2", category: "기본형", image: ddcImage },
   { id: "basic-3",  name: "앉아있기 1",    category: "기본형", image: ddcImage },
@@ -51,7 +67,6 @@ const CHARACTER_DATA: CharacterData[] = [
   { id: "basic-9",  name: "차렷 자세",     category: "기본형", image: ddcImage },
   { id: "basic-10", name: "편한 자세",     category: "기본형", image: ddcImage },
 
-  // 감정응용형 (10)
   { id: "emotion-1",  name: "행복",         category: "감정응용형", image: emotion01 },
   { id: "emotion-2",  name: "삐짐",         category: "감정응용형", image: emotion02 },
   { id: "emotion-3",  name: "슬픔",         category: "감정응용형", image: emotion03 },
@@ -63,32 +78,38 @@ const CHARACTER_DATA: CharacterData[] = [
   { id: "emotion-9",  name: "놀람",         category: "감정응용형", image: emotion09 },
   { id: "emotion-10", name: "응원(화이팅)", category: "감정응용형", image: emotion10 },
 
-  // 동작응용형 (15) — 실제 이미지 사용
-  { id: "action-1",  name: "안녕",          category: "동작응용형", image: action01 },
-  { id: "action-2",  name: "안내(공지)",    category: "동작응용형", image: action02 },
-  { id: "action-3",  name: "축제",          category: "동작응용형", image: action03 },
-  { id: "action-4",  name: "관광(여행)",    category: "동작응용형", image: action04 },
+  { id: "action-1",  name: "안녕",             category: "동작응용형", image: action01 },
+  { id: "action-2",  name: "안내(공지)",        category: "동작응용형", image: action02 },
+  { id: "action-3",  name: "축제",             category: "동작응용형", image: action03 },
+  { id: "action-4",  name: "관광(여행)",        category: "동작응용형", image: action04 },
   { id: "action-5",  name: "환영(어서오세요)", category: "동작응용형", image: action05 },
-  { id: "action-6",  name: "안전제일",      category: "동작응용형", image: action06 },
-  { id: "action-7",  name: "금지",          category: "동작응용형", image: action07 },
-  { id: "action-8",  name: "교육",          category: "동작응용형", image: action08 },
-  { id: "action-9",  name: "새해",          category: "동작응용형", image: action09 },
-  { id: "action-10", name: "추석",          category: "동작응용형", image: action10 },
-  { id: "action-11", name: "분리수거",      category: "동작응용형", image: action11 },
-  { id: "action-12", name: "힐링",          category: "동작응용형", image: action12 },
-  { id: "action-13", name: "진료(의사)",    category: "동작응용형", image: action13 },
-  { id: "action-14", name: "손씻기",        category: "동작응용형", image: action14 },
-  { id: "action-15", name: "운동",          category: "동작응용형", image: action15 },
+  { id: "action-6",  name: "안전제일",          category: "동작응용형", image: action06 },
+  { id: "action-7",  name: "금지",             category: "동작응용형", image: action07 },
+  { id: "action-8",  name: "교육",             category: "동작응용형", image: action08 },
+  { id: "action-9",  name: "새해",             category: "동작응용형", image: action09 },
+  { id: "action-10", name: "추석",             category: "동작응용형", image: action10 },
+  { id: "action-11", name: "분리수거",          category: "동작응용형", image: action11 },
+  { id: "action-12", name: "힐링",             category: "동작응용형", image: action12 },
+  { id: "action-13", name: "진료(의사)",        category: "동작응용형", image: action13 },
+  { id: "action-14", name: "손씻기",           category: "동작응용형", image: action14 },
+  { id: "action-15", name: "운동",             category: "동작응용형", image: action15 },
 
-  // 이모티콘 (8)
-  { id: "emo-1", name: "하트 뿅뿅",    category: "이모티콘", image: ddcImage },
-  { id: "emo-2", name: "별 반짝반짝",  category: "이모티콘", image: ddcImage },
-  { id: "emo-3", name: "최고! 엄지척", category: "이모티콘", image: ddcImage },
-  { id: "emo-4", name: "쿨쿨 자는중",  category: "이모티콘", image: ddcImage },
-  { id: "emo-5", name: "엉엉 우는중",  category: "이모티콘", image: ddcImage },
-  { id: "emo-6", name: "하하하 웃음",  category: "이모티콘", image: ddcImage },
-  { id: "emo-7", name: "오케이!",      category: "이모티콘", image: ddcImage },
-  { id: "emo-8", name: "메롱~",        category: "이모티콘", image: ddcImage },
+  { id: "emoji-1",  name: "굿모닝",       category: "이모티콘", image: emoji01 },
+  { id: "emoji-2",  name: "배고파",       category: "이모티콘", image: emoji02 },
+  { id: "emoji-3",  name: "좋아(OK!)",   category: "이모티콘", image: emoji03 },
+  { id: "emoji-4",  name: "싫어(단호)",  category: "이모티콘", image: emoji04 },
+  { id: "emoji-5",  name: "부끄부끄",    category: "이모티콘", image: emoji05 },
+  { id: "emoji-6",  name: "당황",        category: "이모티콘", image: emoji06 },
+  { id: "emoji-7",  name: "휴식(힐링)", category: "이모티콘", image: emoji07 },
+  { id: "emoji-8",  name: "가는중",      category: "이모티콘", image: emoji08 },
+  { id: "emoji-9",  name: "ㅋㅋㅋ",     category: "이모티콘", image: emoji09 },
+  { id: "emoji-10", name: "뭐해",        category: "이모티콘", image: emoji10 },
+  { id: "emoji-11", name: "바쁨",        category: "이모티콘", image: emoji11 },
+  { id: "emoji-12", name: "심쿵",        category: "이모티콘", image: emoji12 },
+  { id: "emoji-13", name: "잘자",        category: "이모티콘", image: emoji13 },
+  { id: "emoji-14", name: "슬퍼(폭풍눈물)", category: "이모티콘", image: emoji14 },
+  { id: "emoji-15", name: "연락해",      category: "이모티콘", image: emoji15 },
+  { id: "emoji-16", name: "감동",        category: "이모티콘", image: emoji16 },
 ];
 
 interface StoryCard {
@@ -96,30 +117,114 @@ interface StoryCard {
   imageInfo: CharacterData;
 }
 
+type ExportMode = "image-text" | "text-only";
+type ToastType = "success" | "error";
+
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<Category>("기본형");
   const [storyCards, setStoryCards] = useState<StoryCard[]>([]);
   const [storyText, setStoryText] = useState("");
+  const [exportOpen, setExportOpen] = useState(false);
+  const [exportMode, setExportMode] = useState<ExportMode>("image-text");
+  const [exporting, setExporting] = useState(false);
+  const [toast, setToast] = useState<{ msg: string; type: ToastType } | null>(null);
 
-  const filteredImages = CHARACTER_DATA.filter((char) => char.category === activeCategory);
+  const exportAreaRef = useRef<HTMLDivElement>(null);
+
+  const filteredImages = CHARACTER_DATA.filter((c) => c.category === activeCategory);
+
+  const showToast = (msg: string, type: ToastType = "success") => {
+    setToast({ msg, type });
+    setTimeout(() => setToast(null), 2500);
+  };
 
   const handleAddCard = (char: CharacterData) => {
     const newCard: StoryCard = {
       id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
       imageInfo: char,
     };
-    setStoryCards([...storyCards, newCard]);
-
+    setStoryCards((prev) => [...prev, newCard]);
     setTimeout(() => {
-      const storyboard = document.getElementById("storyboard-container");
-      if (storyboard) {
-        storyboard.scrollTo({ left: storyboard.scrollWidth, behavior: "smooth" });
-      }
+      const el = document.getElementById("storyboard-container");
+      if (el) el.scrollTo({ left: el.scrollWidth, behavior: "smooth" });
     }, 100);
   };
 
   const handleRemoveCard = (id: string) => {
-    setStoryCards(storyCards.filter((card) => card.id !== id));
+    setStoryCards((prev) => prev.filter((c) => c.id !== id));
+  };
+
+  const handleCopyClipboard = async () => {
+    try {
+      if (exportMode === "text-only") {
+        await navigator.clipboard.writeText(storyText || "(이야기가 없습니다)");
+        showToast("텍스트가 클립보드에 복사됐어요!");
+      } else {
+        if (!exportAreaRef.current) return;
+        setExporting(true);
+        const canvas = await html2canvas(exportAreaRef.current, {
+          backgroundColor: "#fffdf0",
+          scale: 2,
+          useCORS: true,
+        });
+        canvas.toBlob(async (blob) => {
+          if (!blob) return;
+          try {
+            await navigator.clipboard.write([
+              new ClipboardItem({ "image/png": blob }),
+            ]);
+            showToast("이미지가 클립보드에 복사됐어요!");
+          } catch {
+            showToast("클립보드 복사에 실패했어요.", "error");
+          }
+          setExporting(false);
+        }, "image/png");
+      }
+    } catch {
+      showToast("복사에 실패했어요.", "error");
+      setExporting(false);
+    }
+  };
+
+  const handleDownloadJpg = async () => {
+    if (!exportAreaRef.current) return;
+    setExporting(true);
+    try {
+      const canvas = await html2canvas(exportAreaRef.current, {
+        backgroundColor: "#fffdf0",
+        scale: 2,
+        useCORS: true,
+      });
+      const link = document.createElement("a");
+      link.download = "마스토리_이야기.jpg";
+      link.href = canvas.toDataURL("image/jpeg", 0.95);
+      link.click();
+      showToast("JPG 파일이 다운로드됐어요!");
+    } catch {
+      showToast("다운로드에 실패했어요.", "error");
+    }
+    setExporting(false);
+  };
+
+  const handleDownloadTxt = () => {
+    const content =
+      exportMode === "text-only"
+        ? storyText || "(이야기가 없습니다)"
+        : [
+            "[ 나의 디디씨 이야기 장면 ]",
+            storyCards.map((c, i) => `장면 ${i + 1}: ${c.imageInfo.name}`).join("\n"),
+            "",
+            "[ 이야기 내용 ]",
+            storyText || "(이야기가 없습니다)",
+          ].join("\n");
+
+    const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+    const link = document.createElement("a");
+    link.download = "마스토리_이야기.txt";
+    link.href = URL.createObjectURL(blob);
+    link.click();
+    URL.revokeObjectURL(link.href);
+    showToast("TXT 파일이 다운로드됐어요!");
   };
 
   return (
@@ -129,7 +234,8 @@ export default function Home() {
       <header className="pt-8 pb-6 px-4 md:px-8 flex flex-col items-center justify-center shrink-0">
         <div className="flex items-center gap-4 mb-2">
           <img src={ddcImage} alt="디디씨" className="w-16 h-16 object-contain drop-shadow-sm" />
-          <h1 className="text-4xl md:text-5xl font-black text-primary drop-shadow-sm tracking-tight">
+          <h1 style={{ fontFamily: "'Black Han Sans', sans-serif" }}
+            className="text-4xl md:text-5xl text-primary drop-shadow-sm tracking-tight">
             마스토리
           </h1>
         </div>
@@ -138,9 +244,8 @@ export default function Home() {
         </p>
       </header>
 
-      {/* Top Section: Gallery */}
+      {/* Gallery Section */}
       <section className="px-4 md:px-8 max-w-7xl mx-auto w-full shrink-0 flex flex-col gap-4 mb-8">
-
         {/* Category Tabs */}
         <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">
           {CATEGORIES.map((cat) => {
@@ -148,9 +253,7 @@ export default function Home() {
             if (cat === "기본형") icon = "emoji_people";
             if (cat === "동작응용형") icon = "directions_run";
             if (cat === "이모티콘") icon = "add_reaction";
-
             const isActive = activeCategory === cat;
-
             return (
               <button
                 key={cat}
@@ -200,9 +303,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Bottom Section: Storyboard */}
-      <section className="flex-1 px-4 md:px-8 pb-8 max-w-7xl mx-auto w-full flex flex-col gap-4">
-
+      {/* Storyboard Section */}
+      <section className="flex-1 px-4 md:px-8 pb-4 max-w-7xl mx-auto w-full flex flex-col gap-4">
         <div className="flex items-center gap-3 ml-2">
           <div className="bg-accent text-accent-foreground p-2 rounded-full shadow-sm">
             <span className="material-icons-round text-2xl block">auto_stories</span>
@@ -212,107 +314,220 @@ export default function Home() {
           </h2>
         </div>
 
-        {/* Story Cards Row */}
-        <div className="bg-white/80 rounded-3xl border-4 border-white shadow-md p-6 relative overflow-hidden">
-          {storyCards.length === 0 ? (
-            <div className="flex flex-col items-center justify-center text-center gap-6 py-10 animate-in fade-in zoom-in duration-500">
-              <div className="relative">
-                <div className="absolute -inset-4 bg-accent/20 rounded-full blur-2xl"></div>
-                <img src={ddcImage} alt="비어있음" className="w-28 h-28 object-contain opacity-80 relative z-10 animate-pulse" />
+        {/* Export area wrapper — only this gets captured */}
+        <div ref={exportAreaRef} className="flex flex-col gap-4 bg-background p-2 rounded-2xl">
+          {/* Story Cards Row */}
+          <div className="bg-white/80 rounded-3xl border-4 border-white shadow-md p-6 relative overflow-hidden">
+            {storyCards.length === 0 ? (
+              <div className="flex flex-col items-center justify-center text-center gap-6 py-10 animate-in fade-in zoom-in duration-500">
+                <div className="relative">
+                  <div className="absolute -inset-4 bg-accent/20 rounded-full blur-2xl"></div>
+                  <img src={ddcImage} alt="비어있음" className="w-28 h-28 object-contain opacity-80 relative z-10 animate-pulse" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-bold text-muted-foreground">아직 이야기가 없어요!</h3>
+                  <p className="text-lg text-muted-foreground/80 font-medium">
+                    위에서 마음에 드는 디디씨를 눌러서<br />
+                    첫 번째 장면을 만들어보세요.
+                  </p>
+                </div>
               </div>
-              <div className="space-y-2">
-                <h3 className="text-2xl font-bold text-muted-foreground">아직 이야기가 없어요!</h3>
-                <p className="text-lg text-muted-foreground/80 font-medium">
-                  위에서 마음에 드는 디디씨를 눌러서<br />
-                  첫 번째 장면을 만들어보세요.
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div
-              id="storyboard-container"
-              data-testid="storyboard-area"
-              className="flex flex-row gap-5 overflow-x-auto pb-3 pt-1 px-1 custom-scrollbar snap-x"
-            >
-              <AnimatePresence mode="popLayout">
-                {storyCards.map((card) => (
-                  <motion.div
-                    key={card.id}
-                    layout
-                    initial={{ opacity: 0, scale: 0.8, y: 20 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.8, y: -20 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                    className="shrink-0 w-[160px] md:w-[180px] snap-center"
-                  >
-                    <div
-                      data-testid={`story-card-${card.id}`}
-                      className="bg-white rounded-2xl p-3 shadow-md border border-border/50 flex flex-col gap-2 relative group"
+            ) : (
+              <div
+                id="storyboard-container"
+                data-testid="storyboard-area"
+                className="flex flex-row gap-5 overflow-x-auto pb-3 pt-1 px-1 custom-scrollbar snap-x"
+              >
+                <AnimatePresence mode="popLayout">
+                  {storyCards.map((card) => (
+                    <motion.div
+                      key={card.id}
+                      layout
+                      initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.8, y: -20 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                      className="shrink-0 w-[160px] md:w-[180px] snap-center"
                     >
-                      {/* Delete Button */}
-                      <button
-                        data-testid={`delete-card-${card.id}`}
-                        onClick={() => handleRemoveCard(card.id)}
-                        className="absolute -top-2.5 -right-2.5 bg-destructive text-destructive-foreground w-8 h-8 rounded-full shadow-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all md:opacity-0 md:group-hover:opacity-100 z-10"
-                        title="장면 삭제하기"
+                      <div
+                        data-testid={`story-card-${card.id}`}
+                        className="bg-white rounded-2xl p-3 shadow-md border border-border/50 flex flex-col gap-2 relative group"
                       >
-                        <span className="material-icons-round text-base">delete_forever</span>
-                      </button>
-
-                      {/* Character Image */}
-                      <div className="h-[130px] md:h-[150px] flex items-center justify-center bg-gradient-to-b from-transparent to-secondary/30 rounded-xl p-2">
-                        <img
-                          src={card.imageInfo.image}
-                          alt={card.imageInfo.name}
-                          className="w-full h-full object-contain drop-shadow-md"
-                        />
+                        <button
+                          data-testid={`delete-card-${card.id}`}
+                          onClick={() => handleRemoveCard(card.id)}
+                          className="absolute -top-2.5 -right-2.5 bg-destructive text-destructive-foreground w-8 h-8 rounded-full shadow-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all md:opacity-0 md:group-hover:opacity-100 z-10"
+                          title="장면 삭제하기"
+                        >
+                          <span className="material-icons-round text-base">delete_forever</span>
+                        </button>
+                        <div className="h-[130px] md:h-[150px] flex items-center justify-center bg-gradient-to-b from-transparent to-secondary/30 rounded-xl p-2">
+                          <img
+                            src={card.imageInfo.image}
+                            alt={card.imageInfo.name}
+                            className="w-full h-full object-contain drop-shadow-md"
+                          />
+                        </div>
+                        <div className="bg-secondary/70 text-secondary-foreground/80 px-2 py-1 rounded-full text-xs font-bold text-center truncate">
+                          {card.imageInfo.name}
+                        </div>
                       </div>
-
-                      {/* Name Badge */}
-                      <div className="bg-secondary/70 text-secondary-foreground/80 px-2 py-1 rounded-full text-xs font-bold text-center truncate">
-                        {card.imageInfo.name}
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-          )}
-        </div>
-
-        {/* Shared Story Textarea */}
-        <div className="bg-white/80 rounded-3xl border-4 border-white shadow-md p-5 flex flex-col gap-3">
-          <div className="flex items-center gap-2">
-            <span className="material-icons-round text-primary text-xl">edit_note</span>
-            <span className="font-bold text-base text-foreground/80">이야기를 써봐요!</span>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            )}
           </div>
-          <textarea
-            data-testid="story-textarea"
-            value={storyText}
-            onChange={(e) => setStoryText(e.target.value)}
-            placeholder="디디씨와 함께하는 나만의 이야기를 여기에 써봐요!"
-            className="w-full min-h-[140px] resize-none bg-background/50 border-2 border-secondary rounded-2xl p-4 text-lg font-medium text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all custom-scrollbar leading-relaxed"
-          />
+
+          {/* Shared Story Textarea */}
+          <div className="bg-white/80 rounded-3xl border-4 border-white shadow-md p-5 flex flex-col gap-3">
+            <div className="flex items-center gap-2">
+              <span className="material-icons-round text-primary text-xl">edit_note</span>
+              <span className="font-bold text-base text-foreground/80">이야기를 써봐요!</span>
+            </div>
+            <textarea
+              data-testid="story-textarea"
+              value={storyText}
+              onChange={(e) => setStoryText(e.target.value)}
+              placeholder="디디씨와 함께하는 나만의 이야기를 여기에 써봐요!"
+              className="w-full min-h-[140px] resize-none bg-background/50 border-2 border-secondary rounded-2xl p-4 text-lg font-medium text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all custom-scrollbar leading-relaxed"
+            />
+          </div>
         </div>
       </section>
 
+      {/* Footer */}
+      <footer className="py-6 text-center shrink-0">
+        <a
+          href="https://litt.ly/chichiboo"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground/60 hover:text-primary transition-colors duration-200 underline-offset-4 hover:underline"
+        >
+          <span className="material-icons-round text-base">favorite</span>
+          Created by. 교육뮤지컬 꿈꾸는 치수쌤
+        </a>
+      </footer>
+
+      {/* Floating Export Button */}
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+        {/* Export Panel */}
+        <AnimatePresence>
+          {exportOpen && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 10 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              className="bg-white rounded-3xl shadow-2xl border-2 border-border/40 p-5 w-72 flex flex-col gap-4"
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-black text-lg text-foreground">내보내기</span>
+                <button onClick={() => setExportOpen(false)} className="text-muted-foreground hover:text-foreground transition-colors">
+                  <span className="material-icons-round text-xl">close</span>
+                </button>
+              </div>
+
+              {/* Mode Toggle */}
+              <div className="flex gap-2 bg-secondary rounded-2xl p-1">
+                {(["image-text", "text-only"] as ExportMode[]).map((mode) => (
+                  <button
+                    key={mode}
+                    onClick={() => setExportMode(mode)}
+                    className={`flex-1 py-2 px-3 rounded-xl text-sm font-bold transition-all duration-200 ${
+                      exportMode === mode
+                        ? "bg-white text-foreground shadow-sm"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {mode === "image-text" ? "🖼️ 이미지+텍스트" : "📝 텍스트만"}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex flex-col gap-2">
+                {/* Clipboard */}
+                <button
+                  onClick={handleCopyClipboard}
+                  disabled={exporting}
+                  className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-secondary hover:bg-primary/10 text-foreground font-bold text-sm transition-all duration-200 disabled:opacity-50 text-left"
+                >
+                  <span className="material-icons-round text-primary">content_copy</span>
+                  클립보드에 복사
+                </button>
+
+                {/* JPG — only for image+text */}
+                {exportMode === "image-text" && (
+                  <button
+                    onClick={handleDownloadJpg}
+                    disabled={exporting}
+                    className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-secondary hover:bg-primary/10 text-foreground font-bold text-sm transition-all duration-200 disabled:opacity-50 text-left"
+                  >
+                    <span className="material-icons-round text-primary">image</span>
+                    JPG 파일 다운로드
+                  </button>
+                )}
+
+                {/* TXT */}
+                <button
+                  onClick={handleDownloadTxt}
+                  className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-secondary hover:bg-primary/10 text-foreground font-bold text-sm transition-all duration-200 text-left"
+                >
+                  <span className="material-icons-round text-primary">description</span>
+                  TXT 파일 다운로드
+                </button>
+              </div>
+
+              {exporting && (
+                <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground py-1">
+                  <span className="material-icons-round text-base animate-spin">refresh</span>
+                  이미지 생성 중...
+                </div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* FAB */}
+        <motion.button
+          onClick={() => setExportOpen((o) => !o)}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.95 }}
+          className="w-16 h-16 rounded-full bg-primary text-primary-foreground shadow-xl shadow-primary/30 flex items-center justify-center hover:shadow-2xl transition-shadow"
+          title="내보내기"
+        >
+          <span className="material-icons-round text-3xl">
+            {exportOpen ? "close" : "ios_share"}
+          </span>
+        </motion.button>
+      </div>
+
+      {/* Toast */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            className={`fixed bottom-28 right-6 z-50 px-5 py-3 rounded-2xl shadow-lg font-bold text-sm flex items-center gap-2 ${
+              toast.type === "error"
+                ? "bg-destructive text-destructive-foreground"
+                : "bg-foreground text-background"
+            }`}
+          >
+            <span className="material-icons-round text-base">
+              {toast.type === "error" ? "error" : "check_circle"}
+            </span>
+            {toast.msg}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <style>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          height: 12px;
-          width: 12px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: hsl(var(--secondary));
-          border-radius: 100px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: hsl(var(--primary) / 0.5);
-          border-radius: 100px;
-          border: 3px solid hsl(var(--secondary));
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: hsl(var(--primary));
-        }
+        .custom-scrollbar::-webkit-scrollbar { height: 12px; width: 12px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: hsl(var(--secondary)); border-radius: 100px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: hsl(var(--primary) / 0.5); border-radius: 100px; border: 3px solid hsl(var(--secondary)); }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: hsl(var(--primary)); }
       `}</style>
     </div>
   );

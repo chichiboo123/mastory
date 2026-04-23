@@ -145,7 +145,7 @@ export default function Home() {
     backgroundColor: "#fffdf0",
     pixelRatio: 2,
     cacheBust: true,
-    filter: (node: HTMLElement) => !node.hasAttribute("data-export-hidden"),
+    filter: (node: Node) => !(node instanceof Element && node.hasAttribute("data-export-hidden")),
   };
 
   const handleCopyClipboard = async () => {

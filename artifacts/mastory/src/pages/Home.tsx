@@ -11,6 +11,21 @@ import emotion07 from "@assets/감정응용형_07_축하_1776912123383.png";
 import emotion08 from "@assets/감정응용형_08_감사_1776912123383.png";
 import emotion09 from "@assets/감정응용형_09_놀람_1776912123383.png";
 import emotion10 from "@assets/감정응용형_10_응원(화이팅)_1776912123384.png";
+import action01 from "@assets/동작응용형_01_안녕_1776912166267.png";
+import action02 from "@assets/동작응용형_02_안내(공지)_1776912166268.png";
+import action03 from "@assets/동작응용형_03_축제_1776912166269.png";
+import action04 from "@assets/동작응용형_04_관광(여행)_1776912166269.png";
+import action05 from "@assets/동작응용형_05_환영(어서오세요)_1776912166269.png";
+import action06 from "@assets/동작응용형_06_안전제일_1776912166270.png";
+import action07 from "@assets/동작응용형_07_금지_1776912166270.png";
+import action08 from "@assets/동작응용형_08_교육_1776912166270.png";
+import action09 from "@assets/동작응용형_09_새해_1776912166271.png";
+import action10 from "@assets/동작응용형_10_추석_1776912166271.png";
+import action11 from "@assets/동작응용형_11_분리수거_1776912166271.png";
+import action12 from "@assets/동작응용형_12_힐링_1776912166272.png";
+import action13 from "@assets/동작응용형_13_진료(의사)_1776912166272.png";
+import action14 from "@assets/동작응용형_14_손씻기_1776912166272.png";
+import action15 from "@assets/동작응용형_15_운동_1776912166273.png";
 
 type Category = "기본형" | "감정응용형" | "동작응용형" | "이모티콘";
 
@@ -25,42 +40,45 @@ const CATEGORIES: Category[] = ["기본형", "감정응용형", "동작응용형
 
 const CHARACTER_DATA: CharacterData[] = [
   // 기본형 (10)
-  { id: "basic-1", name: "기본 서있기 1", category: "기본형", image: ddcImage },
-  { id: "basic-2", name: "기본 서있기 2", category: "기본형", image: ddcImage },
-  { id: "basic-3", name: "앉아있기 1", category: "기본형", image: ddcImage },
-  { id: "basic-4", name: "앉아있기 2", category: "기본형", image: ddcImage },
-  { id: "basic-5", name: "걷기 1", category: "기본형", image: ddcImage },
-  { id: "basic-6", name: "걷기 2", category: "기본형", image: ddcImage },
-  { id: "basic-7", name: "인사하기 1", category: "기본형", image: ddcImage },
-  { id: "basic-8", name: "인사하기 2", category: "기본형", image: ddcImage },
-  { id: "basic-9", name: "차렷 자세", category: "기본형", image: ddcImage },
-  { id: "basic-10", name: "편한 자세", category: "기본형", image: ddcImage },
+  { id: "basic-1",  name: "기본 서있기 1", category: "기본형", image: ddcImage },
+  { id: "basic-2",  name: "기본 서있기 2", category: "기본형", image: ddcImage },
+  { id: "basic-3",  name: "앉아있기 1",    category: "기본형", image: ddcImage },
+  { id: "basic-4",  name: "앉아있기 2",    category: "기본형", image: ddcImage },
+  { id: "basic-5",  name: "걷기 1",        category: "기본형", image: ddcImage },
+  { id: "basic-6",  name: "걷기 2",        category: "기본형", image: ddcImage },
+  { id: "basic-7",  name: "인사하기 1",    category: "기본형", image: ddcImage },
+  { id: "basic-8",  name: "인사하기 2",    category: "기본형", image: ddcImage },
+  { id: "basic-9",  name: "차렷 자세",     category: "기본형", image: ddcImage },
+  { id: "basic-10", name: "편한 자세",     category: "기본형", image: ddcImage },
 
-  // 감정응용형 (10) — 실제 이미지 사용
-  { id: "emotion-1",  name: "행복",        category: "감정응용형", image: emotion01 },
-  { id: "emotion-2",  name: "삐짐",        category: "감정응용형", image: emotion02 },
-  { id: "emotion-3",  name: "슬픔",        category: "감정응용형", image: emotion03 },
-  { id: "emotion-4",  name: "죄송",        category: "감정응용형", image: emotion04 },
-  { id: "emotion-5",  name: "부끄러움",    category: "감정응용형", image: emotion05 },
-  { id: "emotion-6",  name: "사랑",        category: "감정응용형", image: emotion06 },
-  { id: "emotion-7",  name: "축하",        category: "감정응용형", image: emotion07 },
-  { id: "emotion-8",  name: "감사",        category: "감정응용형", image: emotion08 },
-  { id: "emotion-9",  name: "놀람",        category: "감정응용형", image: emotion09 },
+  // 감정응용형 (10)
+  { id: "emotion-1",  name: "행복",         category: "감정응용형", image: emotion01 },
+  { id: "emotion-2",  name: "삐짐",         category: "감정응용형", image: emotion02 },
+  { id: "emotion-3",  name: "슬픔",         category: "감정응용형", image: emotion03 },
+  { id: "emotion-4",  name: "죄송",         category: "감정응용형", image: emotion04 },
+  { id: "emotion-5",  name: "부끄러움",     category: "감정응용형", image: emotion05 },
+  { id: "emotion-6",  name: "사랑",         category: "감정응용형", image: emotion06 },
+  { id: "emotion-7",  name: "축하",         category: "감정응용형", image: emotion07 },
+  { id: "emotion-8",  name: "감사",         category: "감정응용형", image: emotion08 },
+  { id: "emotion-9",  name: "놀람",         category: "감정응용형", image: emotion09 },
   { id: "emotion-10", name: "응원(화이팅)", category: "감정응용형", image: emotion10 },
 
-  // 동작응용형 (12)
-  { id: "action-1",  name: "뛰는 디디씨",     category: "동작응용형", image: ddcImage },
-  { id: "action-2",  name: "점프하는 디디씨",  category: "동작응용형", image: ddcImage },
-  { id: "action-3",  name: "손 흔드는 디디씨", category: "동작응용형", image: ddcImage },
-  { id: "action-4",  name: "가리키는 디디씨",  category: "동작응용형", image: ddcImage },
-  { id: "action-5",  name: "춤추는 디디씨",    category: "동작응용형", image: ddcImage },
-  { id: "action-6",  name: "응원하는 디디씨",  category: "동작응용형", image: ddcImage },
-  { id: "action-7",  name: "생각하는 디디씨",  category: "동작응용형", image: ddcImage },
-  { id: "action-8",  name: "노래하는 디디씨",  category: "동작응용형", image: ddcImage },
-  { id: "action-9",  name: "운동하는 디디씨",  category: "동작응용형", image: ddcImage },
-  { id: "action-10", name: "요리하는 디디씨",  category: "동작응용형", image: ddcImage },
-  { id: "action-11", name: "독서하는 디디씨",  category: "동작응용형", image: ddcImage },
-  { id: "action-12", name: "그림그리는 디디씨", category: "동작응용형", image: ddcImage },
+  // 동작응용형 (15) — 실제 이미지 사용
+  { id: "action-1",  name: "안녕",          category: "동작응용형", image: action01 },
+  { id: "action-2",  name: "안내(공지)",    category: "동작응용형", image: action02 },
+  { id: "action-3",  name: "축제",          category: "동작응용형", image: action03 },
+  { id: "action-4",  name: "관광(여행)",    category: "동작응용형", image: action04 },
+  { id: "action-5",  name: "환영(어서오세요)", category: "동작응용형", image: action05 },
+  { id: "action-6",  name: "안전제일",      category: "동작응용형", image: action06 },
+  { id: "action-7",  name: "금지",          category: "동작응용형", image: action07 },
+  { id: "action-8",  name: "교육",          category: "동작응용형", image: action08 },
+  { id: "action-9",  name: "새해",          category: "동작응용형", image: action09 },
+  { id: "action-10", name: "추석",          category: "동작응용형", image: action10 },
+  { id: "action-11", name: "분리수거",      category: "동작응용형", image: action11 },
+  { id: "action-12", name: "힐링",          category: "동작응용형", image: action12 },
+  { id: "action-13", name: "진료(의사)",    category: "동작응용형", image: action13 },
+  { id: "action-14", name: "손씻기",        category: "동작응용형", image: action14 },
+  { id: "action-15", name: "운동",          category: "동작응용형", image: action15 },
 
   // 이모티콘 (8)
   { id: "emo-1", name: "하트 뿅뿅",    category: "이모티콘", image: ddcImage },
@@ -76,12 +94,12 @@ const CHARACTER_DATA: CharacterData[] = [
 interface StoryCard {
   id: string;
   imageInfo: CharacterData;
-  text: string;
 }
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<Category>("기본형");
   const [storyCards, setStoryCards] = useState<StoryCard[]>([]);
+  const [storyText, setStoryText] = useState("");
 
   const filteredImages = CHARACTER_DATA.filter((char) => char.category === activeCategory);
 
@@ -89,7 +107,6 @@ export default function Home() {
     const newCard: StoryCard = {
       id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
       imageInfo: char,
-      text: "",
     };
     setStoryCards([...storyCards, newCard]);
 
@@ -103,10 +120,6 @@ export default function Home() {
 
   const handleRemoveCard = (id: string) => {
     setStoryCards(storyCards.filter((card) => card.id !== id));
-  };
-
-  const handleTextChange = (id: string, text: string) => {
-    setStoryCards(storyCards.map((card) => (card.id === id ? { ...card, text } : card)));
   };
 
   return (
@@ -199,13 +212,13 @@ export default function Home() {
           </h2>
         </div>
 
-        <div className="flex-1 bg-white/80 rounded-3xl border-4 border-white shadow-md p-6 relative overflow-hidden flex flex-col">
-
+        {/* Story Cards Row */}
+        <div className="bg-white/80 rounded-3xl border-4 border-white shadow-md p-6 relative overflow-hidden">
           {storyCards.length === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-center gap-6 py-12 animate-in fade-in zoom-in duration-500">
+            <div className="flex flex-col items-center justify-center text-center gap-6 py-10 animate-in fade-in zoom-in duration-500">
               <div className="relative">
                 <div className="absolute -inset-4 bg-accent/20 rounded-full blur-2xl"></div>
-                <img src={ddcImage} alt="비어있음" className="w-32 h-32 object-contain opacity-80 relative z-10 animate-pulse" />
+                <img src={ddcImage} alt="비어있음" className="w-28 h-28 object-contain opacity-80 relative z-10 animate-pulse" />
               </div>
               <div className="space-y-2">
                 <h3 className="text-2xl font-bold text-muted-foreground">아직 이야기가 없어요!</h3>
@@ -219,7 +232,7 @@ export default function Home() {
             <div
               id="storyboard-container"
               data-testid="storyboard-area"
-              className="flex-1 flex flex-row gap-6 overflow-x-auto pb-4 pt-2 px-2 custom-scrollbar snap-x"
+              className="flex flex-row gap-5 overflow-x-auto pb-3 pt-1 px-1 custom-scrollbar snap-x"
             >
               <AnimatePresence mode="popLayout">
                 {storyCards.map((card) => (
@@ -230,30 +243,24 @@ export default function Home() {
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.8, y: -20 }}
                     transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                    className="shrink-0 w-[280px] md:w-[320px] snap-center"
+                    className="shrink-0 w-[160px] md:w-[180px] snap-center"
                   >
                     <div
                       data-testid={`story-card-${card.id}`}
-                      className="bg-white rounded-[2rem] p-5 shadow-lg border border-border/50 flex flex-col gap-4 h-full relative group"
+                      className="bg-white rounded-2xl p-3 shadow-md border border-border/50 flex flex-col gap-2 relative group"
                     >
-
                       {/* Delete Button */}
                       <button
                         data-testid={`delete-card-${card.id}`}
                         onClick={() => handleRemoveCard(card.id)}
-                        className="absolute -top-3 -right-3 bg-destructive text-destructive-foreground w-10 h-10 rounded-full shadow-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all md:opacity-0 md:group-hover:opacity-100 z-10"
+                        className="absolute -top-2.5 -right-2.5 bg-destructive text-destructive-foreground w-8 h-8 rounded-full shadow-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all md:opacity-0 md:group-hover:opacity-100 z-10"
                         title="장면 삭제하기"
                       >
-                        <span className="material-icons-round">delete_forever</span>
+                        <span className="material-icons-round text-base">delete_forever</span>
                       </button>
 
-                      {/* Header Badge */}
-                      <div className="self-center bg-secondary text-secondary-foreground/80 px-4 py-1.5 rounded-full text-sm font-bold shadow-inner">
-                        {card.imageInfo.category} · {card.imageInfo.name}
-                      </div>
-
                       {/* Character Image */}
-                      <div className="h-[160px] flex items-center justify-center bg-gradient-to-b from-transparent to-secondary/30 rounded-2xl p-4">
+                      <div className="h-[130px] md:h-[150px] flex items-center justify-center bg-gradient-to-b from-transparent to-secondary/30 rounded-xl p-2">
                         <img
                           src={card.imageInfo.image}
                           alt={card.imageInfo.name}
@@ -261,24 +268,31 @@ export default function Home() {
                         />
                       </div>
 
-                      {/* Text Area */}
-                      <div className="flex-1 flex flex-col">
-                        <textarea
-                          data-testid={`story-textarea-${card.id}`}
-                          value={card.text}
-                          onChange={(e) => handleTextChange(card.id, e.target.value)}
-                          placeholder="여기에 이야기를 써봐요!"
-                          className="w-full flex-1 min-h-[120px] resize-none bg-background/50 border-2 border-secondary rounded-2xl p-4 text-lg font-medium text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all custom-scrollbar leading-relaxed"
-                        />
+                      {/* Name Badge */}
+                      <div className="bg-secondary/70 text-secondary-foreground/80 px-2 py-1 rounded-full text-xs font-bold text-center truncate">
+                        {card.imageInfo.name}
                       </div>
-
                     </div>
                   </motion.div>
                 ))}
               </AnimatePresence>
             </div>
           )}
+        </div>
 
+        {/* Shared Story Textarea */}
+        <div className="bg-white/80 rounded-3xl border-4 border-white shadow-md p-5 flex flex-col gap-3">
+          <div className="flex items-center gap-2">
+            <span className="material-icons-round text-primary text-xl">edit_note</span>
+            <span className="font-bold text-base text-foreground/80">이야기를 써봐요!</span>
+          </div>
+          <textarea
+            data-testid="story-textarea"
+            value={storyText}
+            onChange={(e) => setStoryText(e.target.value)}
+            placeholder="디디씨와 함께하는 나만의 이야기를 여기에 써봐요!"
+            className="w-full min-h-[140px] resize-none bg-background/50 border-2 border-secondary rounded-2xl p-4 text-lg font-medium text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all custom-scrollbar leading-relaxed"
+          />
         </div>
       </section>
 

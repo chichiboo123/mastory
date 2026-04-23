@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toJpeg, toBlob } from "html-to-image";
 import ddcImage from "@assets/cnt_76_DDC_1776911486802.png";
@@ -289,6 +289,83 @@ export default function Home() {
     };
     reader.readAsText(file);
   };
+
+  const moveCard = (fromIndex: number, toIndex: number) => {
+    if (toIndex < 0 || toIndex >= storyCards.length || fromIndex === toIndex) return;
+    setStoryCards((prev) => {
+      const next = [...prev];
+      const [moved] = next.splice(fromIndex, 1);
+      next.splice(toIndex, 0, moved);
+      return next;
+    });
+  };
+
+  const handleDragStart = (id: string) => setDraggingCardId(id);
+  const handleDropCard = (targetId: string) => {
+    if (!draggingCardId || draggingCardId === targetId) return;
+    const fromIndex = storyCards.findIndex((c) => c.id === draggingCardId);
+    const toIndex = storyCards.findIndex((c) => c.id === targetId);
+    if (fromIndex >= 0 && toIndex >= 0) moveCard(fromIndex, toIndex);
+    setDraggingCardId(null);
+  };
+
+  const handleSaveData = () => {
+    const payload = {
+      version: 1,
+      language,
+      storyMode,
+      storyText,
+      cards: storyCards.map((card) => ({ id: card.id, characterId: card.imageInfo.id })),
+      sceneTexts,
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "mastory-data.json";
+    link.click();
+    URL.revokeObjectURL(link.href);
+    setDataMenuOpen(false);
+    showToast("저장 파일을 다운로드했어요!");
+  };
+
+  const handleLoadData = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = JSON.parse(String(reader.result));
+        const loadedCards: StoryCard[] = (parsed.cards ?? [])
+          .map((item: { id?: string; characterId?: string }) => {
+            const imageInfo = CHARACTER_DATA.find((c) => c.id === item.characterId);
+            if (!imageInfo) return null;
+            return { id: item.id ?? crypto.randomUUID(), imageInfo };
+          })
+          .filter(Boolean) as StoryCard[];
+        setLanguage(["ko", "en", "ja"].includes(parsed.language) ? parsed.language : "ko");
+        setStoryMode(parsed.storyMode === "scene-sequence" ? "scene-sequence" : "free-write");
+        setStoryText(parsed.storyText ?? "");
+        setStoryCards(loadedCards);
+        setSceneTexts(parsed.sceneTexts ?? {});
+        showToast("불러오기에 성공했어요!");
+      } catch {
+        showToast("불러오기에 실패했어요.", "error");
+      }
+      setDataMenuOpen(false);
+    };
+    reader.readAsText(file);
+  };
+
+  const selectedScene = storyCards.find((card) => card.id === selectedSceneId) ?? null;
+
+  useEffect(() => {
+    if (storyMode !== "scene-sequence") return;
+    if (storyCards.length === 0) {
+      setSelectedSceneId(null);
+      return;
+    }
+    if (!selectedSceneId || !storyCards.some((card) => card.id === selectedSceneId)) {
+      setSelectedSceneId(storyCards[0].id);
+    }
+  }, [storyMode, storyCards, selectedSceneId]);
 
   const htmlToImageOptions = {
     backgroundColor: "#fffdf0",

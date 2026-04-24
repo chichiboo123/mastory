@@ -395,6 +395,22 @@ const CHARACTER_NAME_I18N: Record<string, Record<Language, string>> = {
   "emoji-14": { ko: "슬퍼(폭풍눈물)", en: "Crying", ja: "悲しい(号泣)" },
   "emoji-15": { ko: "연락해", en: "Call Me", ja: "連絡して" },
   "emoji-16": { ko: "감동", en: "Touched", ja: "感動" },
+  "gif1-1": { ko: "GIF1-01", en: "GIF1-01", ja: "GIF1-01" },
+  "gif1-2": { ko: "GIF1-02", en: "GIF1-02", ja: "GIF1-02" },
+  "gif1-3": { ko: "GIF1-03", en: "GIF1-03", ja: "GIF1-03" },
+  "gif1-4": { ko: "GIF1-04", en: "GIF1-04", ja: "GIF1-04" },
+  "gif1-5": { ko: "GIF1-05", en: "GIF1-05", ja: "GIF1-05" },
+  "gif1-6": { ko: "GIF1-06", en: "GIF1-06", ja: "GIF1-06" },
+  "gif1-7": { ko: "GIF1-07", en: "GIF1-07", ja: "GIF1-07" },
+  "gif1-8": { ko: "GIF1-08", en: "GIF1-08", ja: "GIF1-08" },
+  "gif1-9": { ko: "GIF1-09", en: "GIF1-09", ja: "GIF1-09" },
+  "gif1-10": { ko: "GIF1-10", en: "GIF1-10", ja: "GIF1-10" },
+  "gif1-11": { ko: "GIF1-11", en: "GIF1-11", ja: "GIF1-11" },
+  "gif1-12": { ko: "GIF1-12", en: "GIF1-12", ja: "GIF1-12" },
+  "gif1-13": { ko: "GIF1-13", en: "GIF1-13", ja: "GIF1-13" },
+  "gif1-14": { ko: "GIF1-14", en: "GIF1-14", ja: "GIF1-14" },
+  "gif1-15": { ko: "GIF1-15", en: "GIF1-15", ja: "GIF1-15" },
+  "gif1-16": { ko: "GIF1-16", en: "GIF1-16", ja: "GIF1-16" },
 };
 
 

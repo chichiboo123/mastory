@@ -44,7 +44,15 @@ import emoji14 from "@assets/이모티콘형_14_슬퍼(폭풍눈물)_17769124916
 import emoji15 from "@assets/이모티콘형_15_연락해_1776912491610.png";
 import emoji16 from "@assets/이모티콘형_16_감동_1776912491610.png";
 
-type Category = "기본형" | "감정응용형" | "동작응용형" | "이모티콘";
+type Category =
+  | "기본형"
+  | "감정응용형"
+  | "동작응용형"
+  | "이모티콘"
+  | "GIF1"
+  | "GIF2"
+  | "GIF3"
+  | "GIF4";
 
 interface CharacterData {
   id: string;
@@ -53,7 +61,47 @@ interface CharacterData {
   image: string;
 }
 
-const CATEGORIES: Category[] = ["기본형", "감정응용형", "동작응용형", "이모티콘"];
+const CATEGORIES: Category[] = [
+  "기본형",
+  "감정응용형",
+  "동작응용형",
+  "이모티콘",
+  "GIF1",
+  "GIF2",
+  "GIF3",
+  "GIF4",
+];
+
+const GIF1_ASSET_MODULES = import.meta.glob<string>(
+  "../../../../attached_assets/*.{gif,png,webp,jpg,jpeg}",
+  { eager: true, import: "default" },
+);
+
+const getGif1Order = (assetPath: string) => {
+  const filename = assetPath.split("/").pop() ?? "";
+  const match = filename.match(/gif1[_-]?(\d{1,2})/i);
+  return match ? Number(match[1]) : Number.POSITIVE_INFINITY;
+};
+
+const GIF1_DYNAMIC_DATA: CharacterData[] = Object.entries(GIF1_ASSET_MODULES)
+  .filter(([assetPath]) => /gif1[_-]?\d{1,2}/i.test(assetPath.split("/").pop() ?? ""))
+  .sort(([a], [b]) => {
+    const orderA = getGif1Order(a);
+    const orderB = getGif1Order(b);
+    if (orderA !== orderB) return orderA - orderB;
+    return a.localeCompare(b, "ko");
+  })
+  .slice(0, 16)
+  .map(([assetPath, image], index) => {
+    const order = getGif1Order(assetPath);
+    const labelNumber = Number.isFinite(order) ? order : index;
+    return {
+      id: `gif1-${String(labelNumber).padStart(2, "0")}`,
+      name: `GIF1-${String(labelNumber).padStart(2, "0")}`,
+      category: "GIF1",
+      image,
+    };
+  });
 
 const CHARACTER_DATA: CharacterData[] = [
   { id: "basic-1", name: "디디씨", category: "기본형", image: ddcImage },
@@ -101,6 +149,7 @@ const CHARACTER_DATA: CharacterData[] = [
   { id: "emoji-14", name: "슬퍼(폭풍눈물)", category: "이모티콘", image: emoji14 },
   { id: "emoji-15", name: "연락해",      category: "이모티콘", image: emoji15 },
   { id: "emoji-16", name: "감동",        category: "이모티콘", image: emoji16 },
+  ...GIF1_DYNAMIC_DATA,
 ];
 
 interface StoryCard {
@@ -112,6 +161,7 @@ type ExportMode = "image-text" | "text-only";
 type ToastType = "success" | "error";
 type StoryMode = "free-write" | "scene-sequence";
 type Language = "ko" | "en" | "ja";
+const LOCAL_STORAGE_KEY = "mastory-local-data-v1";
 
 const I18N = {
   ko: {
@@ -170,6 +220,10 @@ const I18N = {
       감정응용형: "감정응용형",
       동작응용형: "동작응용형",
       이모티콘: "이모티콘",
+      GIF1: "GIF1",
+      GIF2: "GIF2",
+      GIF3: "GIF3",
+      GIF4: "GIF4",
     },
   },
   en: {
@@ -228,6 +282,10 @@ const I18N = {
       감정응용형: "Emotion",
       동작응용형: "Action",
       이모티콘: "Emoticon",
+      GIF1: "GIF1",
+      GIF2: "GIF2",
+      GIF3: "GIF3",
+      GIF4: "GIF4",
     },
   },
   ja: {
@@ -286,6 +344,10 @@ const I18N = {
       감정응용형: "感情応用型",
       동작응용형: "動作応用型",
       이모티콘: "絵文字",
+      GIF1: "GIF1",
+      GIF2: "GIF2",
+      GIF3: "GIF3",
+      GIF4: "GIF4",
     },
   },
 } as const;
@@ -366,6 +428,43 @@ export default function Home() {
     CHARACTER_NAME_I18N[character.id]?.[language] ?? character.name;
 
   const filteredImages = CHARACTER_DATA.filter((c) => c.category === activeCategory);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      const loadedCards: StoryCard[] = (parsed.cards ?? [])
+        .map((item: { id?: string; characterId?: string }) => {
+          const imageInfo = CHARACTER_DATA.find((c) => c.id === item.characterId);
+          if (!imageInfo) return null;
+          return { id: item.id ?? crypto.randomUUID(), imageInfo };
+        })
+        .filter(Boolean) as StoryCard[];
+
+      setLanguage(["ko", "en", "ja"].includes(parsed.language) ? parsed.language : "ko");
+      setStoryMode(parsed.storyMode === "scene-sequence" ? "scene-sequence" : "free-write");
+      setStoryText(typeof parsed.storyText === "string" ? parsed.storyText : "");
+      setStoryCards(loadedCards);
+      setSceneTexts(
+        parsed.sceneTexts && typeof parsed.sceneTexts === "object" ? parsed.sceneTexts : {},
+      );
+    } catch {
+      localStorage.removeItem(LOCAL_STORAGE_KEY);
+    }
+  }, []);
+
+  useEffect(() => {
+    const payload = {
+      version: 1,
+      language,
+      storyMode,
+      storyText,
+      cards: storyCards.map((card) => ({ id: card.id, characterId: card.imageInfo.id })),
+      sceneTexts,
+    };
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(payload));
+  }, [language, storyMode, storyText, storyCards, sceneTexts]);
 
   const showToast = (msg: string, type: ToastType = "success") => {
     setToast({ msg, type });

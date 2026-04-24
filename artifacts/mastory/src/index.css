@@ -366,4 +366,25 @@
   .tall-mobile-title {
     font-size: 1.75rem;
   }
+
+  .tall-mobile-header {
+    align-items: flex-start;
+  }
+
+  .tall-mobile-brand-row {
+    justify-content: space-between;
+  }
+
+  .tall-mobile-title-wrap {
+    justify-content: flex-start;
+  }
+
+  .tall-mobile-toolbar-static {
+    position: static;
+  }
+
+  .tall-mobile-subtitle-left {
+    text-align: left;
+    padding-left: 3.5rem;
+  }
 }

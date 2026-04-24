@@ -640,9 +640,9 @@ export default function Home() {
     <div className="min-h-[100dvh] bg-background text-foreground flex flex-col font-sans selection:bg-primary/30">
 
       {/* Header */}
-      <header className="pt-4 pb-4 md:pt-8 md:pb-6 px-4 md:px-8 tall-mobile-tight flex flex-col items-start justify-center shrink-0 relative gap-2 md:gap-3">
-        <div className="w-full flex items-start justify-between gap-2 md:gap-4">
-          <div className="flex items-center gap-2 md:gap-4 min-w-0">
+      <header className="pt-4 pb-4 md:pt-8 md:pb-6 px-4 md:px-8 tall-mobile-tight tall-mobile-header flex flex-col items-center justify-center shrink-0 relative gap-2 md:gap-3">
+        <div className="w-full flex items-start justify-center gap-2 md:gap-4 relative tall-mobile-brand-row">
+          <div className="flex items-center gap-2 md:gap-4 min-w-0 tall-mobile-title-wrap">
             <img src={ddcImage} alt="디디씨" className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-sm shrink-0" />
             <h1
               style={{ fontFamily: "'Black Han Sans', sans-serif" }}
@@ -651,7 +651,7 @@ export default function Home() {
               {t.title}
             </h1>
           </div>
-          <div className="shrink-0 flex items-center justify-end gap-1.5 z-20">
+          <div className="absolute right-0 top-0 shrink-0 flex items-center justify-end gap-1.5 z-20 tall-mobile-toolbar-static">
             <div ref={dataMenuRef} className="relative">
               <button onClick={() => setDataMenuOpen((v) => !v)} data-export-hidden aria-label={t.data} className={KRDS_ICON_BUTTON_CLASS}>
                 <span className="material-icons-round text-lg">save</span>
@@ -680,7 +680,7 @@ export default function Home() {
             </button>
           </div>
         </div>
-        <span className="pl-14 md:pl-20 text-sm md:text-xl font-bold text-muted-foreground/80 leading-snug break-keep md:whitespace-nowrap">
+        <span className="text-center text-sm md:text-xl font-bold text-muted-foreground/80 leading-snug break-keep md:whitespace-nowrap tall-mobile-subtitle-left">
           {t.subtitle}
         </span>
         <input

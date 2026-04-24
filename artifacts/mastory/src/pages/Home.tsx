@@ -432,6 +432,77 @@ const CHARACTER_NAME_I18N: Record<string, Record<Language, string>> = {
   "emoji-16": { ko: "감동", en: "Touched", ja: "感動" },
 };
 
+const GIF_NAME_I18N: Record<string, Record<Language, string>> = {
+  굿모닝: { ko: "굿모닝", en: "Good Morning", ja: "おはよう" },
+  배고파: { ko: "배고파", en: "Hungry", ja: "お腹すいた" },
+  좋아: { ko: "좋아", en: "Okay", ja: "いいね" },
+  싫어: { ko: "싫어", en: "No", ja: "イヤ" },
+  부끄: { ko: "부끄", en: "Shy", ja: "恥ずかしい" },
+  당황: { ko: "당황", en: "Flustered", ja: "あわてる" },
+  휴식: { ko: "휴식", en: "Rest", ja: "休憩" },
+  가는중: { ko: "가는중", en: "On My Way", ja: "向かってる" },
+  "ㅋㅋㅋ": { ko: "ㅋㅋㅋ", en: "LOL", ja: "www" },
+  뭐해: { ko: "뭐해", en: "What are you doing?", ja: "何してる？" },
+  바쁨: { ko: "바쁨", en: "Busy", ja: "忙しい" },
+  심쿵: { ko: "심쿵", en: "Heart Flutter", ja: "ドキドキ" },
+  잘자: { ko: "잘자", en: "Good Night", ja: "おやすみ" },
+  슬퍼: { ko: "슬퍼", en: "Sad", ja: "悲しい" },
+  연락해카톡: { ko: "연락해(카톡)", en: "Message me", ja: "連絡して(カカオトーク)" },
+  감동: { ko: "감동", en: "Touched", ja: "感動" },
+  안내: { ko: "안내", en: "Guide", ja: "案内" },
+  관광: { ko: "관광", en: "Travel", ja: "観光" },
+  금지: { ko: "금지", en: "No", ja: "禁止" },
+  새해: { ko: "새해", en: "New Year", ja: "新年" },
+  힐링: { ko: "힐링", en: "Healing", ja: "癒し" },
+  운동: { ko: "운동", en: "Exercise", ja: "運動" },
+  행복: { ko: "행복", en: "Happy", ja: "幸せ" },
+  삐짐: { ko: "삐짐", en: "Pouting", ja: "すねる" },
+  슬픔: { ko: "슬픔", en: "Sadness", ja: "悲しみ" },
+  죄송: { ko: "죄송", en: "Sorry", ja: "ごめんなさい" },
+  사랑: { ko: "사랑", en: "Love", ja: "愛" },
+  축하: { ko: "축하", en: "Congrats", ja: "お祝い" },
+  감사: { ko: "감사", en: "Thanks", ja: "感謝" },
+  놀람: { ko: "놀람", en: "Surprised", ja: "びっくり" },
+  응원: { ko: "응원", en: "Cheering", ja: "応援" },
+  반려동물: { ko: "반려동물", en: "Pet", ja: "ペット" },
+  미디어3d: { ko: "미디어(3D)", en: "Media (3D)", ja: "メディア(3D)" },
+  힐링휴양림: { ko: "힐링(휴양림)", en: "Healing (Forest Retreat)", ja: "癒し(休養林)" },
+  아이키움: { ko: "아이키움", en: "Child Raising", ja: "子育て" },
+  산과캠핑: { ko: "산과 캠핑", en: "Mountains & Camping", ja: "山とキャンプ" },
+  앉은자세: { ko: "앉은 자세", en: "Sitting Pose", ja: "座るポーズ" },
+  누워있는자세: { ko: "누워 있는 자세", en: "Lying Pose", ja: "横になるポーズ" },
+  유니폼과모자: { ko: "유니폼과 모자", en: "Uniform & Hat", ja: "ユニフォームと帽子" },
+  마이크연설: { ko: "마이크 연설", en: "Microphone Speech", ja: "マイク演説" },
+  번뜩임: { ko: "번뜩임", en: "Spark Idea", ja: "ひらめき" },
+  엄지척: { ko: "엄지척", en: "Thumbs Up", ja: "いいね" },
+  락페: { ko: "락페", en: "Rock Festival", ja: "ロックフェス" },
+  전통시장: { ko: "전통시장", en: "Traditional Market", ja: "伝統市場" },
+  크리에이터: { ko: "크리에이터", en: "Creator", ja: "クリエイター" },
+  맨발황톳길: { ko: "맨발황톳길", en: "Barefoot Red Clay Trail", ja: "裸足の黄土道" },
+  측면자세: { ko: "측면 자세", en: "Side Pose", ja: "側面ポーズ" },
+  가보자동두천: { ko: "가보자동두천", en: "Let's Go, Dongducheon", ja: "行こう、東豆川" },
+  넵: { ko: "넵", en: "Yep", ja: "はいっ" },
+  둠칫둠칫: { ko: "둠칫둠칫", en: "Dance Beat", ja: "ノリノリ" },
+  별보러가자: { ko: "별보러가자", en: "Let's Go Stargazing", ja: "星を見に行こう" },
+  잘했어: { ko: "잘했어", en: "Great Job", ja: "よくやった" },
+  좋은소식: { ko: "좋은소식", en: "Good News", ja: "良い知らせ" },
+  주목: { ko: "주목", en: "Attention", ja: "注目" },
+  천사데이: { ko: "천사데이", en: "Angel Day", ja: "エンジェルデー" },
+  파이팅: { ko: "파이팅", en: "Fighting", ja: "ファイト" },
+  풍악을울려라: { ko: "풍악을울려라", en: "Strike Up the Band", ja: "音楽を鳴らせ" },
+  하트: { ko: "하트", en: "Heart", ja: "ハート" },
+  한가위: { ko: "한가위", en: "Chuseok", ja: "秋夕" },
+  행복해: { ko: "행복해", en: "Be Happy", ja: "幸せになろう" },
+  행운을빌어: { ko: "행운을빌어", en: "Good Luck", ja: "幸運を祈る" },
+  환영해: { ko: "환영해", en: "Welcome", ja: "歓迎するよ" },
+};
+
+const normalizeGifLabel = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/[()]/g, "")
+    .replace(/[^a-z0-9가-힣]/g, "");
+
 
 
 const KRDS_ICON_BUTTON_CLASS = "h-11 w-11 rounded-xl border border-border bg-white text-foreground shadow-sm hover:bg-secondary active:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 flex items-center justify-center touch-manipulation";
@@ -462,8 +533,13 @@ export default function Home() {
   const langMenuRef = useRef<HTMLDivElement>(null);
   const gifImgRefs = useRef<Record<string, HTMLImageElement | null>>({});
   const t = I18N[language];
-  const getCharacterName = (character: CharacterData) =>
-    CHARACTER_NAME_I18N[character.id]?.[language] ?? character.name;
+  const getCharacterName = (character: CharacterData) => {
+    const knownName = CHARACTER_NAME_I18N[character.id]?.[language];
+    if (knownName) return knownName;
+    const normalizedLabel = normalizeGifLabel(character.name);
+    const gifName = GIF_NAME_I18N[normalizedLabel]?.[language];
+    return gifName ?? character.name;
+  };
 
   const filteredImages = CHARACTER_DATA.filter((c) => c.category === activeCategory);
 

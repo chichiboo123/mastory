@@ -357,10 +357,10 @@
   }
 }
 
-@media (max-width: 430px) and (max-aspect-ratio: 9/23.1) {
+@media (max-aspect-ratio: 9/23.1), (max-width: 480px) {
   .tall-mobile-tight {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   .tall-mobile-title {
@@ -373,16 +373,19 @@
 
   .tall-mobile-brand-row {
     justify-content: flex-start;
+    padding-left: 16px;
   }
 
   .tall-mobile-title-wrap {
     justify-content: flex-start;
-    padding-left: 0.125rem;
+    padding-left: 0;
     padding-right: 7.5rem;
   }
 
   .tall-mobile-title-row {
     align-items: flex-end;
+    justify-content: flex-start;
+    text-align: left;
   }
 
   .tall-mobile-toolbar-static {

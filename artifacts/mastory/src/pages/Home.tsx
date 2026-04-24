@@ -72,6 +72,37 @@ const CATEGORIES: Category[] = [
   "GIF4",
 ];
 
+const GIF1_ASSET_MODULES = import.meta.glob<string>(
+  "../../../../attached_assets/*.{gif,png,webp,jpg,jpeg}",
+  { eager: true, import: "default" },
+);
+
+const getGif1Order = (assetPath: string) => {
+  const filename = assetPath.split("/").pop() ?? "";
+  const match = filename.match(/gif1[_-]?(\d{1,2})/i);
+  return match ? Number(match[1]) : Number.POSITIVE_INFINITY;
+};
+
+const GIF1_DYNAMIC_DATA: CharacterData[] = Object.entries(GIF1_ASSET_MODULES)
+  .filter(([assetPath]) => /gif1[_-]?\d{1,2}/i.test(assetPath.split("/").pop() ?? ""))
+  .sort(([a], [b]) => {
+    const orderA = getGif1Order(a);
+    const orderB = getGif1Order(b);
+    if (orderA !== orderB) return orderA - orderB;
+    return a.localeCompare(b, "ko");
+  })
+  .slice(0, 16)
+  .map(([assetPath, image], index) => {
+    const order = getGif1Order(assetPath);
+    const labelNumber = Number.isFinite(order) ? order : index;
+    return {
+      id: `gif1-${String(labelNumber).padStart(2, "0")}`,
+      name: `GIF1-${String(labelNumber).padStart(2, "0")}`,
+      category: "GIF1",
+      image,
+    };
+  });
+
 const CHARACTER_DATA: CharacterData[] = [
   { id: "basic-1", name: "디디씨", category: "기본형", image: ddcImage },
 
@@ -118,24 +149,7 @@ const CHARACTER_DATA: CharacterData[] = [
   { id: "emoji-14", name: "슬퍼(폭풍눈물)", category: "이모티콘", image: emoji14 },
   { id: "emoji-15", name: "연락해",      category: "이모티콘", image: emoji15 },
   { id: "emoji-16", name: "감동",        category: "이모티콘", image: emoji16 },
-
-  // GIF1 assets placeholder slots (replace image source with uploaded GIF files when available)
-  { id: "gif1-1", name: "GIF1-01", category: "GIF1", image: ddcImage },
-  { id: "gif1-2", name: "GIF1-02", category: "GIF1", image: ddcImage },
-  { id: "gif1-3", name: "GIF1-03", category: "GIF1", image: ddcImage },
-  { id: "gif1-4", name: "GIF1-04", category: "GIF1", image: ddcImage },
-  { id: "gif1-5", name: "GIF1-05", category: "GIF1", image: ddcImage },
-  { id: "gif1-6", name: "GIF1-06", category: "GIF1", image: ddcImage },
-  { id: "gif1-7", name: "GIF1-07", category: "GIF1", image: ddcImage },
-  { id: "gif1-8", name: "GIF1-08", category: "GIF1", image: ddcImage },
-  { id: "gif1-9", name: "GIF1-09", category: "GIF1", image: ddcImage },
-  { id: "gif1-10", name: "GIF1-10", category: "GIF1", image: ddcImage },
-  { id: "gif1-11", name: "GIF1-11", category: "GIF1", image: ddcImage },
-  { id: "gif1-12", name: "GIF1-12", category: "GIF1", image: ddcImage },
-  { id: "gif1-13", name: "GIF1-13", category: "GIF1", image: ddcImage },
-  { id: "gif1-14", name: "GIF1-14", category: "GIF1", image: ddcImage },
-  { id: "gif1-15", name: "GIF1-15", category: "GIF1", image: ddcImage },
-  { id: "gif1-16", name: "GIF1-16", category: "GIF1", image: ddcImage },
+  ...GIF1_DYNAMIC_DATA,
 ];
 
 interface StoryCard {

@@ -79,30 +79,36 @@ const GIF_ASSET_MODULES = import.meta.glob<string>(
 
 const makeGifData = (num: 1 | 2 | 3 | 4): CharacterData[] => {
   const category = `GIF${num}` as Category;
-  const orderPattern = new RegExp(`gif${num}[_-]?(\\d{1,2})`, "i");
-  const filterPattern = new RegExp(`gif${num}[_-]?\\d{1,2}`, "i");
+  const prefixPattern = new RegExp(`^gif${num}[_-]`, "i");
+  const numberPattern = new RegExp(`gif${num}[_-]?(\\d+)`, "i");
 
-  const getOrder = (assetPath: string) => {
+  const getOrder = (assetPath: string): number | null => {
     const filename = assetPath.split("/").pop() ?? "";
-    const match = filename.match(orderPattern);
-    return match ? Number(match[1]) : Number.POSITIVE_INFINITY;
+    const match = filename.match(numberPattern);
+    return match ? Number(match[1]) : null;
   };
 
-  return Object.entries(GIF_ASSET_MODULES)
-    .filter(([assetPath]) => filterPattern.test(assetPath.split("/").pop() ?? ""))
+  const entries = Object.entries(GIF_ASSET_MODULES).filter(([assetPath]) =>
+    prefixPattern.test(assetPath.split("/").pop() ?? ""),
+  );
+
+  const hasNumbers = entries.some(([p]) => getOrder(p) !== null);
+
+  return entries
     .sort(([a], [b]) => {
-      const orderA = getOrder(a);
-      const orderB = getOrder(b);
-      if (orderA !== orderB) return orderA - orderB;
-      return a.localeCompare(b, "ko");
+      if (hasNumbers) {
+        const oa = getOrder(a) ?? Number.POSITIVE_INFINITY;
+        const ob = getOrder(b) ?? Number.POSITIVE_INFINITY;
+        if (oa !== ob) return oa - ob;
+      }
+      return (a.split("/").pop() ?? "").localeCompare(b.split("/").pop() ?? "", "ko");
     })
     .slice(0, 16)
     .map(([assetPath, image], index) => {
-      const order = getOrder(assetPath);
-      const labelNumber = Number.isFinite(order) ? order : index;
+      const order = hasNumbers ? (getOrder(assetPath) ?? index + 1) : index + 1;
       return {
-        id: `gif${num}-${String(labelNumber).padStart(2, "0")}`,
-        name: `GIF${num}-${String(labelNumber).padStart(2, "0")}`,
+        id: `gif${num}-${String(order).padStart(2, "0")}`,
+        name: `GIF${num}-${String(order).padStart(2, "0")}`,
         category,
         image,
       };
@@ -227,6 +233,8 @@ const I18N = {
     scenePrefix: "장면",
     exportSceneTitle: "[ 나의 디디씨 이야기 장면 ]",
     exportContentTitle: "[ 이야기 내용 ]",
+    gifPause: "일시정지",
+    gifPlay: "재생",
     footerCreatedBy: "Created by. 교육뮤지컬 꿈꾸는 치수쌤",
     footerSourceLabel: "캐릭터 이미지 출처:",
     categoryLabels: {
@@ -289,6 +297,8 @@ const I18N = {
     scenePrefix: "Scene",
     exportSceneTitle: "[ DDC Story Scenes ]",
     exportContentTitle: "[ Story Content ]",
+    gifPause: "Pause",
+    gifPlay: "Play",
     footerCreatedBy: "Created by Dreaming Chisu Teacher",
     footerSourceLabel: "Character image source:",
     categoryLabels: {
@@ -351,6 +361,8 @@ const I18N = {
     scenePrefix: "シーン",
     exportSceneTitle: "[ DDCストーリーのシーン ]",
     exportContentTitle: "[ 物語の内容 ]",
+    gifPause: "一時停止",
+    gifPlay: "再生",
     footerCreatedBy: "Created by. 教育ミュージカル 夢見るチス先生",
     footerSourceLabel: "キャラクター画像の出典:",
     categoryLabels: {
@@ -496,11 +508,14 @@ export default function Home() {
   const [exportMode, setExportMode] = useState<ExportMode>("image-text");
   const [exporting, setExporting] = useState(false);
   const [toast, setToast] = useState<{ msg: string; type: ToastType } | null>(null);
+  const [isGifPaused, setIsGifPaused] = useState(false);
+  const [frozenFrames, setFrozenFrames] = useState<Record<string, string>>({});
 
   const exportAreaRef = useRef<HTMLDivElement>(null);
   const importInputRef = useRef<HTMLInputElement>(null);
   const dataMenuRef = useRef<HTMLDivElement>(null);
   const langMenuRef = useRef<HTMLDivElement>(null);
+  const gifImgRefs = useRef<Record<string, HTMLImageElement | null>>({});
   const t = I18N[language];
   const getCharacterName = (character: CharacterData) =>
     CHARACTER_NAME_I18N[character.id]?.[language] ?? character.name;
@@ -547,6 +562,28 @@ export default function Home() {
   const showToast = (msg: string, type: ToastType = "success") => {
     setToast({ msg, type });
     setTimeout(() => setToast(null), 2500);
+  };
+
+  const handleGifPauseToggle = () => {
+    if (!isGifPaused) {
+      const frames: Record<string, string> = {};
+      for (const [id, img] of Object.entries(gifImgRefs.current)) {
+        if (!img) continue;
+        const canvas = document.createElement("canvas");
+        canvas.width = img.naturalWidth || img.offsetWidth;
+        canvas.height = img.naturalHeight || img.offsetHeight;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.drawImage(img, 0, 0);
+          frames[id] = canvas.toDataURL();
+        }
+      }
+      setFrozenFrames(frames);
+      setIsGifPaused(true);
+    } else {
+      setIsGifPaused(false);
+      setFrozenFrames({});
+    }
   };
 
   const handleAddCard = (char: CharacterData) => {
@@ -911,6 +948,19 @@ export default function Home() {
 
         {/* Gallery Grid */}
         <div className="bg-white/60 p-3 md:p-6 rounded-2xl md:rounded-3xl border-4 border-white shadow-sm">
+          {activeCategory.startsWith("GIF") && (
+            <div className="flex justify-end mb-2 md:mb-3">
+              <button
+                onClick={handleGifPauseToggle}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs md:text-sm font-bold border-2 transition-all touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 bg-white border-primary/30 text-primary hover:bg-primary/10"
+              >
+                <span className="material-icons-round text-base leading-none">
+                  {isGifPaused ? "play_arrow" : "pause"}
+                </span>
+                {isGifPaused ? t.gifPlay : t.gifPause}
+              </button>
+            </div>
+          )}
           <div
             data-testid="gallery-grid"
             className={`grid gap-2 md:gap-4 p-1 md:p-2 custom-scrollbar ${
@@ -928,7 +978,8 @@ export default function Home() {
               >
                 <div className="w-full aspect-square flex items-center justify-center bg-secondary/50 rounded-lg md:rounded-xl overflow-hidden group-hover:bg-primary/10 transition-colors">
                   <img
-                    src={char.image}
+                    ref={(el) => { gifImgRefs.current[char.id] = el; }}
+                    src={isGifPaused && frozenFrames[char.id] ? frozenFrames[char.id] : char.image}
                     alt={getCharacterName(char)}
                     className="w-full h-full object-contain object-center drop-shadow-sm"
                   />

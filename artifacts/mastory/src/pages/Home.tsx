@@ -642,21 +642,21 @@ export default function Home() {
       {/* Header */}
       <header className="pt-4 pb-4 md:pt-8 md:pb-6 px-4 md:px-8 tall-mobile-tight flex flex-col shrink-0 relative gap-2 md:gap-3">
         <div className="w-full flex items-center justify-between gap-2 md:gap-4">
-          <div className="flex items-center gap-2 md:gap-4 min-w-0">
+          <div className="flex items-center gap-2 md:gap-4 min-w-0 overflow-hidden">
             <img src={ddcImage} alt="디디씨" className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-sm shrink-0" />
-            <div className="flex items-end gap-1.5 md:gap-3 min-w-0">
+            <div className="flex items-end gap-1.5 md:gap-3 min-w-0 overflow-hidden">
               <h1
                 style={{ fontFamily: "'Black Han Sans', sans-serif" }}
-                className="text-3xl md:text-5xl tall-mobile-title text-primary drop-shadow-sm tracking-tight whitespace-nowrap leading-none"
+                className="text-3xl md:text-5xl tall-mobile-title text-primary drop-shadow-sm tracking-tight whitespace-nowrap leading-none shrink-0"
               >
                 {t.title}
               </h1>
-              <span className="text-xs md:text-xl font-bold text-muted-foreground/80 leading-none pb-0.5 whitespace-nowrap">
+              <span className="text-xs md:text-xl font-bold text-muted-foreground/80 leading-none pb-0.5 whitespace-nowrap tall-mobile-subtitle">
                 {t.subtitle}
               </span>
             </div>
           </div>
-          <div className="shrink-0 flex items-center justify-end gap-1.5 z-20">
+          <div className="shrink-0 flex items-center justify-end gap-1.5 z-20 header-toolbar">
             <div ref={dataMenuRef} className="relative">
               <button onClick={() => setDataMenuOpen((v) => !v)} data-export-hidden aria-label={t.data} className={KRDS_ICON_BUTTON_CLASS}>
                 <span className="material-icons-round text-lg">save</span>
@@ -778,7 +778,7 @@ export default function Home() {
             </h2>
           </div>
           <div className="shrink-0 flex items-center gap-1.5 md:gap-2">
-            <div className="flex gap-1 bg-secondary rounded-2xl p-1">
+            <div className="flex gap-1 bg-secondary rounded-2xl p-1 story-mode-toggle">
               {([
                 ["free-write", t.basicMode] as const,
                 ["scene-sequence", t.sceneMode] as const,
@@ -795,7 +795,7 @@ export default function Home() {
                   <span className="material-icons-round text-base leading-none">
                     {mode === "free-write" ? "edit_note" : "view_carousel"}
                   </span>
-                  {label}
+                  <span className="segment-label">{label}</span>
                 </button>
               ))}
             </div>
@@ -805,7 +805,7 @@ export default function Home() {
               aria-label={t.reset}
               title={t.reset}
               data-export-hidden
-              className={KRDS_ICON_BUTTON_CLASS}
+              className={`${KRDS_ICON_BUTTON_CLASS} story-reset-btn`}
             >
               <span className="material-icons-round text-base md:text-lg">restart_alt</span>
               <span className="sr-only">{t.reset}</span>

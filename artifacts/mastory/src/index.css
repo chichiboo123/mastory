@@ -359,11 +359,45 @@
 
 @media (max-aspect-ratio: 9/23.1), (max-width: 480px) {
   .tall-mobile-tight {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
 
   .tall-mobile-title {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
+  }
+
+  /* hide "with. 디디씨" subtitle so it can't bleed into buttons */
+  .tall-mobile-subtitle {
+    display: none;
+  }
+
+  /* shrink header icon buttons from 44px → 32px */
+  .header-toolbar {
+    gap: 0.25rem;
+  }
+
+  .header-toolbar button {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+  }
+
+  /* collapse segment-mode toggle to icon-only on narrow mobile */
+  .story-mode-toggle .segment-label {
+    display: none;
+  }
+
+  .story-mode-toggle button {
+    min-width: 2.25rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+
+  /* shrink reset button to match */
+  .story-reset-btn {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
   }
 }

@@ -116,7 +116,7 @@ type Language = "ko" | "en" | "ja";
 const I18N = {
   ko: {
     title: "마스토리",
-    subtitle: "With. 디디씨",
+    subtitle: "with. 디디씨",
     myStory: "나의 이야기",
     basicMode: "기본",
     sceneMode: "장면",
@@ -174,7 +174,7 @@ const I18N = {
   },
   en: {
     title: "Mastory",
-    subtitle: "With. DDC",
+    subtitle: "with. DDC",
     myStory: "My Story",
     basicMode: "Basic",
     sceneMode: "Scene",
@@ -231,8 +231,8 @@ const I18N = {
     },
   },
   ja: {
-    title: "マストーリー",
-    subtitle: "With. DDC",
+    title: "Mastory",
+    subtitle: "with. DDC",
     myStory: "私の物語",
     basicMode: "基本",
     sceneMode: "シーン別",
@@ -644,14 +644,14 @@ export default function Home() {
         <div className="w-full flex items-start justify-center gap-2 md:gap-4 relative tall-mobile-brand-row">
           <div className="flex items-center gap-2 md:gap-4 min-w-0 tall-mobile-title-wrap">
             <img src={ddcImage} alt="디디씨" className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-sm shrink-0" />
-            <div className="flex items-end gap-2 md:gap-3 whitespace-nowrap min-w-0">
+            <div className="flex items-end gap-1.5 md:gap-3 whitespace-nowrap min-w-0 tall-mobile-title-row">
               <h1
                 style={{ fontFamily: "'Black Han Sans', sans-serif" }}
                 className="text-3xl md:text-5xl tall-mobile-title text-primary drop-shadow-sm tracking-tight whitespace-nowrap leading-none"
               >
                 {t.title}
               </h1>
-              <span className="text-sm md:text-xl font-bold text-muted-foreground/80 leading-none pb-0.5">
+              <span className="text-xs md:text-xl font-bold text-muted-foreground/80 leading-none pb-0.5">
                 {t.subtitle}
               </span>
             </div>
@@ -685,9 +685,6 @@ export default function Home() {
             </button>
           </div>
         </div>
-        <span className="text-center text-sm md:text-xl font-bold text-muted-foreground/80 leading-snug break-keep md:whitespace-nowrap tall-mobile-subtitle-left">
-          {t.subtitle}
-        </span>
         <input
           ref={importInputRef}
           type="file"

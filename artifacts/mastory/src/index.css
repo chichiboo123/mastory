@@ -357,7 +357,7 @@
   }
 }
 
-@media (max-width: 430px) and (max-aspect-ratio: 10/23) {
+@media (max-width: 430px) and (max-aspect-ratio: 9/23.1) {
   .tall-mobile-tight {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
@@ -372,15 +372,23 @@
   }
 
   .tall-mobile-brand-row {
-    justify-content: space-between;
+    justify-content: flex-start;
   }
 
   .tall-mobile-title-wrap {
     justify-content: flex-start;
+    padding-left: 0.125rem;
+    padding-right: 7.5rem;
+  }
+
+  .tall-mobile-title-row {
+    align-items: flex-end;
   }
 
   .tall-mobile-toolbar-static {
-    position: static;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 
 }

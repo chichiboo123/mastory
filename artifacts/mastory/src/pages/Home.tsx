@@ -81,11 +81,19 @@ const makeGifData = (num: 1 | 2 | 3 | 4): CharacterData[] => {
   const category = `GIF${num}` as Category;
   const prefixPattern = new RegExp(`^gif${num}[_-]`, "i");
   const numberPattern = new RegExp(`gif${num}[_-]?(\\d+)`, "i");
+  const labelPattern = new RegExp(`gif${num}[_-]?\\d*\\s*(.+)`, "i");
 
   const getOrder = (assetPath: string): number | null => {
     const filename = assetPath.split("/").pop() ?? "";
     const match = filename.match(numberPattern);
     return match ? Number(match[1]) : null;
+  };
+
+  const extractLabel = (assetPath: string): string => {
+    const filename = assetPath.split("/").pop() ?? "";
+    const withoutExt = filename.replace(/\.[^/.]+$/, "");
+    const match = withoutExt.match(labelPattern);
+    return match?.[1]?.trim() || withoutExt;
   };
 
   const entries = Object.entries(GIF_ASSET_MODULES).filter(([assetPath]) =>
@@ -106,9 +114,10 @@ const makeGifData = (num: 1 | 2 | 3 | 4): CharacterData[] => {
     .slice(0, 16)
     .map(([assetPath, image], index) => {
       const order = hasNumbers ? (getOrder(assetPath) ?? index + 1) : index + 1;
+      const label = extractLabel(assetPath);
       return {
         id: `gif${num}-${String(order).padStart(2, "0")}`,
-        name: `GIF${num}-${String(order).padStart(2, "0")}`,
+        name: label,
         category,
         image,
       };
@@ -421,70 +430,6 @@ const CHARACTER_NAME_I18N: Record<string, Record<Language, string>> = {
   "emoji-14": { ko: "슬퍼(폭풍눈물)", en: "Crying", ja: "悲しい(号泣)" },
   "emoji-15": { ko: "연락해", en: "Call Me", ja: "連絡して" },
   "emoji-16": { ko: "감동", en: "Touched", ja: "感動" },
-  "gif1-1": { ko: "GIF1-01", en: "GIF1-01", ja: "GIF1-01" },
-  "gif1-2": { ko: "GIF1-02", en: "GIF1-02", ja: "GIF1-02" },
-  "gif1-3": { ko: "GIF1-03", en: "GIF1-03", ja: "GIF1-03" },
-  "gif1-4": { ko: "GIF1-04", en: "GIF1-04", ja: "GIF1-04" },
-  "gif1-5": { ko: "GIF1-05", en: "GIF1-05", ja: "GIF1-05" },
-  "gif1-6": { ko: "GIF1-06", en: "GIF1-06", ja: "GIF1-06" },
-  "gif1-7": { ko: "GIF1-07", en: "GIF1-07", ja: "GIF1-07" },
-  "gif1-8": { ko: "GIF1-08", en: "GIF1-08", ja: "GIF1-08" },
-  "gif1-9": { ko: "GIF1-09", en: "GIF1-09", ja: "GIF1-09" },
-  "gif1-10": { ko: "GIF1-10", en: "GIF1-10", ja: "GIF1-10" },
-  "gif1-11": { ko: "GIF1-11", en: "GIF1-11", ja: "GIF1-11" },
-  "gif1-12": { ko: "GIF1-12", en: "GIF1-12", ja: "GIF1-12" },
-  "gif1-13": { ko: "GIF1-13", en: "GIF1-13", ja: "GIF1-13" },
-  "gif1-14": { ko: "GIF1-14", en: "GIF1-14", ja: "GIF1-14" },
-  "gif1-15": { ko: "GIF1-15", en: "GIF1-15", ja: "GIF1-15" },
-  "gif1-16": { ko: "GIF1-16", en: "GIF1-16", ja: "GIF1-16" },
-  "gif2-01": { ko: "GIF2-01", en: "GIF2-01", ja: "GIF2-01" },
-  "gif2-02": { ko: "GIF2-02", en: "GIF2-02", ja: "GIF2-02" },
-  "gif2-03": { ko: "GIF2-03", en: "GIF2-03", ja: "GIF2-03" },
-  "gif2-04": { ko: "GIF2-04", en: "GIF2-04", ja: "GIF2-04" },
-  "gif2-05": { ko: "GIF2-05", en: "GIF2-05", ja: "GIF2-05" },
-  "gif2-06": { ko: "GIF2-06", en: "GIF2-06", ja: "GIF2-06" },
-  "gif2-07": { ko: "GIF2-07", en: "GIF2-07", ja: "GIF2-07" },
-  "gif2-08": { ko: "GIF2-08", en: "GIF2-08", ja: "GIF2-08" },
-  "gif2-09": { ko: "GIF2-09", en: "GIF2-09", ja: "GIF2-09" },
-  "gif2-10": { ko: "GIF2-10", en: "GIF2-10", ja: "GIF2-10" },
-  "gif2-11": { ko: "GIF2-11", en: "GIF2-11", ja: "GIF2-11" },
-  "gif2-12": { ko: "GIF2-12", en: "GIF2-12", ja: "GIF2-12" },
-  "gif2-13": { ko: "GIF2-13", en: "GIF2-13", ja: "GIF2-13" },
-  "gif2-14": { ko: "GIF2-14", en: "GIF2-14", ja: "GIF2-14" },
-  "gif2-15": { ko: "GIF2-15", en: "GIF2-15", ja: "GIF2-15" },
-  "gif2-16": { ko: "GIF2-16", en: "GIF2-16", ja: "GIF2-16" },
-  "gif3-01": { ko: "GIF3-01", en: "GIF3-01", ja: "GIF3-01" },
-  "gif3-02": { ko: "GIF3-02", en: "GIF3-02", ja: "GIF3-02" },
-  "gif3-03": { ko: "GIF3-03", en: "GIF3-03", ja: "GIF3-03" },
-  "gif3-04": { ko: "GIF3-04", en: "GIF3-04", ja: "GIF3-04" },
-  "gif3-05": { ko: "GIF3-05", en: "GIF3-05", ja: "GIF3-05" },
-  "gif3-06": { ko: "GIF3-06", en: "GIF3-06", ja: "GIF3-06" },
-  "gif3-07": { ko: "GIF3-07", en: "GIF3-07", ja: "GIF3-07" },
-  "gif3-08": { ko: "GIF3-08", en: "GIF3-08", ja: "GIF3-08" },
-  "gif3-09": { ko: "GIF3-09", en: "GIF3-09", ja: "GIF3-09" },
-  "gif3-10": { ko: "GIF3-10", en: "GIF3-10", ja: "GIF3-10" },
-  "gif3-11": { ko: "GIF3-11", en: "GIF3-11", ja: "GIF3-11" },
-  "gif3-12": { ko: "GIF3-12", en: "GIF3-12", ja: "GIF3-12" },
-  "gif3-13": { ko: "GIF3-13", en: "GIF3-13", ja: "GIF3-13" },
-  "gif3-14": { ko: "GIF3-14", en: "GIF3-14", ja: "GIF3-14" },
-  "gif3-15": { ko: "GIF3-15", en: "GIF3-15", ja: "GIF3-15" },
-  "gif3-16": { ko: "GIF3-16", en: "GIF3-16", ja: "GIF3-16" },
-  "gif4-01": { ko: "GIF4-01", en: "GIF4-01", ja: "GIF4-01" },
-  "gif4-02": { ko: "GIF4-02", en: "GIF4-02", ja: "GIF4-02" },
-  "gif4-03": { ko: "GIF4-03", en: "GIF4-03", ja: "GIF4-03" },
-  "gif4-04": { ko: "GIF4-04", en: "GIF4-04", ja: "GIF4-04" },
-  "gif4-05": { ko: "GIF4-05", en: "GIF4-05", ja: "GIF4-05" },
-  "gif4-06": { ko: "GIF4-06", en: "GIF4-06", ja: "GIF4-06" },
-  "gif4-07": { ko: "GIF4-07", en: "GIF4-07", ja: "GIF4-07" },
-  "gif4-08": { ko: "GIF4-08", en: "GIF4-08", ja: "GIF4-08" },
-  "gif4-09": { ko: "GIF4-09", en: "GIF4-09", ja: "GIF4-09" },
-  "gif4-10": { ko: "GIF4-10", en: "GIF4-10", ja: "GIF4-10" },
-  "gif4-11": { ko: "GIF4-11", en: "GIF4-11", ja: "GIF4-11" },
-  "gif4-12": { ko: "GIF4-12", en: "GIF4-12", ja: "GIF4-12" },
-  "gif4-13": { ko: "GIF4-13", en: "GIF4-13", ja: "GIF4-13" },
-  "gif4-14": { ko: "GIF4-14", en: "GIF4-14", ja: "GIF4-14" },
-  "gif4-15": { ko: "GIF4-15", en: "GIF4-15", ja: "GIF4-15" },
-  "gif4-16": { ko: "GIF4-16", en: "GIF4-16", ja: "GIF4-16" },
 };
 
 
@@ -521,6 +466,11 @@ export default function Home() {
     CHARACTER_NAME_I18N[character.id]?.[language] ?? character.name;
 
   const filteredImages = CHARACTER_DATA.filter((c) => c.category === activeCategory);
+
+  useEffect(() => {
+    setIsGifPaused(false);
+    setFrozenFrames({});
+  }, [activeCategory]);
 
   useEffect(() => {
     try {

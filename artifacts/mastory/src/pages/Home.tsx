@@ -174,7 +174,7 @@ const I18N = {
   },
   en: {
     title: "Mastory",
-    subtitle: "Create your own storybook with DDC!",
+    subtitle: "With. DDC",
     myStory: "My Story",
     basicMode: "Basic",
     sceneMode: "Scene",
@@ -232,7 +232,7 @@ const I18N = {
   },
   ja: {
     title: "マストーリー",
-    subtitle: "DDCと一緒に自分だけの物語を作ろう！",
+    subtitle: "With. DDC",
     myStory: "私の物語",
     basicMode: "基本",
     sceneMode: "シーン別",
@@ -640,37 +640,8 @@ export default function Home() {
     <div className="min-h-[100dvh] bg-background text-foreground flex flex-col font-sans selection:bg-primary/30">
 
       {/* Header */}
-      <header className="pt-4 pb-4 md:pt-8 md:pb-6 px-4 md:px-8 tall-mobile-tight flex flex-col items-start md:items-center justify-center shrink-0 relative gap-3">
-        <div className="w-full flex items-center justify-end gap-1.5 md:absolute md:top-6 md:right-8 md:w-auto z-20">
-          <div ref={dataMenuRef} className="relative">
-            <button onClick={() => setDataMenuOpen((v) => !v)} data-export-hidden aria-label={t.data} className={KRDS_ICON_BUTTON_CLASS}>
-              <span className="material-icons-round text-lg">save</span>
-            </button>
-            {dataMenuOpen && (
-              <div className="absolute right-0 mt-1 bg-white rounded-xl border shadow-lg p-1.5 w-32">
-                <button onClick={handleSaveData} className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-secondary text-sm font-semibold">{t.save}</button>
-                <button onClick={() => importInputRef.current?.click()} className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-secondary text-sm font-semibold">{t.load}</button>
-              </div>
-            )}
-          </div>
-          <div ref={langMenuRef} className="relative">
-            <button onClick={() => setLangMenuOpen((v) => !v)} data-export-hidden aria-label={t.language} className={KRDS_ICON_BUTTON_CLASS}>
-              <span className="material-icons-round text-lg">language</span>
-            </button>
-            {langMenuOpen && (
-              <div className="absolute right-0 mt-1 bg-white rounded-xl border shadow-lg p-1.5 w-28">
-                {(["ko", "en", "ja"] as Language[]).map((lang) => (
-                  <button key={lang} onClick={() => { setLanguage(lang); setLangMenuOpen(false); }} className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-secondary text-sm font-semibold uppercase">{lang}</button>
-                ))}
-              </div>
-            )}
-          </div>
-          <button onClick={() => setHelpOpen(true)} data-export-hidden aria-label={t.help} className={KRDS_ICON_BUTTON_CLASS}>
-            <span className="material-icons-round text-lg">help</span>
-          </button>
-        </div>
-
-        <div className="flex flex-col md:flex-row md:items-end gap-1 md:gap-3 mb-1 md:mb-2 w-full md:w-auto justify-start md:justify-center">
+      <header className="pt-4 pb-4 md:pt-8 md:pb-6 px-4 md:px-8 tall-mobile-tight flex flex-col items-start justify-center shrink-0 relative gap-2 md:gap-3">
+        <div className="w-full flex items-start justify-between gap-2 md:gap-4">
           <div className="flex items-center gap-2 md:gap-4 min-w-0">
             <img src={ddcImage} alt="디디씨" className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-sm shrink-0" />
             <h1
@@ -680,10 +651,38 @@ export default function Home() {
               {t.title}
             </h1>
           </div>
-          <span className="pl-14 md:pl-0 text-sm md:text-xl font-bold text-muted-foreground/80 leading-snug break-keep md:whitespace-nowrap">
-            {t.subtitle}
-          </span>
+          <div className="shrink-0 flex items-center justify-end gap-1.5 z-20">
+            <div ref={dataMenuRef} className="relative">
+              <button onClick={() => setDataMenuOpen((v) => !v)} data-export-hidden aria-label={t.data} className={KRDS_ICON_BUTTON_CLASS}>
+                <span className="material-icons-round text-lg">save</span>
+              </button>
+              {dataMenuOpen && (
+                <div className="absolute right-0 mt-1 bg-white rounded-xl border shadow-lg p-1.5 w-32">
+                  <button onClick={handleSaveData} className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-secondary text-sm font-semibold">{t.save}</button>
+                  <button onClick={() => importInputRef.current?.click()} className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-secondary text-sm font-semibold">{t.load}</button>
+                </div>
+              )}
+            </div>
+            <div ref={langMenuRef} className="relative">
+              <button onClick={() => setLangMenuOpen((v) => !v)} data-export-hidden aria-label={t.language} className={KRDS_ICON_BUTTON_CLASS}>
+                <span className="material-icons-round text-lg">language</span>
+              </button>
+              {langMenuOpen && (
+                <div className="absolute right-0 mt-1 bg-white rounded-xl border shadow-lg p-1.5 w-28">
+                  {(["ko", "en", "ja"] as Language[]).map((lang) => (
+                    <button key={lang} onClick={() => { setLanguage(lang); setLangMenuOpen(false); }} className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-secondary text-sm font-semibold uppercase">{lang}</button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <button onClick={() => setHelpOpen(true)} data-export-hidden aria-label={t.help} className={KRDS_ICON_BUTTON_CLASS}>
+              <span className="material-icons-round text-lg">help</span>
+            </button>
+          </div>
         </div>
+        <span className="pl-14 md:pl-20 text-sm md:text-xl font-bold text-muted-foreground/80 leading-snug break-keep md:whitespace-nowrap">
+          {t.subtitle}
+        </span>
         <input
           ref={importInputRef}
           type="file"

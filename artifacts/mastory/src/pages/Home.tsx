@@ -685,6 +685,9 @@ export default function Home() {
             </button>
           </div>
         </div>
+        <span className="text-center text-sm md:text-xl font-bold text-muted-foreground/80 leading-snug break-keep md:whitespace-nowrap tall-mobile-subtitle-left">
+          {t.subtitle}
+        </span>
         <input
           ref={importInputRef}
           type="file"

@@ -378,10 +378,17 @@
   .tall-mobile-title-wrap {
     justify-content: flex-start;
     padding-left: 0.125rem;
+    padding-right: 7.5rem;
+  }
+
+  .tall-mobile-title-row {
+    align-items: flex-end;
   }
 
   .tall-mobile-toolbar-static {
-    position: static;
+    position: absolute;
+    right: 0;
+    top: 0;
   }
 
 }

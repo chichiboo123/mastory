@@ -112,6 +112,7 @@ type ExportMode = "image-text" | "text-only";
 type ToastType = "success" | "error";
 type StoryMode = "free-write" | "scene-sequence";
 type Language = "ko" | "en" | "ja";
+const LOCAL_STORAGE_KEY = "mastory-local-data-v1";
 
 const I18N = {
   ko: {
@@ -366,6 +367,43 @@ export default function Home() {
     CHARACTER_NAME_I18N[character.id]?.[language] ?? character.name;
 
   const filteredImages = CHARACTER_DATA.filter((c) => c.category === activeCategory);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      const loadedCards: StoryCard[] = (parsed.cards ?? [])
+        .map((item: { id?: string; characterId?: string }) => {
+          const imageInfo = CHARACTER_DATA.find((c) => c.id === item.characterId);
+          if (!imageInfo) return null;
+          return { id: item.id ?? crypto.randomUUID(), imageInfo };
+        })
+        .filter(Boolean) as StoryCard[];
+
+      setLanguage(["ko", "en", "ja"].includes(parsed.language) ? parsed.language : "ko");
+      setStoryMode(parsed.storyMode === "scene-sequence" ? "scene-sequence" : "free-write");
+      setStoryText(typeof parsed.storyText === "string" ? parsed.storyText : "");
+      setStoryCards(loadedCards);
+      setSceneTexts(
+        parsed.sceneTexts && typeof parsed.sceneTexts === "object" ? parsed.sceneTexts : {},
+      );
+    } catch {
+      localStorage.removeItem(LOCAL_STORAGE_KEY);
+    }
+  }, []);
+
+  useEffect(() => {
+    const payload = {
+      version: 1,
+      language,
+      storyMode,
+      storyText,
+      cards: storyCards.map((card) => ({ id: card.id, characterId: card.imageInfo.id })),
+      sceneTexts,
+    };
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(payload));
+  }, [language, storyMode, storyText, storyCards, sceneTexts]);
 
   const showToast = (msg: string, type: ToastType = "success") => {
     setToast({ msg, type });

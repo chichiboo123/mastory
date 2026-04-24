@@ -644,12 +644,17 @@ export default function Home() {
         <div className="w-full flex items-start justify-center gap-2 md:gap-4 relative tall-mobile-brand-row">
           <div className="flex items-center gap-2 md:gap-4 min-w-0 tall-mobile-title-wrap">
             <img src={ddcImage} alt="디디씨" className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-sm shrink-0" />
-            <h1
-              style={{ fontFamily: "'Black Han Sans', sans-serif" }}
-              className="text-3xl md:text-5xl tall-mobile-title text-primary drop-shadow-sm tracking-tight whitespace-nowrap leading-none"
-            >
-              {t.title}
-            </h1>
+            <div className="flex items-end gap-2 md:gap-3 whitespace-nowrap min-w-0">
+              <h1
+                style={{ fontFamily: "'Black Han Sans', sans-serif" }}
+                className="text-3xl md:text-5xl tall-mobile-title text-primary drop-shadow-sm tracking-tight whitespace-nowrap leading-none"
+              >
+                {t.title}
+              </h1>
+              <span className="text-sm md:text-xl font-bold text-muted-foreground/80 leading-none pb-0.5">
+                {t.subtitle}
+              </span>
+            </div>
           </div>
           <div className="absolute right-0 top-0 shrink-0 flex items-center justify-end gap-1.5 z-20 tall-mobile-toolbar-static">
             <div ref={dataMenuRef} className="relative">

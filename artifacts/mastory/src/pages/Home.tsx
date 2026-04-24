@@ -44,7 +44,15 @@ import emoji14 from "@assets/이모티콘형_14_슬퍼(폭풍눈물)_17769124916
 import emoji15 from "@assets/이모티콘형_15_연락해_1776912491610.png";
 import emoji16 from "@assets/이모티콘형_16_감동_1776912491610.png";
 
-type Category = "기본형" | "감정응용형" | "동작응용형" | "이모티콘";
+type Category =
+  | "기본형"
+  | "감정응용형"
+  | "동작응용형"
+  | "이모티콘"
+  | "GIF1"
+  | "GIF2"
+  | "GIF3"
+  | "GIF4";
 
 interface CharacterData {
   id: string;
@@ -53,7 +61,16 @@ interface CharacterData {
   image: string;
 }
 
-const CATEGORIES: Category[] = ["기본형", "감정응용형", "동작응용형", "이모티콘"];
+const CATEGORIES: Category[] = [
+  "기본형",
+  "감정응용형",
+  "동작응용형",
+  "이모티콘",
+  "GIF1",
+  "GIF2",
+  "GIF3",
+  "GIF4",
+];
 
 const CHARACTER_DATA: CharacterData[] = [
   { id: "basic-1", name: "디디씨", category: "기본형", image: ddcImage },
@@ -171,6 +188,10 @@ const I18N = {
       감정응용형: "감정응용형",
       동작응용형: "동작응용형",
       이모티콘: "이모티콘",
+      GIF1: "GIF1",
+      GIF2: "GIF2",
+      GIF3: "GIF3",
+      GIF4: "GIF4",
     },
   },
   en: {
@@ -229,6 +250,10 @@ const I18N = {
       감정응용형: "Emotion",
       동작응용형: "Action",
       이모티콘: "Emoticon",
+      GIF1: "GIF1",
+      GIF2: "GIF2",
+      GIF3: "GIF3",
+      GIF4: "GIF4",
     },
   },
   ja: {
@@ -287,6 +312,10 @@ const I18N = {
       감정응용형: "感情応用型",
       동작응용형: "動作応用型",
       이모티콘: "絵文字",
+      GIF1: "GIF1",
+      GIF2: "GIF2",
+      GIF3: "GIF3",
+      GIF4: "GIF4",
     },
   },
 } as const;

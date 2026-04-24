@@ -366,32 +366,4 @@
   .tall-mobile-title {
     font-size: 1.75rem;
   }
-
-  .tall-mobile-header {
-    align-items: flex-start;
-  }
-
-  .tall-mobile-brand-row {
-    justify-content: flex-start;
-    padding-left: 16px;
-  }
-
-  .tall-mobile-title-wrap {
-    justify-content: flex-start;
-    padding-left: 0;
-    padding-right: 7.5rem;
-  }
-
-  .tall-mobile-title-row {
-    align-items: flex-end;
-    justify-content: flex-start;
-    text-align: left;
-  }
-
-  .tall-mobile-toolbar-static {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-
 }

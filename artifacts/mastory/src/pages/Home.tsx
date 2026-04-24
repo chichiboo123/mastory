@@ -174,7 +174,7 @@ const I18N = {
   },
   en: {
     title: "Mastory",
-    subtitle: "Create your own storybook with DDC!",
+    subtitle: "With. DDC",
     myStory: "My Story",
     basicMode: "Basic",
     sceneMode: "Scene",
@@ -232,7 +232,7 @@ const I18N = {
   },
   ja: {
     title: "マストーリー",
-    subtitle: "DDCと一緒に自分だけの物語を作ろう！",
+    subtitle: "With. DDC",
     myStory: "私の物語",
     basicMode: "基本",
     sceneMode: "シーン別",
@@ -334,6 +334,12 @@ const CHARACTER_NAME_I18N: Record<string, Record<Language, string>> = {
   "emoji-15": { ko: "연락해", en: "Call Me", ja: "連絡して" },
   "emoji-16": { ko: "감동", en: "Touched", ja: "感動" },
 };
+
+
+
+const KRDS_ICON_BUTTON_CLASS = "h-11 w-11 rounded-xl border border-border bg-white text-foreground shadow-sm hover:bg-secondary active:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 flex items-center justify-center touch-manipulation";
+const KRDS_SEGMENT_BUTTON_CLASS = "h-11 min-w-11 px-3 rounded-xl text-xs md:text-sm font-bold inline-flex items-center justify-center gap-1 transition-all touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50";
+const KRDS_ACTION_BUTTON_CLASS = "flex items-center gap-3 px-4 py-3 min-h-11 rounded-xl md:rounded-2xl bg-secondary hover:bg-secondary/80 active:bg-primary/10 text-foreground font-bold text-sm transition-all duration-150 disabled:opacity-50 text-left touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<Category>("기본형");
@@ -512,6 +518,45 @@ export default function Home() {
     if (!exportAreaRef.current) return;
     setExporting(true);
     try {
+      if (exportMode === "text-only") {
+        const textContent =
+          storyMode === "scene-sequence"
+            ? storyCards.length === 0
+              ? t.noStory
+              : storyCards
+                  .map(
+                    (card, i) =>
+                      `${t.scenePrefix} ${i + 1} (${getCharacterName(card.imageInfo)}): ${sceneTexts[card.id] || t.noSceneText}`,
+                  )
+                  .join("\n")
+            : storyText || t.noStory;
+        const textExportNode = document.createElement("div");
+        textExportNode.style.position = "fixed";
+        textExportNode.style.left = "-9999px";
+        textExportNode.style.top = "0";
+        textExportNode.style.width = "1080px";
+        textExportNode.style.padding = "72px";
+        textExportNode.style.background = "#fffdf0";
+        textExportNode.style.color = "#1f2937";
+        textExportNode.style.fontFamily = "'PretendardGOV', sans-serif";
+        textExportNode.style.fontSize = "36px";
+        textExportNode.style.lineHeight = "1.6";
+        textExportNode.style.whiteSpace = "pre-wrap";
+        textExportNode.style.wordBreak = "keep-all";
+        textExportNode.textContent = textContent;
+        document.body.appendChild(textExportNode);
+        try {
+          const dataUrl = await toJpeg(textExportNode, { ...htmlToImageOptions, quality: 0.95, pixelRatio: 2 });
+          const link = document.createElement("a");
+          link.download = "마스토리_이야기.jpg";
+          link.href = dataUrl;
+          link.click();
+        } finally {
+          textExportNode.remove();
+        }
+        showToast(t.toastJpgDownloaded);
+        return;
+      }
       const dataUrl = await toJpeg(exportAreaRef.current, { ...htmlToImageOptions, quality: 0.95 });
       const link = document.createElement("a");
       link.download = "마스토리_이야기.jpg";
@@ -595,48 +640,49 @@ export default function Home() {
     <div className="min-h-[100dvh] bg-background text-foreground flex flex-col font-sans selection:bg-primary/30">
 
       {/* Header */}
-      <header className="pt-6 pb-4 md:pt-8 md:pb-6 px-3 md:px-8 flex flex-col items-start md:items-center justify-center shrink-0 relative">
-        <div className="absolute top-4 right-3 md:top-6 md:right-8 flex items-center gap-1.5 z-20">
-          <div ref={dataMenuRef} className="relative">
-            <button onClick={() => setDataMenuOpen((v) => !v)} data-export-hidden aria-label={t.data} className="h-10 w-10 rounded-xl border border-border bg-white text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 flex items-center justify-center">
-              <span className="material-icons-round text-lg">save</span>
-            </button>
-            {dataMenuOpen && (
-              <div className="absolute right-0 mt-1 bg-white rounded-xl border shadow-lg p-1.5 w-32">
-                <button onClick={handleSaveData} className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-secondary text-sm font-semibold">{t.save}</button>
-                <button onClick={() => importInputRef.current?.click()} className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-secondary text-sm font-semibold">{t.load}</button>
-              </div>
-            )}
+      <header className="pt-4 pb-4 md:pt-8 md:pb-6 px-4 md:px-8 tall-mobile-tight tall-mobile-header flex flex-col items-center justify-center shrink-0 relative gap-2 md:gap-3">
+        <div className="w-full flex items-start justify-center gap-2 md:gap-4 relative tall-mobile-brand-row">
+          <div className="flex items-center gap-2 md:gap-4 min-w-0 tall-mobile-title-wrap">
+            <img src={ddcImage} alt="디디씨" className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-sm shrink-0" />
+            <h1
+              style={{ fontFamily: "'Black Han Sans', sans-serif" }}
+              className="text-3xl md:text-5xl tall-mobile-title text-primary drop-shadow-sm tracking-tight whitespace-nowrap leading-none"
+            >
+              {t.title}
+            </h1>
           </div>
-          <div ref={langMenuRef} className="relative">
-            <button onClick={() => setLangMenuOpen((v) => !v)} data-export-hidden aria-label={t.language} className="h-10 w-10 rounded-xl border border-border bg-white text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 flex items-center justify-center">
-              <span className="material-icons-round text-lg">language</span>
+          <div className="absolute right-0 top-0 shrink-0 flex items-center justify-end gap-1.5 z-20 tall-mobile-toolbar-static">
+            <div ref={dataMenuRef} className="relative">
+              <button onClick={() => setDataMenuOpen((v) => !v)} data-export-hidden aria-label={t.data} className={KRDS_ICON_BUTTON_CLASS}>
+                <span className="material-icons-round text-lg">save</span>
+              </button>
+              {dataMenuOpen && (
+                <div className="absolute right-0 mt-1 bg-white rounded-xl border shadow-lg p-1.5 w-32">
+                  <button onClick={handleSaveData} className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-secondary text-sm font-semibold">{t.save}</button>
+                  <button onClick={() => importInputRef.current?.click()} className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-secondary text-sm font-semibold">{t.load}</button>
+                </div>
+              )}
+            </div>
+            <div ref={langMenuRef} className="relative">
+              <button onClick={() => setLangMenuOpen((v) => !v)} data-export-hidden aria-label={t.language} className={KRDS_ICON_BUTTON_CLASS}>
+                <span className="material-icons-round text-lg">language</span>
+              </button>
+              {langMenuOpen && (
+                <div className="absolute right-0 mt-1 bg-white rounded-xl border shadow-lg p-1.5 w-28">
+                  {(["ko", "en", "ja"] as Language[]).map((lang) => (
+                    <button key={lang} onClick={() => { setLanguage(lang); setLangMenuOpen(false); }} className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-secondary text-sm font-semibold uppercase">{lang}</button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <button onClick={() => setHelpOpen(true)} data-export-hidden aria-label={t.help} className={KRDS_ICON_BUTTON_CLASS}>
+              <span className="material-icons-round text-lg">help</span>
             </button>
-            {langMenuOpen && (
-              <div className="absolute right-0 mt-1 bg-white rounded-xl border shadow-lg p-1.5 w-28">
-                {(["ko", "en", "ja"] as Language[]).map((lang) => (
-                  <button key={lang} onClick={() => { setLanguage(lang); setLangMenuOpen(false); }} className="w-full text-left px-2 py-1.5 rounded-lg hover:bg-secondary text-sm font-semibold uppercase">{lang}</button>
-                ))}
-              </div>
-            )}
           </div>
-          <button onClick={() => setHelpOpen(true)} data-export-hidden aria-label={t.help} className="h-10 w-10 rounded-xl border border-border bg-white text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 flex items-center justify-center">
-            <span className="material-icons-round text-lg">help</span>
-          </button>
         </div>
-
-        <div className="flex items-center gap-2 md:gap-4 mb-1 md:mb-2 w-full md:w-auto justify-start md:justify-center">
-          <img src={ddcImage} alt="디디씨" className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-sm" />
-          <h1
-            style={{ fontFamily: "'Black Han Sans', sans-serif" }}
-            className="text-3xl md:text-5xl text-primary drop-shadow-sm tracking-tight"
-          >
-            {t.title}
-          </h1>
-          <span className="text-sm md:text-xl font-bold text-muted-foreground/80 whitespace-nowrap">
-            {t.subtitle}
-          </span>
-        </div>
+        <span className="text-center text-sm md:text-xl font-bold text-muted-foreground/80 leading-snug break-keep md:whitespace-nowrap tall-mobile-subtitle-left">
+          {t.subtitle}
+        </span>
         <input
           ref={importInputRef}
           type="file"
@@ -654,7 +700,7 @@ export default function Home() {
       <section className="px-3 md:px-8 max-w-7xl mx-auto w-full shrink-0 flex flex-col gap-3 md:gap-4 mb-5 md:mb-8">
 
         {/* Category Tabs */}
-        <div className="flex items-center justify-center gap-1.5 md:gap-3 flex-wrap">
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-1.5 md:gap-3 w-full">
           {CATEGORIES.map((cat) => {
             let icon = "sentiment_satisfied_alt";
             if (cat === "기본형") icon = "emoji_people";
@@ -668,8 +714,8 @@ export default function Home() {
                 onClick={() => setActiveCategory(cat)}
                 className={`
                   flex items-center gap-1.5 md:gap-2
-                  px-3 py-2 md:px-5 md:py-3
-                  rounded-full text-xs md:text-base font-bold
+                  px-3 py-2.5 md:px-5 md:py-3
+                  rounded-full text-xs md:text-base font-bold min-h-11 justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50
                   transition-all duration-200 touch-manipulation
                   ${isActive
                     ? "bg-primary text-primary-foreground shadow-md shadow-primary/20 scale-105"
@@ -718,18 +764,18 @@ export default function Home() {
       </section>
 
       {/* Storyboard Section */}
-      <section className="flex-1 px-3 md:px-8 pb-4 max-w-7xl mx-auto w-full flex flex-col gap-3 md:gap-4">
+      <section className="flex-1 px-4 md:px-8 pb-4 max-w-7xl mx-auto w-full flex flex-col gap-3 md:gap-4">
 
-        <div className="flex items-center justify-between gap-2 md:gap-4 ml-1">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 md:gap-4 ml-1">
           <div className="flex items-center gap-2 md:gap-3 min-w-0">
             <div className="bg-accent text-accent-foreground p-1.5 md:p-2 rounded-full shadow-sm shrink-0">
             <span className="material-icons-round text-xl md:text-2xl block">auto_stories</span>
             </div>
-            <h2 className="text-xl md:text-3xl font-black text-foreground drop-shadow-sm">
+            <h2 className="text-2xl md:text-3xl font-black text-foreground drop-shadow-sm leading-tight">
               {t.myStory}
             </h2>
           </div>
-          <div className="shrink-0 flex items-center justify-end gap-1.5 md:gap-2">
+          <div className="w-full sm:w-auto shrink-0 flex items-center justify-between sm:justify-end gap-1.5 md:gap-2">
             <div className="flex gap-1 bg-secondary rounded-2xl p-1">
               {([
                 ["free-write", t.basicMode] as const,
@@ -738,7 +784,7 @@ export default function Home() {
                 <button
                   key={mode}
                   onClick={() => setStoryMode(mode)}
-                  className={`h-11 min-w-11 px-3 rounded-xl text-xs md:text-sm font-bold inline-flex items-center justify-center gap-1 transition-all ${
+                  className={`${KRDS_SEGMENT_BUTTON_CLASS} ${
                     storyMode === mode
                       ? "bg-white text-foreground border border-border shadow-sm"
                       : "text-muted-foreground border border-transparent"
@@ -757,7 +803,7 @@ export default function Home() {
               aria-label={t.reset}
               title={t.reset}
               data-export-hidden
-              className="h-11 w-11 rounded-xl border border-border bg-white text-foreground shadow-sm hover:bg-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 flex items-center justify-center"
+              className={KRDS_ICON_BUTTON_CLASS}
             >
               <span className="material-icons-round text-base md:text-lg">restart_alt</span>
               <span className="sr-only">{t.reset}</span>
@@ -798,7 +844,7 @@ export default function Home() {
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.8, y: -20 }}
                       transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                      className="w-[46%] sm:w-[30%] md:w-[23%] lg:w-[18%] min-w-[150px] max-w-[220px]"
+                      className="w-[47%] sm:w-[30%] md:w-[23%] lg:w-[18%] min-w-[132px] max-w-[220px]"
                     >
                       <div data-testid={`story-card-${card.id}`} className="bg-white rounded-xl md:rounded-2xl p-2.5 md:p-3 shadow-md border border-border/50 flex flex-col gap-1.5 md:gap-2 relative group">
                         <div data-export-hidden className="absolute top-1.5 left-1.5 flex gap-1">
@@ -832,7 +878,7 @@ export default function Home() {
                     onDragStart={() => handleDragStart(card.id)}
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={() => handleDropCard(card.id)}
-                    className="grid grid-cols-[120px_1fr] md:grid-cols-[170px_1fr] gap-3 items-stretch"
+                    className="grid grid-cols-1 min-[430px]:grid-cols-[120px_1fr] md:grid-cols-[170px_1fr] gap-3 items-stretch"
                   >
                     <div className="bg-white rounded-xl md:rounded-2xl p-2.5 md:p-3 shadow-md border border-border/50 flex flex-col gap-2 relative">
                       <div data-export-hidden className="absolute top-1 left-1 flex gap-1">
@@ -913,7 +959,7 @@ export default function Home() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 10 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="bg-white rounded-2xl md:rounded-3xl shadow-2xl border-2 border-border/40 p-4 md:p-5 w-[calc(100vw-2rem)] max-w-[20rem] flex flex-col gap-3 md:gap-4"
+              className="bg-white rounded-2xl md:rounded-3xl shadow-2xl border-2 border-border/40 p-4 md:p-5 w-[calc(100vw-2rem)] max-w-[22rem] flex flex-col gap-3 md:gap-4"
             >
               <div className="flex items-center justify-between">
                 <span className="font-black text-base md:text-lg text-foreground">{t.export}</span>
@@ -943,26 +989,24 @@ export default function Home() {
                 <button
                   onClick={handleCopyClipboard}
                   disabled={exporting}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl md:rounded-2xl bg-secondary active:bg-primary/10 text-foreground font-bold text-sm transition-all duration-150 disabled:opacity-50 text-left touch-manipulation"
+                  className={KRDS_ACTION_BUTTON_CLASS}
                 >
                   <span className="material-icons-round text-primary text-xl">content_copy</span>
                   {t.copyClipboard}
                 </button>
 
-                {exportMode === "image-text" && (
-                  <button
-                    onClick={handleDownloadJpg}
-                    disabled={exporting}
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl md:rounded-2xl bg-secondary active:bg-primary/10 text-foreground font-bold text-sm transition-all duration-150 disabled:opacity-50 text-left touch-manipulation"
-                  >
-                    <span className="material-icons-round text-primary text-xl">image</span>
-                    {t.downloadJpg}
-                  </button>
-                )}
+                <button
+                  onClick={handleDownloadJpg}
+                  disabled={exporting}
+                  className={KRDS_ACTION_BUTTON_CLASS}
+                >
+                  <span className="material-icons-round text-primary text-xl">image</span>
+                  {t.downloadJpg}
+                </button>
 
                 <button
                   onClick={handleDownloadTxt}
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl md:rounded-2xl bg-secondary active:bg-primary/10 text-foreground font-bold text-sm transition-all duration-150 text-left touch-manipulation"
+                  className={KRDS_ACTION_BUTTON_CLASS}
                 >
                   <span className="material-icons-round text-primary text-xl">description</span>
                   {t.downloadTxt}
@@ -983,7 +1027,7 @@ export default function Home() {
         <motion.button
           onClick={() => setExportOpen((o) => !o)}
           whileTap={{ scale: 0.92 }}
-          className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-primary text-primary-foreground shadow-xl shadow-primary/30 flex items-center justify-center touch-manipulation"
+          className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-primary text-primary-foreground shadow-xl shadow-primary/30 flex items-center justify-center touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
           title={t.export}
         >
           <span className="material-icons-round text-2xl md:text-3xl">
